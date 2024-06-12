@@ -4,7 +4,7 @@ export const getAccountIDByEmail = async (email) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `http://localhost:8080/api/accounts/getByEmail/${email}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/getByEmail/${email}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ export const addJewelryToCart = async (
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.post(
-      `http://localhost:8080/api/cart/add?accountID=${accountID}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/add?accountID=${accountID}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`,
       {},
       {
         headers: {
@@ -42,28 +42,28 @@ export const addJewelryToCart = async (
   }
 };
 export const addDiamondToCart = async (accountID, diamondId, quantity) => {
-    try {
-        const token = localStorage.getItem('jwt');
-        const response = await axios.post(
-            `http://localhost:8080/api/cart/add?accountID=${accountID}&diamondID=${diamondId}&quantity=${quantity}`,
-            {}, 
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
-        return response.data; 
-    } catch (error) {
-        console.error("Error adding item to cart:", error);
-        throw new Error("Failed to add item to cart");
-    }
+  try {
+    const token = localStorage.getItem("jwt");
+    const response = await axios.post(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/add?accountID=${accountID}&diamondID=${diamondId}&quantity=${quantity}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding item to cart:", error);
+    throw new Error("Failed to add item to cart");
+  }
 };
 export const getAllCartItems = async (accountID) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `http://localhost:8080/api/cart?accountID=${accountID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart?accountID=${accountID}`,
       {
         method: "GET",
         headers: {
@@ -81,7 +81,7 @@ export const getAllCartItems = async (accountID) => {
 export const removeCartItem = async (cartID) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/cart/remove/${cartID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/remove/${cartID}`
     );
     console.log("Item removed successfully:", response.data.message);
     return response.data;
@@ -94,7 +94,7 @@ export const getTotalCart = async (accountID) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `http://localhost:8080/api/cart/totalCart?accountID=${accountID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/totalCart?accountID=${accountID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -7,25 +7,25 @@ import "react-toastify/dist/ReactToastify.css";
 import "./LoginRegisterPage.css";
 
 function LoginRegisterPage() {
-    const [loginEmail, setLoginEmail] = useState("");
-    const [loginPassword, setLoginPassword] = useState("");
-    const [registerEmail, setRegisterEmail] = useState("");
-    const [accountName, setAccountName] = useState("");
-    const [registerPassword, setRegisterPassword] = useState("");
-    const [registerName, setRegisterName] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showLoginPassword, setShowLoginPassword] = useState(false);
-    const [showRegisterPassword, setShowRegisterPassword] = useState(false);
-    const [termsAccepted, setTermsAccepted] = useState(false);
-    const accountId = useParams();
-    const navigate = useNavigate();
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const accountId = useParams();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/login",
+        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -38,30 +38,30 @@ function LoginRegisterPage() {
         }
       );
 
-            if (response.status === 200) {
-                const data = response.data;
-                localStorage.setItem("jwt", data.jwt);
-                localStorage.setItem("email", loginEmail);
-                localStorage.setItem("accountName", accountName);
-                localStorage.setItem("accountID", accountId);
-                console.log("Đăng nhập thành công:", data.jwt);
-                setIsLoggedIn(true);
-                toast.success("Đăng nhập thành công!");
-                navigate('/trangchu');
-                window.location.reload();
-                window.scrollTo(0, 0);
-            } else {
-                console.error("Đăng nhập thất bại:", response);
-                toast.error("Đăng nhập thất bại!");
-            }
-        } catch (error) {
-            console.error("Lỗi khi đăng nhập:", error);
-            toast.error("Lỗi khi đăng nhập!");
-        }
-    };
+      if (response.status === 200) {
+        const data = response.data;
+        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("email", loginEmail);
+        localStorage.setItem("accountName", accountName);
+        localStorage.setItem("accountID", accountId);
+        console.log("Đăng nhập thành công:", data.jwt);
+        setIsLoggedIn(true);
+        toast.success("Đăng nhập thành công!");
+        navigate("/trangchu");
+        window.location.reload();
+        window.scrollTo(0, 0);
+      } else {
+        console.error("Đăng nhập thất bại:", response);
+        toast.error("Đăng nhập thất bại!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi đăng nhập:", error);
+      toast.error("Lỗi khi đăng nhập!");
+    }
+  };
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
     if (!termsAccepted) {
       toast.error(
