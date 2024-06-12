@@ -1,0 +1,44 @@
+.table-responsive {
+  overflow-x: auto;
+}
+
+.account-table {
+  font-size: 15px; /* Điều chỉnh kích thước phông chữ */
+  border: 1px solid #dee2e6;
+}
+
+.account-table th,
+.account-table td {
+  vertical-align: middle;
+  text-align: center;
+  border: 1px solid #dee2e6; /* Đảm bảo rằng các ô có đường viền */
+}
+
+.account-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.account-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.password-cell {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 50px;
+}
+
+.password-cell:hover {
+  overflow: visible;
+  white-space: normal;
+  width: auto;
+  position: relative;
+}
+
+.table-responsive .btn {
+  padding: 2px 5px; /* Điều chỉnh kích thước nút */
+  font-size: 16px;
+}

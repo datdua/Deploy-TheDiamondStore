@@ -1,0 +1,9 @@
+.tm-checkout-final-total.highlight {
+    background-color: #ffeb3b; /* Highlight background color */
+    font-weight: bold;         /* Make text bold */
+    font-size: 22px;
+}
+
+.tm-checkout-final-total.highlight td:last-child {
+    color: #f2ba59;            /* Change the color of the final total price */
+}

@@ -1,0 +1,44 @@
+.tm-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.tm-dropdown summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.tm-dropdown ul {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 160px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+}
+
+.tm-dropdown ul li {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.tm-dropdown ul li a {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+.tm-dropdown ul li:hover {
+    background-color: #f1f1f1;
+}
+
+.tm-dropdown[open] ul {
+    display: block;
+}
+
+.drop-hover :hover{
+    color: #f2ba59;
+}

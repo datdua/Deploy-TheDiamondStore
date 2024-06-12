@@ -1,0 +1,31 @@
+.table-responsive {
+  overflow: hidden;
+}
+
+.account-table {
+  font-size: 5px; /* Điều chỉnh kích thước phông chữ */
+  border: 1px solid #dee2e6;
+}
+
+.account-table th,
+.account-table td {
+  vertical-align: middle;
+  text-align: center;
+  border: 1px solid #dee2e6; /* Đảm bảo rằng các ô có đường viền */
+}
+
+.account-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.account-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-responsive .btn {
+  padding: 0.25rem 0.5rem; /* Điều chỉnh kích thước nút */
+  font-size: 10px;
+}
