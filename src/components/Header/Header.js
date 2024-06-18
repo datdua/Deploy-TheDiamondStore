@@ -7,19 +7,44 @@ import { searchDiamondByName } from "../../api/DiamondAPI";
 import { AuthContext } from "../Auth/AuthContext";
 import { toast } from "react-toastify";
 import { searchProductionByName } from "../../api/ProductAPI";
+import { getAccountIDByEmail } from "../../api/accountCrud";
 
 function Header() {
     const { isLoggedIn, accountName, onLogout } = useContext(AuthContext);
     const [isAccountDropdownOpen, setAccountDropdownOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
-    const { id } = useParams();
-    localStorage.setItem("accountID", id);
-    
+    const accountId = localStorage.getItem('accountID')
+
 
     const toggleDropdown = () => {
         setAccountDropdownOpen(!isAccountDropdownOpen);
     };
+    const handleCartClick = async () => {
+        const email = localStorage.getItem("email");
+        const accountId = await getAccountIDByEmail(email);
+        if (accountId) {
+            // Redirect to the user's cart
+            window.location.href = `http://localhost:3000/cart/${accountId}`;
+        } else {
+            // Handle the case when accountId is null
+            // For example, redirect to the login page
+            window.location.href = 'http://localhost:3000/dangnhap';
+        }
+    };
+    const handleAccountClick = async () => {
+        const email = localStorage.getItem("email");
+        const accountId = await getAccountIDByEmail(email)
+        if (accountId) {
+            // Redirect to the user's cart
+            window.location.href = `http://localhost:3000/account/${accountId}`;
+        } else {
+            // Handle the case when accountId is null
+            // For example, redirect to the login page
+            window.location.href = 'http://localhost:3000/login';
+        }
+    };
+
 
     const handleSearch = async () => {
         try {
@@ -49,31 +74,26 @@ function Header() {
             <div className="tm-header-toparea bg-black">
                 <div className="container">
                     <div className="row justify-between items-center">
-                        <div className="col-lg-8 col-12">
+                        <div className="col-lg-6 col-12">
                             <ul className="tm-header-info">
                                 <li><a href="tel:18883456789"><i className="ion-ios-telephone"></i>02.873.005.588</a></li>
                                 <li><a href="mailto:contact@example.com"><i className="ion-android-mail"></i>thediamondstore.info@gmail.com</a></li>
                                 {accountName && <li>Welcome, {accountName}!</li>}
                             </ul>
                         </div>
-                        <div className="col-lg-4 col-12">
+                        <div className="col-lg-6 col-12">
                             <div className="tm-header-options">
                                 {isLoggedIn ? (
                                     <>
-                                        <div className="relative">
-                                            <button onClick={toggleDropdown} className="tm-dropdown-button tm-header-links">
-                                                Tài Khoản <i className={`ml-1 fas ${isAccountDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                                        <div className="flex">
+                                            <button onClick={handleAccountClick} className="tm-header-links">
+                                                Tài Khoản 
                                             </button>
-                                            {isAccountDropdownOpen && (
-                                                <ul className="tm-dropdown-menu">
-                                                    <li><Link to={`/account/${id}`}>My Account</Link></li>
-                                                    <li><Link to={`/cart/${id}`}>Shopping Cart</Link></li>
-                                                    <li><Link to="/wishlist">Wishlist</Link></li>
-                                                    <li><Link to="/checkout">Checkout</Link></li>
-                                                </ul>
-                                            )}
+                                            <button onClick={handleCartClick} className="tm-header-links">
+                                                Giỏ Hàng
+                                            </button>
+                                            <button onClick={onLogout} className="tm-logout-button">Đăng xuất</button>
                                         </div>
-                                        <button onClick={onLogout} className="tm-logout-button">Đăng xuất</button>
                                     </>
                                 ) : (
                                     <button onClick={() => navigate('/dangnhap')} className="tm-login-button">Đăng nhập/Đăng ký</button>

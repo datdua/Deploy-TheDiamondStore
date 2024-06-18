@@ -27,6 +27,7 @@ import SideBarAdmin from "./components/Sidebar/SidebarAdmin";
 import ProductManagerPage from "./pages/Manager/DiamondManager/DiamonsManager";
 import AccountManager from "./pages/Manager/AccountManager/AccountManager";
 import JewelryManagerPage from "./pages/Manager/JewelryManager/JewelryManagerPage";
+import PaymentConfirm from "./pages/PaymentConfirm/PaymentConfirm";
 
 
 function App() {
@@ -65,7 +66,20 @@ function App() {
               </>
             }
           />
-          <Route path="/dangnhap" element={<LoginRegisterPage />} />
+          <Route path="/dangnhap" element={
+            <>
+            <Header/>
+            <LoginRegisterPage />
+            <Footer/>
+            <BackToTop/>
+            </>} />
+            <Route path="/xacthucthanhtoan" element={
+            <>
+            <Header/>
+            <PaymentConfirm/>
+            <Footer/>
+            <BackToTop/>
+            </>} />
           <Route
             path="/trangchu"
             element={

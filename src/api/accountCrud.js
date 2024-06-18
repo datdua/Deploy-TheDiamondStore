@@ -68,12 +68,41 @@ export async function createAccount(account) {
 }
 export const getContactInfo = async (accountId) => {
   try {
-    const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/contactInfo/${accountId}`
-    );
-    return response.data;
+      const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/contactInfo/${accountId}`);
+      return response.data;
   } catch (error) {
-    console.error("Error fetching contact info:", error);
-    throw error;
+      console.error('Error fetching contact info:', error);
+      throw error;
   }
 };
+export const getAccountIDByEmail = async (email) => {
+  try {
+    const token = localStorage.getItem("jwt");
+    const response = await axios.get(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/getByEmail/${email}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.accountID;
+  } catch (error) {
+    console.error("Error fetching account ID:", error);
+    throw new Error("Failed to fetch account information: " + error.message);
+  }
+};
+export const getCustomerPoints = async (accountId) => {
+  try {
+      const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/${accountId}`);
+      if (response.status === 200) {
+          return response.data.point;
+      } else {
+          throw new Error('Failed to fetch customer points');
+      }
+  } catch (error) {
+      console.error('Error fetching customer points:', error);
+      throw error;
+  }
+};
+

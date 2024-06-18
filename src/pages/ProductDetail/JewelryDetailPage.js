@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getJewelryById } from "../../api/JewelryAPI";
 import "./ProductDetailPage.css";
-import { addJewelryToCart, getAccountIDByEmail } from "../../api/addToCart";
-import { ToastContainer, toast } from "react-toastify";
+import { addJewelryToCart } from "../../api/addToCart";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SizeInstructionModal from "../../components/SizeInstructionModal/SizeInstructionModal";
+import { getAccountIDByEmail } from "../../api/accountCrud";
 
 function JewelryDetailPage() {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ function JewelryDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [sizeJewelry, setSize] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     const fetchJewelry = async () => {
@@ -72,7 +75,6 @@ function JewelryDetailPage() {
 
         const accountID = await getAccountIDByEmail(email);
         console.log("Account ID:", accountID);
-
         console.log("Size:", sizeJewelry);
         const response = await addJewelryToCart(
           accountID,
@@ -131,7 +133,7 @@ function JewelryDetailPage() {
                               <div className="tm-prodetails-largeimage">
                                 <img
                                   src={jewelry.jewelryImage}
-                                  alt="product image"
+                                  alt="jewelry"
                                 />
                               </div>
                             </div>
@@ -157,7 +159,7 @@ function JewelryDetailPage() {
                                   onChange={handleSizeChange}
                                 >
                                   {[
-                                    6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                                    'Select Size', 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
                                     18, 19, 20,
                                   ].map((sizeOption) => (
                                     <option key={sizeOption} value={sizeOption}>
@@ -165,6 +167,9 @@ function JewelryDetailPage() {
                                     </option>
                                   ))}
                                 </select>
+                                <button
+                                  onClick={() => setModalShow(true)}
+                                >Hướng dẫn đo ni</button>
                               </div>
                               <div className="tm-prodetails-singleinfo">
                                 <b>Gender : </b>
@@ -210,6 +215,7 @@ function JewelryDetailPage() {
             </div>
           )}
         </main>
+        <SizeInstructionModal show={modalShow} onHide={() => setModalShow(false)} />
         {/* <!--// Page Content --> */}
         {/* <!-- Footer --> */}
 

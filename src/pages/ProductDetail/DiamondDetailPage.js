@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./ProductDetailPage.css";
-import { addDiamondToCart, getAccountIDByEmail } from "../../api/addToCart";
+import { addDiamondToCart } from "../../api/addToCart";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getDiamondById } from "../../api/DiamondAPI";
+import { getAccountIDByEmail } from "../../api/accountCrud";
 
 function DiamondDetailPage() {
     const navigate = useNavigate();

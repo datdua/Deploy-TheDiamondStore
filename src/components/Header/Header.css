@@ -42,3 +42,8 @@
 .drop-hover :hover{
     color: #f2ba59;
 }
+.flex {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+}

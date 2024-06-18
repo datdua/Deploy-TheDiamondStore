@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import { getAllCartItems, removeCartItem, getTotalCart } from "../../api/addToCart";
+import { getAllCartItems, removeCartItem, getTotalCart, updateCart } from "../../api/addToCart";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState([]);
     const [totalCart, setTotalCart] = useState(0);
+    const [isEditing, setIsEditing] = useState(false);
     const { accountId } = useParams();
-    
+
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
                 if (accountId) {
                     const items = await getAllCartItems(accountId);
-                    setCartItems(Array.isArray(items) ? items : []);
+                    setCartItems(items || []);
+                    const total = await getTotalCart(accountId);
+                    setTotalCart(total);
                 } else {
                     console.error("Account ID is undefined");
                 }
@@ -25,56 +26,60 @@ function CartPage() {
             }
         };
 
-        const fetchTotalCart = async () => {
-            try {
-                if (accountId) {
-                    const total = await getTotalCart(accountId);
-                    setTotalCart(total);
-                } else {
-                    console.error("Account ID is undefined");
-                }
-            } catch (error) {
-                console.error("Error fetching total cart value:", error);
-            }
-        };
-
         fetchCartItems();
-        fetchTotalCart();
     }, [accountId]);
+
     const handleRemoveItem = async (cartID) => {
         try {
             await removeCartItem(cartID);
-            const updatedCartItems = cartItems.filter(item => item.cartID !== cartID);
-            setCartItems(updatedCartItems);
+            setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
             toast.success("Xoá sản phẩm thành công");
-
-            // Fetch the updated total cart value
-            const total = await getTotalCart(accountId);
-            setTotalCart(total);
+            recalculateTotalCart();
         } catch (error) {
             console.error("Error removing item:", error);
             toast.error("Xoá sản phẩm thất bại");
         }
     };
 
+    const handleUpdateCartItem = async (cartID, newQuantity, newSizeJewelry, diamondID, jewelryID) => {
+        try {
+            await updateCart(cartID, accountId, diamondID, jewelryID, newQuantity, newSizeJewelry);
+            setCartItems(prevItems =>
+                prevItems.map(item =>
+                    item.cartID === cartID ? { ...item, quantity: newQuantity, sizeJewelry: newSizeJewelry } : item
+                )
+            );
+            toast.success("Cập nhật giỏ hàng thành công");
+            recalculateTotalCart();
+        } catch (error) {
+            console.error("Error updating cart item:", error);
+            toast.error("Cập nhật giỏ hàng thất bại");
+        }
+    };
+
+    const toggleEditing = () => {
+        setIsEditing(!isEditing);
+    };
+
+    const recalculateTotalCart = async () => {
+        try {
+            const total = await getTotalCart(accountId);
+            setTotalCart(total);
+        } catch (error) {
+            console.error("Error calculating total cart:", error);
+        }
+    };
+
     return (
         <div>
             <div id="wrapper" className="wrapper">
-                <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(assets/images/breadcrumb-bg.jpg)` }}>
-                    <div className="container">
-                        <div className="tm-breadcrumb">
-                            <h2>Giỏ hàng</h2>
-                            <ul>
-                                <li><Link to="/home">Home</Link></li>
-                                <li><Link to="/product">Shop</Link></li>
-                                <li>Shopping Cart</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                {/* Header and Breadcrumbs */}
+                {/* Main Content */}
                 <main className="page-content">
+                    {/* Shopping Cart Area */}
                     <div className="tm-section shopping-cart-area bg-white tm-padding-section">
                         <div className="container">
+                            {/* Cart Table */}
                             <div className="tm-cart-table table-responsive">
                                 <table className="table table-bordered mb-0">
                                     <thead>
@@ -83,6 +88,7 @@ function CartPage() {
                                             <th className="tm-cart-col-productname" scope="col">Sản phẩm</th>
                                             <th className="tm-cart-col-price" scope="col">Giá</th>
                                             <th className="tm-cart-col-quantity" scope="col">Số lượng</th>
+                                            <th className="tm-cart-col-size" scope="col">Kích thước</th>
                                             <th className="tm-cart-col-total" scope="col">Tổng</th>
                                             <th className="tm-cart-col-remove" scope="col">Hành Động</th>
                                         </tr>
@@ -110,16 +116,31 @@ function CartPage() {
                                                         <Link to={`/product-detail/jewelry/${item.jewelryID}`} className="tm-cart-productname">{item.jewelryName}</Link>
                                                     )}
                                                 </td>
-                                                <td className="tm-cart-price">{item.price.toLocaleString()} VND</td>
+                                                <td className="tm-cart-price">{item.price ? item.price.toLocaleString() : 'N/A'} VND</td>
                                                 <td>
                                                     <div className="tm-quantitybox">
-                                                        <div className="flex items-center">
-                                                            <input id={`quantity-${index}`} type="text" value={item.quantity} readOnly className="w-12 text-center" />
-                                                        </div>
+                                                        <input
+                                                            type="number"
+                                                            value={item.quantity}
+                                                            onChange={(e) => handleUpdateCartItem(item.cartID, parseInt(e.target.value, 10), item.sizeJewelry, item.diamondID, item.jewelryID)}
+                                                            className="w-12 text-center"
+                                                            disabled={!isEditing}
+                                                        />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className="tm-cart-totalprice">{item.totalPrice.toLocaleString()} VND</span>
+                                                    <div className="tm-sizebox">
+                                                        <input
+                                                            type="number"
+                                                            value={item.sizeJewelry}
+                                                            onChange={(e) => handleUpdateCartItem(item.cartID, item.quantity, parseInt(e.target.value, 10), item.diamondID, item.jewelryID)}
+                                                            className="w-12 text-center"
+                                                            disabled={!isEditing || !!item.diamondID}
+                                                        />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span className="tm-cart-totalprice">{item.grossCartPrice ? item.grossCartPrice.toLocaleString() : 'N/A'} VND</span>
                                                 </td>
                                                 <td>
                                                     <button className="tm-cart-removeproduct" onClick={() => handleRemoveItem(item.cartID)}>
@@ -131,12 +152,15 @@ function CartPage() {
                                     </tbody>
                                 </table>
                             </div>
+                            {/* Cart Bottom Area */}
                             <div className="tm-cart-bottomarea">
                                 <div className="row">
                                     <div className="col-lg-8 col-md-6">
                                         <div className="tm-buttongroup">
-                                            <a href="/sanpham" className="tm-button">Tiếp tục mua sắm</a>
-                                            <a href="#" className="tm-button">Cập nhật giỏ hàng</a>
+                                            <Link to="/sanpham" className="tm-button">Tiếp tục mua sắm</Link>
+                                            <button className="tm-button" onClick={toggleEditing}>
+                                                {isEditing ? "Lưu thay đổi" : "Cập nhật giỏ hàng"}
+                                            </button>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-6">
@@ -160,7 +184,6 @@ function CartPage() {
                         </div>
                     </div>
                 </main>
-                <button id="back-top-top"><i className="ion-arrow-up-c"></i></button>
             </div>
         </div>
     );
