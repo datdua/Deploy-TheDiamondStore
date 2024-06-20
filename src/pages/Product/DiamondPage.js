@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 
 import { getAllDiamond, getPage, searchDiamond } from "../../api/DiamondAPI";
+import { Pagination } from "@mui/material";
+
 
 Modal.setAppElement('#root');
 
@@ -34,6 +36,7 @@ function DiamondPage() {
     const [filters, setFilters] = useState({});
     const location = useLocation();
     const [searchResults, setSearchResults] = useState([]);
+    const [filterApplied, setFilterApplied] = useState(false);
     const colors = ['All', 'E', 'J', 'F', 'D'];
     const cuts = ['All', 'Excellent'];
     const clarities = ['All', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
@@ -67,30 +70,18 @@ function DiamondPage() {
         fetchDiamonds(currentPage);
     }, [currentPage]);
 
-    const handlePageChange = async (pageNumber) => {
-        setCurrentPage(pageNumber);
-        setLoading(true);
-        try {
-            const data = filters.color === 'All' && filters.cut === 'All' && filters.shape === 'All' && filters.clarity === 'All' && filters.origin === 'All'
-                ? await getAllDiamond()
-                : await searchDiamond(filters);
-            const results = data.slice((pageNumber - 1) * resultsPerPage, pageNumber * resultsPerPage);
-            setDiamonds(results);
-            setLoading(false);
-        } catch (error) {
-            setError(error.message);
-            setLoading(false);
-        }
-    };
+
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const results = params.get('results');
         if (results) {
             setSearchResults(JSON.parse(results));
+
         } else {
             setSearchResults([]);
         }
+
     }, [location]);
 
     const resultsPerPage = 9;
@@ -115,17 +106,30 @@ function DiamondPage() {
             if (filters.origin === 'All') {
                 delete filtersToUse.origin;
             }
-            const data = await searchDiamond(filtersToUse);
-            const totalPages = Math.ceil(data.length / resultsPerPage);
+            const { content, totalPages } = await searchDiamond(filtersToUse, currentPage, resultsPerPage);
             setTotalPages(totalPages);
-            const results = data.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
-            setDiamonds(results);
+            setDiamonds(content);
             setLoading(false);
+            window.scrollTo(0, 0);
         } catch (error) {
             setError(error.message);
             setLoading(false);
         }
+    }
+    const handlePageChange = async (page) => {
+        try {
+            console.log(filters); // Log the filters state
+            const data = await searchDiamond(filters, page); // pass filters to the API call
+            console.log(data); // Log the returned data
+            setSearchResults(data.content);
+            setCurrentPage(data.pageable.pageNumber + 1);
+            setTotalPages(data.totalPages);
+            window.scrollTo(0, 0);
+        } catch (error) {
+            console.error(error);
+        }
     };
+
 
     return (
         <div>
@@ -205,11 +209,7 @@ function DiamondPage() {
                                         </div>
                                     </div>
                                     <div className="tm-pagination mt-50">
-                                        {Array.from({ length: totalPages }, (_, index) => (
-                                            <button key={index} onClick={() => handlePageChange(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-                                                {index + 1}
-                                            </button>
-                                        ))}
+                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => handlePageChange(page)} />
                                     </div>
                                 </div>
                                 <div className="col-lg-3 col-12">

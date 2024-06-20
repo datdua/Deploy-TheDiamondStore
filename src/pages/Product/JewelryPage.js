@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI"; // Import the functions
+import { Pagination } from "@mui/material";
 
 // Set the app element for accessibility
 Modal.setAppElement("#root"); // Ensure this matches your app's root element
@@ -87,21 +88,16 @@ function JewelryPage() {
       let filtersToUse = { ...filters, page: 1 }; // Always start from page 1 when searching
   
       // Convert price filters to numbers if they exist
-      if (filtersToUse.minjewelryEntryPrice !== undefined) {
-        filtersToUse.minjewelryEntryPrice = parseInt(
-          filtersToUse.minjewelryEntryPrice
-        );
+      if (filtersToUse.minjewelryEntryPrice !== undefined && filtersToUse.minjewelryEntryPrice !== '') {
+        filtersToUse.minjewelryEntryPrice = parseInt(filtersToUse.minjewelryEntryPrice);
+      } else {
+        delete filtersToUse.minjewelryEntryPrice;
       }
   
-      if (filtersToUse.maxjewelryEntryPrice !== undefined) {
-        filtersToUse.maxjewelryEntryPrice = parseInt(
-          filtersToUse.maxjewelryEntryPrice
-        );
-      }
-  
-      // Remove 'All' gender filter if present
-      if (filtersToUse.gender === "All") {
-        delete filtersToUse.gender;
+      if (filtersToUse.maxjewelryEntryPrice !== undefined && filtersToUse.maxjewelryEntryPrice !== '') {
+        filtersToUse.maxjewelryEntryPrice = parseInt(filtersToUse.maxjewelryEntryPrice);
+      } else {
+        delete filtersToUse.maxjewelryEntryPrice;
       }
   
       const data = await searchJewelry(filtersToUse);
@@ -115,6 +111,7 @@ function JewelryPage() {
       );
       setJewelry(results);
       setLoading(false);
+      window.scrollTo(0, 0);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -122,20 +119,21 @@ function JewelryPage() {
   };
   
 
-  const handlePageChange = async (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = async (event, page) => {
+    setCurrentPage(page);
     setLoading(true);
     try {
       const data =
         filters.gender === "All"
-          ? await getAllJewelry()
+          ? await getPage(page)
           : await searchJewelry(filters);
       const results = data.slice(
-        (pageNumber - 1) * resultsPerPage,
-        pageNumber * resultsPerPage
+        (page - 1) * resultsPerPage,
+        page * resultsPerPage
       );
       setJewelry(results);
       setLoading(false);
+      window.scrollTo(0, 0);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -240,15 +238,10 @@ function JewelryPage() {
                                             )}
                                         </div>
                                         <div className="tm-pagination mt-50">
-                                            {Array.from({ length: totalPages }, (_, index) => (
-                                                <button key={index} onClick={() => handlePageChange(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-                                                    {index + 1}
-                                                </button>
-                                            ))}
+                                        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
                                         </div>
                                     </div>
                                 </div>
-
                 <div className="col-lg-3 col-12">
                   <div className="widgets">
                     <div className="single-widget widget-categories">
@@ -339,7 +332,6 @@ function JewelryPage() {
                 <div className="content-container">
                   <h2>{selectedItem.jewelryName}</h2>
                   <p>{selectedItem.jewelryDescription}</p>
-                  <p>Diamond ID: {selectedItem.diamondID}</p>
                   <p>Gender: {selectedItem.gender}</p>
                   <span>
                     {selectedItem.jewelryEntryPrice.toLocaleString()} VND

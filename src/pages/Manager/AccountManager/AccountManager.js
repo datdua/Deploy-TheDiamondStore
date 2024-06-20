@@ -26,7 +26,6 @@ function AccountManager() {
   const [showModal, setShowModal] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const size = 8;
   const startIndex = (currentPage - 1) * size;
@@ -61,18 +60,8 @@ function AccountManager() {
     setShowModal(true);
   };
 
-  const handleShowDeleteModal = (account) => {
-    setSelectedAccount(account);
-    setShowDeleteModal(true);
-  };
-
   const handleDeleteAccount = (accountID) => {
-    if (accountID !== null && accountID !== undefined) {
-      setAccounts(
-        accounts.filter((account) => account.accountID !== accountID)
-      );
-      setShowDeleteModal(false);
-    }
+    setAccounts(accounts.filter((account) => account.accountID !== accountID));
   };
 
   const refreshTable = () => {
@@ -80,8 +69,6 @@ function AccountManager() {
       setAccounts(data);
     });
   };
-
-  const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
   return (
     <Container fluid>
@@ -117,6 +104,8 @@ function AccountManager() {
                       <th>Account Name</th>
                       <th>Password</th>
                       <th>Phone Number</th>
+                      <th>Address</th>
+                      <th>Active</th>
                       <th>Role</th>
                       <th>Actions</th>
                     </tr>
@@ -129,6 +118,8 @@ function AccountManager() {
                         <td>{account.accountName}</td>
                         <td className="password-cell">{account.password}</td>
                         <td>{account.phoneNumber}</td>
+                        <td>{account.addressAccount}</td>
+                        <td>{account.active ? "Yes" : "No"}</td>
                         <td>{account.role}</td>
                         <td>
                           <Button
@@ -138,13 +129,14 @@ function AccountManager() {
                           >
                             <EditIcon />
                           </Button>
-                          <Button
-                            variant="link"
-                            size="sm"
-                            onClick={() => handleShowDeleteModal(account)}
+                          <DeleteAccountForm
+                            accountID={account.accountID}
+                            onDelete={() =>
+                              handleDeleteAccount(account.accountID)
+                            }
                           >
-                            <DeleteIcon />
-                          </Button>
+                            <DeleteIcon style={{ color: "red" }} />
+                          </DeleteAccountForm>
                         </td>
                       </tr>
                     ))}
@@ -181,19 +173,21 @@ function AccountManager() {
         </Modal.Body>
       </Modal>
 
-      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+      <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
+          <Modal.Title>
+            {isUpdating ? "Update Account" : "Add Account"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <DeleteAccountForm
-            accountID={selectedAccount ? selectedAccount.accountID : null}
-            onDelete={() =>
-              handleDeleteAccount(
-                selectedAccount ? selectedAccount.accountID : null
-              )
-            }
-          />
+          {isUpdating ? (
+            <UpdateAccountForm
+              account={selectedAccount}
+              onClose={handleClose}
+            />
+          ) : (
+            <AddAccountForm onClose={handleClose} />
+          )}
         </Modal.Body>
       </Modal>
     </Container>

@@ -432,7 +432,7 @@ function HomePage() {
                                 {/* <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
                                     <a href="#" className="tm-banner ">
-                                        <img src="assets/images/banner-image-1.jpg" alt="banner image" />
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-3.png?alt=media&token=5e4cf140-24e0-4a76-a5df-d63541a60412" alt="banner image" />
                                     </a>
                                 </div>
                                 {/* <!--// Single Banner -->
@@ -440,7 +440,7 @@ function HomePage() {
                         <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
                                     <a href="#" className="tm-banner ">
-                                        <img src="assets/images/banner-image-2.jpg" alt="banner image" />
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-1.png?alt=media&token=46c190d2-838e-43ef-9a9e-d5ed09e9e037" alt="banner image" />
                                     </a>
                                 </div>
                                 {/* <!--// Single Banner -->
@@ -448,7 +448,7 @@ function HomePage() {
                         <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
                                     <a href="#" className="tm-banner ">
-                                        <img src="assets/images/banner-image-3.jpg" alt="banner image" />
+                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-2.png?alt=media&token=a2cc4d47-102b-43e5-9ce8-a4ecee01705c" alt="banner image" />
                                     </a>
                                 </div>
                                 {/* <!--// Single Banner --> */}
@@ -882,10 +882,6 @@ function HomePage() {
 
                 </main>
                 {/* <!--// Page Content -->
-
-        <!-- Footer --> */}
-                {/* <Footer/> */}
-                {/* <!--// Footer -->
 
         <!-- Product Quickview --> */}
                 <div className="tm-product-quickview" id="tm-product-quickview">

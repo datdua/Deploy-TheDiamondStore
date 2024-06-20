@@ -97,7 +97,7 @@ export async function getWarrantityImage(warrantyID) {
 export async function searchDiamondByName(name) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter?diamondNameLike=${name}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter?diamondName=${name}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to search diamonds by name");
@@ -111,15 +111,15 @@ export async function searchDiamondByName(name) {
   }
 }
 
-export const searchDiamond = async (filters, page = 1) => {
+export const searchDiamond = async (filters, page = 1, size = 9) => {
   try {
-    const params = { ...filters, page };
+    const params = { ...filters, page, size };
     const queryString = Object.keys(params)
       .map((key) => `${key}=${encodeURIComponent(params[key])}`)
       .join("&");
 
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter?${queryString}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter/paged?${queryString}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to fetch diamonds");

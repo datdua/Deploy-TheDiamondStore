@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { deleteOrder } from "../../api/OrderAPI";
+import { deleteDiamondPrice } from "../../api/DiamondPriceAPI";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function DeleteOrderForm({ orderID, onDelete }) {
+function DeleteDiamondPriceForm({ diamondPriceID, onDelete }) {
   const handleDelete = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA order này ?")) {
+    if (window.confirm("Bạn có chắc muốn XÓA giá của kim cương này ?")) {
       try {
-        await deleteOrder(orderID);
-        onDelete(orderID);
+        await deleteDiamondPrice(diamondPriceID);
+        onDelete(diamondPriceID);
         alert("Xóa thành công");
       } catch (error) {
         alert("Xóa thất bại");
@@ -22,4 +22,4 @@ function DeleteOrderForm({ orderID, onDelete }) {
     </Button>
   );
 }
-export default DeleteOrderForm;
+export default DeleteDiamondPriceForm;

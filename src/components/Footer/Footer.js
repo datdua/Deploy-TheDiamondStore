@@ -44,7 +44,7 @@ function Footer(){
                                 <li><Link to="/gioithieu">Giới Thiệu</Link></li>
                                 <li><Link to="/sanpham">Sản Phẩm</Link></li>
                                 <li><Link to="/banggia">Bảng Giá</Link></li>
-                                <li><Link to="/kienthuc">Kiến Thức Kim Cương</Link></li>
+                                <li><Link to="/kienthuckimcuong">Kiến Thức Kim Cương</Link></li>
                                 <li><Link to="/lienhe">Liên Hệ</Link></li>
                             </ul>
                         </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from 'react-bootstrap';
 import { deleteAccount } from "../../api/accountCrud";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 
 function DeleteAccountForm({ accountID, onDelete }) {
@@ -17,7 +18,9 @@ function DeleteAccountForm({ accountID, onDelete }) {
     };
 
     return (
-        <Button variant="danger" onClick={handleDelete}>Delete</Button>
+      <Button variant="link" onClick={handleDelete} style={{ color: "red" }}>
+        <DeleteIcon />
+      </Button>
     );
 }
 export default DeleteAccountForm;

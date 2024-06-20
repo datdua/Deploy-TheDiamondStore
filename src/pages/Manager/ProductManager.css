@@ -29,3 +29,7 @@
   padding: 0.25rem 0.5rem; /* Điều chỉnh kích thước nút */
   font-size: 10px;
 }
+
+.iframe-container {
+  padding-left: 10px;
+}

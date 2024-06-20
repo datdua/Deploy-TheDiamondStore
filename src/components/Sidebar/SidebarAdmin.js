@@ -46,7 +46,7 @@ function SideBarAdmin() {
             <CIcon customClassName="nav-icon" icon={cilSpeedometer} /> Dashboard
           </NavLink>
           <NavLink
-            to="https://sandbox.vnpayment.vn/merchantv2/Users/Login.htm"
+            to="/admin/transaction-manager"
             className="sidebar-nav-item"
             activeClassName="active"
           >
@@ -65,6 +65,16 @@ function SideBarAdmin() {
               </>
             }
           >
+            <NavLink
+              to="/admin/account-manager"
+              className="sidebar-nav-item"
+              activeClassName="active"
+            >
+              <span className="nav-icon">
+                <span className="nav-icon-bullet"></span>
+              </span>{" "}
+              Tài khoản
+            </NavLink>
             <NavLink
               to="/admin/diamond-manager"
               className="sidebar-nav-item"
@@ -86,14 +96,14 @@ function SideBarAdmin() {
               Trang sức
             </NavLink>
             <NavLink
-              to="/admin/account-manager"
+              to="/admin/certificate-manager"
               className="sidebar-nav-item"
               activeClassName="active"
             >
               <span className="nav-icon">
                 <span className="nav-icon-bullet"></span>
               </span>{" "}
-              Tài khoản
+              Chứng chỉ kim cương
             </NavLink>
             <NavLink
               to="/admin/order-manager"
@@ -105,11 +115,21 @@ function SideBarAdmin() {
               </span>{" "}
               Đơn hàng
             </NavLink>
+            <NavLink
+              to="/admin/price-manager"
+              className="sidebar-nav-item"
+              activeClassName="active"
+            >
+              <span className="nav-icon">
+                <span className="nav-icon-bullet"></span>
+              </span>{" "}
+              Giá sản phẩm
+            </NavLink>
           </CNavGroup>
         </CSidebarNav>
         <CSidebarHeader className="border-top">
           <NavLink to="/" className="sidebar-nav-item" activeClassName="active">
-            <CSidebarToggler style={{marginRight: "10px"}}/> LOG OUT
+            <CSidebarToggler style={{ marginRight: "10px" }} /> LOG OUT
           </NavLink>
         </CSidebarHeader>
       </CSidebar>

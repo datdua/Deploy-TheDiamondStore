@@ -1,14 +1,14 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { deleteOrder } from "../../api/OrderAPI";
+import { deleteGoldPrice } from "../../api/GoldPriceAPI";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function DeleteOrderForm({ orderID, onDelete }) {
+function DeleteGoldPriceForm({ goldPriceID, onDelete }) {
   const handleDelete = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA order này ?")) {
+    if (window.confirm("Bạn có chắc muốn XÓA giá của kim cương này ?")) {
       try {
-        await deleteOrder(orderID);
-        onDelete(orderID);
+        await deleteGoldPrice(goldPriceID);
+        onDelete(goldPriceID);
         alert("Xóa thành công");
       } catch (error) {
         alert("Xóa thất bại");
@@ -18,8 +18,8 @@ function DeleteOrderForm({ orderID, onDelete }) {
 
   return (
     <Button variant="link" onClick={handleDelete} style={{ color: "red" }}>
-      <DeleteIcon />
+      <DeleteIcon />Delete
     </Button>
   );
 }
-export default DeleteOrderForm;
+export default DeleteGoldPriceForm;

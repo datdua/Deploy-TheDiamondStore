@@ -53,19 +53,18 @@ function Header() {
                 searchDiamondByName(searchTerm),
                 searchProductionByName(searchTerm)
             ]);
-
-            if (productResults.length > 0) {
-                navigate(`/sanpham?search=${encodeURIComponent(searchTerm)}&jewelryResults=${encodeURIComponent(JSON.stringify(jewelryResults))}&diamondResults=${encodeURIComponent(JSON.stringify(diamondResults))}`);
+    
+            if (jewelryResults.length > 0) {
+                navigate(`/trangsuc?search=${encodeURIComponent(searchTerm)}&results=${encodeURIComponent(JSON.stringify(jewelryResults))}`);
             } else if (diamondResults.length > 0) {
                 navigate(`/kimcuong?search=${encodeURIComponent(searchTerm)}&results=${encodeURIComponent(JSON.stringify(diamondResults))}`);
-            } else if (jewelryResults.length > 0) {
-                navigate(`/trangsuc?search=${encodeURIComponent(searchTerm)}&results=${encodeURIComponent(JSON.stringify(jewelryResults))}`);
+            } else if (productResults.length > 0) {
+                navigate(`/sanpham?search=${encodeURIComponent(searchTerm)}&jewelryResults=${encodeURIComponent(JSON.stringify(jewelryResults))}&diamondResults=${encodeURIComponent(JSON.stringify(diamondResults))}`);
             } else {
                 console.log('No search results found');
-                toast.error('Không tìm thấy kết quả tìm kiếm!');
             }
         } catch (error) {
-            console.error('Error searching for jewelry and diamonds:', error);
+            console.error("Error during search:", error);
         }
     };
 
@@ -148,7 +147,7 @@ function Header() {
                                 </NavDropdown>
                             </li>
                             <li><Link to="#">Bảng Giá</Link></li>
-                            <li><Link to="#">Kiến Thức Kim Cương</Link></li>
+                            <li><Link to="/kienthuckimcuong">Kiến Thức Kim Cương</Link></li>
                             <li><Link to="/lienhe">Liên Hệ</Link></li>
                         </ul>
                     </nav>

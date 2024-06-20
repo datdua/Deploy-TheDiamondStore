@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllProduct, getProductPage } from "../../api/ProductAPI"; // Ensure this API call is correct
+import { Pagination } from "@mui/material";
 
 Modal.setAppElement("#root"); // Ensure this matches your app's root element
 
@@ -81,9 +82,11 @@ function ProductPage() {
     setSelectedItem(null);
   }
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+
+const handlePageChange = (event, value) => {
+  setCurrentPage(value);  // Update the currentPage state variable
+};
+
 
     return (
         <div>
@@ -176,11 +179,7 @@ function ProductPage() {
                                         </div>
                                         {/* Pagination */}
                                         <div className="tm-pagination mt-50">
-                                            {Array.from({ length: totalPages }, (_, index) => (
-                                                <button key={index} onClick={() => handlePageChange(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-                                                    {index + 1}
-                                                </button>
-                                            ))}
+                                        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
                                         </div>
                                     </div>
                                 </div>

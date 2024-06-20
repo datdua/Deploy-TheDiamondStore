@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./MyAccountPage.css";
-import deleteOrder, { createPayment, fetchOrders, fetchOrderDetail } from "../../api/OrderAPI"; // Assuming you have a deleteOrder function in your API
+import { deleteOrder, createPayment, fetchOrders, fetchOrderDetail } from "../../api/OrderAPI"; // Assuming you have a deleteOrder function in your API
 import { AuthContext } from "../../components/Auth/AuthContext";
 import OrderSidebar from "../../components/OrderSidebar/OrderSidebar";
 import { toast } from "react-toastify";
@@ -158,7 +158,7 @@ function MyAccountPage() {
                                 <td><button onClick={() => handleViewOrder(order.orderID)} className="tm-button tm-button-small">View</button></td>
                                 <td>
                                   <PaymentButton orderID={order.orderID} orderStatus={order.orderStatus} />
-                                  <button onClick={() => handleDeleteOrder(order.orderID)} className="tm-button tm-button-small">Delete</button>
+                                  {order.orderStatus === "Đang xử lý" && <button onClick={() => handleDeleteOrder(order.orderID)} className="tm-button tm-button-small">Delete</button>}
                                 </td>
                               </tr>
                             ))
