@@ -151,7 +151,7 @@ function JewelryPage() {
   return (
     <div>
       <div className="wrapper">
-        <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-nhan4.png?alt=media&token=a7b6a116-dc71-4c3e-8f06-31c2644263c1)` }}>
+        <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-nhan4.png?alt=media&token=74c4526e-782b-49f5-bce9-f2f399a675ed)` }}>
           <div className="container">
             <div className="tm-breadcrumb">
               <h2>Trang Sức</h2>
