@@ -137,10 +137,10 @@ function DiamondPage() {
                 <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-kien-thuc.png?alt=media&token=21c4c1fe-63d9-426a-9f56-8b5c3cc7d486)` }}>
                     <div className="container">
                         <div className="tm-breadcrumb">
-                            <h2>Products</h2>
-                            <ul>
-                                <li><Link to="/home">Home</Link></li>
-                                <li>Shop</li>
+                            <h2>Kim Cương</h2>
+                            <ul className="add-back">
+                                <li><Link to="/trangchu">Trang chủ</Link></li>
+                                <li>Kim Cương</li>
                             </ul>
                         </div>
                     </div>
@@ -209,7 +209,7 @@ function DiamondPage() {
                                         </div>
                                     </div>
                                     <div className="tm-pagination mt-50">
-                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => handlePageChange(page)} />
+                                        <Pagination count={totalPages} page={currentPage} onChange={(event, page) => handlePageChange(page)} />
                                     </div>
                                 </div>
                                 <div className="col-lg-3 col-12">

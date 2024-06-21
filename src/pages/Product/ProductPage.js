@@ -91,13 +91,13 @@ const handlePageChange = (event, value) => {
     return (
         <div>
             <div id="wrapper" className="wrapper">
-                <div className="tm-breadcrumb-area tm-padding-section bg-grey">
+                <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-gioithieu.png?alt=media&token=9e0e9255-48ba-41ec-9df8-3b87e95ea53e)` }}>
                     <div className="container">
                         <div className="tm-breadcrumb">
-                            <h2>Products</h2>
-                            <ul>
-                                <li><Link to="/home">Home</Link></li>
-                                <li>Shop</li>
+                        <h2>Sản Phẩm</h2>
+                            <ul className="add-back">
+                                <li><Link to="/trangchu">Trang chủ</Link></li>
+                                <li>Sản Phẩm</li>
                             </ul>
                         </div>
                     </div>
