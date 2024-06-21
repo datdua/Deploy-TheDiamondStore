@@ -129,7 +129,7 @@ function LoginRegisterPage() {
               <h2>Đăng Nhập & Đăng Ký</h2>
               <ul className="add-back">
                 <li>
-                  <NavLink to="/home">Trang chủ</NavLink>
+                  <NavLink to="/trangchu">Trang chủ</NavLink>
                 </li>
                 <li>Đăng Nhập & Đăng Ký</li>
               </ul>
