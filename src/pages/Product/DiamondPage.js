@@ -134,7 +134,7 @@ function DiamondPage() {
     return (
         <div>
             <div id="wrapper" className="wrapper">
-                <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-kien-thuc.png?alt=media&token=21c4c1fe-63d9-426a-9f56-8b5c3cc7d486)` }}>
+                <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner1.png?alt=media&token=473b0a7c-9d8a-4c14-9661-26a66851bb1e)` }}>
                     <div className="container">
                         <div className="tm-breadcrumb">
                             <h2>Kim Cương</h2>
