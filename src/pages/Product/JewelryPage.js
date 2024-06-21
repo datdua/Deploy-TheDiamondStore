@@ -86,24 +86,24 @@ function JewelryPage() {
     setLoading(true);
     try {
       let filtersToUse = { ...filters, page: 1 }; // Always start from page 1 when searching
-  
+
       // Convert price filters to numbers if they exist
       if (filtersToUse.minjewelryEntryPrice !== undefined && filtersToUse.minjewelryEntryPrice !== '') {
         filtersToUse.minjewelryEntryPrice = parseInt(filtersToUse.minjewelryEntryPrice);
       } else {
         delete filtersToUse.minjewelryEntryPrice;
       }
-  
+
       if (filtersToUse.maxjewelryEntryPrice !== undefined && filtersToUse.maxjewelryEntryPrice !== '') {
         filtersToUse.maxjewelryEntryPrice = parseInt(filtersToUse.maxjewelryEntryPrice);
       } else {
         delete filtersToUse.maxjewelryEntryPrice;
       }
-  
+
       const data = await searchJewelry(filtersToUse);
       const totalPages = Math.ceil(data.length / resultsPerPage);
       setTotalPages(totalPages);
-  
+
       // Slice the results based on the current page
       const results = data.slice(
         (currentPage - 1) * resultsPerPage,
@@ -117,7 +117,7 @@ function JewelryPage() {
       setLoading(false);
     }
   };
-  
+
 
   const handlePageChange = async (event, page) => {
     setCurrentPage(page);
@@ -143,7 +143,7 @@ function JewelryPage() {
   useEffect(() => {
     const checkLoginStatus = () => {
       const jwt = localStorage.getItem("jwt");
-      setIsLoggedIn(!!jwt); 
+      setIsLoggedIn(!!jwt);
     };
     checkLoginStatus();
   }, []);
@@ -151,15 +151,13 @@ function JewelryPage() {
   return (
     <div>
       <div className="wrapper">
-        <div className="tm-breadcrumb-area tm-padding-section bg-grey">
+        <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-nhan1.png?alt=media&token=8056b83a-6c63-446a-9505-7cc15364c8f7)` }}>
           <div className="container">
             <div className="tm-breadcrumb">
-              <h2>Products</h2>
-              <ul>
-                <li>
-                  <Link to="/home">Home</Link>
-                </li>
-                <li>Shop</li>
+              <h2>Trang Sức</h2>
+              <ul className="add-back">
+                <li><Link to="/trangchu">Trang chủ</Link></li>
+                <li>Trang Sức</li>
               </ul>
             </div>
           </div>
@@ -196,52 +194,52 @@ function JewelryPage() {
                     </select>
                   </form>
 
-                                    <div className="tm-shop-products">
-                                        <div className="row mt-30-reverse">
-                                            {loading ? (
-                                                <div>Loading...</div>
-                                            ) : error ? (
-                                                <div>Error: {error}</div>
-                                            ) : (
-                                                jewelry.map((item) => (
-                                                    <div key={item.jewelryID} className="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 mt-50">
-                                                        <div className="tm-product">
-                                                            <div className="tm-product-topside">
-                                                                <div className="tm-product-images">
-                                                                    <img src={item.jewelryImage} alt={item.jewelryName} />
-                                                                </div>
-                                                                <ul className="tm-product-actions">
-                                                                    {isLoggedIn ? null : <p>Please log in to add items to the cart.</p>}
-                                                                    <li><Link to={`/product-detail/jewelry/${item.jewelryID}`}><i className="ion-android-cart"></i> Add to cart</Link></li>
-                                                                    <li><button onClick={() => openModal(item)} aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
-                                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                                </ul>
-                                                                <div className="tm-product-badges">
-                                                                    <span className="tm-product-badges-new">New</span>
-                                                                    <span className="tm-product-badges-sale">Sale</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="tm-product-bottomside">
-                                                                <h6 className="tm-product-title"><Link to={`/product-detail/jewelry/${item.jewelryID}`}>{item.jewelryName}</Link></h6>
-                                                                <div className="tm-ratingbox">
-                                                                    <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                                    <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                                    <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                                    <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                                    <span><i className="ion-android-star-outline"></i></span>
-                                                                </div>
-                                                                <span className="tm-product-price">{(item.jewelryEntryPrice).toLocaleString()} VND</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            )}
-                                        </div>
-                                        <div className="tm-pagination mt-50">
-                                        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
-                                        </div>
-                                    </div>
+                  <div className="tm-shop-products">
+                    <div className="row mt-30-reverse">
+                      {loading ? (
+                        <div>Loading...</div>
+                      ) : error ? (
+                        <div>Error: {error}</div>
+                      ) : (
+                        jewelry.map((item) => (
+                          <div key={item.jewelryID} className="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 mt-50">
+                            <div className="tm-product">
+                              <div className="tm-product-topside">
+                                <div className="tm-product-images">
+                                  <img src={item.jewelryImage} alt={item.jewelryName} />
                                 </div>
+                                <ul className="tm-product-actions">
+                                  {isLoggedIn ? null : <p>Please log in to add items to the cart.</p>}
+                                  <li><Link to={`/product-detail/jewelry/${item.jewelryID}`}><i className="ion-android-cart"></i> Add to cart</Link></li>
+                                  <li><button onClick={() => openModal(item)} aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
+                                  <li><a href="#"><i className="ion-heart"></i></a></li>
+                                </ul>
+                                <div className="tm-product-badges">
+                                  <span className="tm-product-badges-new">New</span>
+                                  <span className="tm-product-badges-sale">Sale</span>
+                                </div>
+                              </div>
+                              <div className="tm-product-bottomside">
+                                <h6 className="tm-product-title"><Link to={`/product-detail/jewelry/${item.jewelryID}`}>{item.jewelryName}</Link></h6>
+                                <div className="tm-ratingbox">
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span><i className="ion-android-star-outline"></i></span>
+                                </div>
+                                <span className="tm-product-price">{(item.jewelryEntryPrice).toLocaleString()} VND</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    <div className="tm-pagination mt-50">
+                      <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+                    </div>
+                  </div>
+                </div>
                 <div className="col-lg-3 col-12">
                   <div className="widgets">
                     <div className="single-widget widget-categories">

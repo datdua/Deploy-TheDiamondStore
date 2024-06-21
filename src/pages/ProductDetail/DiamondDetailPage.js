@@ -72,11 +72,10 @@ function DiamondDetailPage() {
                 <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(assets/images/breadcrumb-bg.jpg)` }}>
                     <div className="container">
                         <div className="tm-breadcrumb">
-                            <h2>Product Details</h2>
-                            <ul>
-                                <li><Link to="/trangchu">Home</Link></li>
-                                <li><Link to="/sanpham">Products</Link></li>
-                                <li>{diamond ? diamond.diamondName : "Loading..."}</li>
+                            <h2>Kim Cương</h2>
+                            <ul className="add-back">
+                                <li><Link to="/trangchu">Trang chủ</Link></li>
+                                <li>Kim Cương</li>
                             </ul>
                         </div>
                     </div>
