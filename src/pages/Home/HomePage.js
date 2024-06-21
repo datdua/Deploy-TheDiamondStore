@@ -27,7 +27,7 @@ function HomePage() {
                 <main className="page-content">
 
                     {/* <!-- Banners Area --> */}
-                    <div className="tm-section tm-banners-area tm-padding-section">
+                    <div className="tm-section tm-banners-area tm-padding-section1">
                         <div className="container">
                             <div className="row mt-30-reverse">
 
