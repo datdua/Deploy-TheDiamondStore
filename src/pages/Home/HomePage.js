@@ -25,7 +25,6 @@ function HomePage() {
                 {/* <!--// Heroslider Area --> 
         <!-- Page Content --> */}
                 <main className="page-content">
-
                     {/* <!-- Banners Area --> */}
                     <div className="tm-section tm-banners-area tm-padding-section1">
                         <div className="container">
@@ -33,7 +32,7 @@ function HomePage() {
 
                                 {/* <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="#" className="tm-banner ">
+                                    <a href="/sanpham" className="tm-banner ">
                                         <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-3.png?alt=media&token=5e4cf140-24e0-4a76-a5df-d63541a60412" alt="banner image" />
                                     </a>
                                 </div>
@@ -41,7 +40,7 @@ function HomePage() {
 
                         <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="#" className="tm-banner ">
+                                    <a href="/sanpham" className="tm-banner ">
                                         <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-1.png?alt=media&token=46c190d2-838e-43ef-9a9e-d5ed09e9e037" alt="banner image" />
                                     </a>
                                 </div>
@@ -49,7 +48,7 @@ function HomePage() {
 
                         <!-- Single Banner --> */}
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="#" className="tm-banner ">
+                                    <a href="/sanpham" className="tm-banner ">
                                         <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-2.png?alt=media&token=a2cc4d47-102b-43e5-9ce8-a4ecee01705c" alt="banner image" />
                                     </a>
                                 </div>
