@@ -3,16 +3,16 @@ import "./HeroSlider.css"
 
 const slidesData = [
     {
-        backgroundImage: 'url(assets/images/banner-silde2.png)',
+        backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-silde1.png?alt=media&token=668c2ca6-0045-4b88-b096-a96a4ea6c6c5)',
         title: "Woman’s Jewellery Collection",
         description: "Jewellery may be made from a wide range of materials. Jewellery has been made to adorn nearly every body part from hairpins to toe.",
-        link: "products.html",
+        link: "/sanpham",
     },
     {
-        backgroundImage: 'url(assets/images/banner-silde1.png)',
+        backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-silde2.png?alt=media&token=fc348cb0-f807-4121-8ffb-b44ef6d51861)',
         title: "Men’s Jewellery Collection",
         description: "Discover the unique range of men's jewellery. From rings to bracelets, find the perfect accessory.",
-        link: "products.html",
+        link: "/sanpham",
     }
 ];
 
