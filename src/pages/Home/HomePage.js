@@ -27,7 +27,7 @@ function HomePage() {
                 <main className="page-content">
 
                     {/* <!-- Banners Area --> */}
-                    <div className="tm-section tm-banners-area">
+                    <div className="tm-section tm-banners-area tm-padding-section">
                         <div className="container">
                             <div className="row mt-30-reverse">
 
@@ -480,27 +480,8 @@ function HomePage() {
                             </div>
                         </div>
                     </div>
-
-
                 </main>
-                {/* <!--// Page Content -->
-
-        <!-- Product Quickview --> */}
-                <div className="tm-product-quickview" id="tm-product-quickview">
-                    <div className="container">
-                        <div className="row justify-content-center">
-                            <div className="col-xl-9 col-lg-10 col-12">
-                                <div className="tm-product-quickview-inner">
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* <!--// Product Quickview --> */}
             </div>
-            {/* <!--// Wrapper --> */}
         </div>
 
     )
