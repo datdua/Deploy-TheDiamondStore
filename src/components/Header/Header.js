@@ -117,7 +117,7 @@ function Header() {
                                     type="text"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    placeholder="Tìm kiếm đồ kim cương hoặc trang sức..."
+                                    placeholder="Tìm kiếm kim cương viên hoặc trang sức..."
                                 />
                                 <button aria-label="Search" type="submit"><i className="ion-android-search"></i></button>
                             </form>
