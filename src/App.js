@@ -70,7 +70,7 @@ function App() {
           <Route path="/xacthucthanhtoan" element={<> <Header /> <PaymentConfirm /> <Footer /> <BackToTop /> </>} />
           <Route path="/trangchu" element={<> <Header /> <HomePage /> <Footer /> <BackToTop /> </>} />
           <Route path="/gioithieu" element={<> <Header /> <AboutPage /> <Footer /> <BackToTop /> </>} />
-          <Route path="/lienhe" lement={<> <Header /> <ContactPage /> <Footer /> <BackToTop /> </>} />
+          <Route path="/lienhe" element={<> <Header /> <ContactPage /> <Footer /> <BackToTop /> </>} />
           <Route path="/sanpham" element={<> <Header /> <ProductPage /> <Footer /> <BackToTop /> </>} />
           <Route path="/trangsuc" element={<> <Header /> <JewelryPage /> <Footer /> <BackToTop /> </>} />
           <Route path="/kimcuong" element={<> <Header /> <DiamondPage /> <Footer /> <BackToTop /> </>} />
