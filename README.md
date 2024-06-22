@@ -1,3 +1,3 @@
 # Source deploy website front-end The Diamond Store 
 
-Link public deploy [TDS](https://www.thediamondstore.site/).
+Link public deploy [The Diamond Store](https://www.thediamondstore.site/).
