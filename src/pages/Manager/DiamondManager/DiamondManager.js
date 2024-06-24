@@ -21,6 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Pagination from "@mui/material/Pagination";
+import { Tooltip } from "@mui/material";
 import "../ProductManager.css";
 
 function DiamondManagerPage() {
@@ -33,6 +34,8 @@ function DiamondManagerPage() {
   const [warrantyImg, setWarrantyImg] = useState(null);
   const [showWarrantityModal, setShowWarrantityModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -59,6 +62,16 @@ function DiamondManagerPage() {
     setSelectedDiamond(item);
     setIsUpdating(true);
     setShowModal(true);
+  };
+
+  const handleShowImage = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+    setSelectedImage("");
   };
 
   const handleDelete = (diamondID) => {
@@ -161,7 +174,7 @@ function DiamondManagerPage() {
                   <tbody>
                     {currentPageData.map((diamond, index) => (
                       <tr key={index}>
-                        <td>{index + 1}</td>
+                        <td>{startIndex + index + 1}</td>
                         <td>{diamond.diamondID}</td>
                         <td>
                           <a
@@ -200,7 +213,14 @@ function DiamondManagerPage() {
                           <img
                             src={diamond.diamondImage}
                             alt={diamond.diamondName}
-                            style={{ width: "50px", height: "50px" }}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() =>
+                              handleShowImage(diamond.diamondImage)
+                            }
                           />
                         </td>
                         <td>{diamond.carat_weight}</td>
@@ -211,12 +231,19 @@ function DiamondManagerPage() {
                         <td>{diamond.shape}</td>
                         <td>{diamond.origin}</td>
                         <td>
-                          <Button
-                            variant="link"
-                            onClick={() => handleShowUpdate(diamond)}
+                          <Tooltip
+                            describeChild
+                            title="Cập nhật thông tin"
+                            arrow
+                            placement="top"
                           >
-                            <EditIcon />
-                          </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleShowUpdate(diamond)}
+                            >
+                              <EditIcon />
+                            </Button>
+                          </Tooltip>
                           <DeleteDiamondButton
                             diamondID={diamond.diamondID}
                             onDelete={() => handleDelete(diamond.diamondID)}
@@ -301,6 +328,19 @@ function DiamondManagerPage() {
             Close
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Diamond Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            src={selectedImage}
+            alt="Diamond"
+            style={{ width: "100%", height: "500px" }}
+          />
+        </Modal.Body>
       </Modal>
     </Container>
   );

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getAllWarranties = async () => {
   try {
-    const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties");
+    const response = await axios.get("http://localhost:8080/api/warranties");
     return response.data;
   } catch (error) {
     console.error("Error fetching warranties:", error);
@@ -13,7 +13,7 @@ export const getAllWarranties = async () => {
 export const getWarrantyById = async (warrantyId) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/${warrantyId}`
+      `http://localhost:8080/api/warranties/${warrantyId}`
     );
     return response.data;
   } catch (error) {
@@ -25,7 +25,7 @@ export const getWarrantyById = async (warrantyId) => {
 export const createWarranty = async (warranty) => {
   try {
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/create",
+      "http://localhost:8080/api/warranties/create",
       warranty
     );
     return response.data;
@@ -38,7 +38,7 @@ export const createWarranty = async (warranty) => {
 export const updateWarranty = async (warrantyId, warranty) => {
   try {
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/update/${warrantyId}`,
+      `http://localhost:8080/api/warranties/update/${warrantyId}`,
       warranty
     );
     return response.data;
@@ -51,7 +51,7 @@ export const updateWarranty = async (warrantyId, warranty) => {
 export const deleteWarranty = async (warrantyId) => {
   try {
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/delete/${warrantyId}`
+      `http://localhost:8080/api/warranties/delete/${warrantyId}`
     );
     return response.data;
   } catch (error) {
@@ -63,11 +63,35 @@ export const deleteWarranty = async (warrantyId) => {
 export const getWarrantyByPage = async (page, size) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/page?page=${page}&size=${size}`
+      `http://localhost:8080/api/warranties/page?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetc0hing warranty by page:", error);
+    console.error("Error fetching warranty by page:", error);
+    throw error;
+  }
+};
+
+export const getWarrantyDiamondIDIsNull = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/warranties/diamondIDIsNull`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching warranty by diamondID is null:", error);
+    throw error;
+  }
+};
+
+export const getWarrantyJewelryIDIsNull = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/warranties/jewelryIDIsNull`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching warranty by diamondID is null:", error);
     throw error;
   }
 };

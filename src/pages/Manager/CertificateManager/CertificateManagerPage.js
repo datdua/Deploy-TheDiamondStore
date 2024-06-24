@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCertificateForm from "../../../components/CertificateCRUD/AddCertificateForm";
 import UpdateCertificateForm from "../../../components/CertificateCRUD/UpdateCertificateForm";
 import DeleteCertificateForm from "../../../components/CertificateCRUD/DeleteCertificateForm";
-import { Pagination } from "@mui/material";
+import { Pagination, Tooltip } from "@mui/material";
 import "../ProductManager.css";
 
 function CertificateManagerPage() {
@@ -29,6 +29,9 @@ function CertificateManagerPage() {
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+
   const size = 8;
 
   const startIndex = (currentPage - 1) * size;
@@ -62,6 +65,16 @@ function CertificateManagerPage() {
     getAllCertificates().then((data) => {
       setCertificateData(data);
     });
+  };
+
+  const handleShowImage = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+    setSelectedImage("");
   };
 
   useEffect(() => {
@@ -107,6 +120,7 @@ function CertificateManagerPage() {
                       <th>Certificate ID</th>
                       <th>Expiration Date</th>
                       <th>Certificate Image</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -120,16 +134,31 @@ function CertificateManagerPage() {
                           <img
                             src={certificate.certificateImage}
                             alt="Certificate"
-                            style={{ width: "50px", height: "50px" }}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() =>
+                              handleShowImage(certificate.certificateImage)
+                            }
                           />
                         </td>
+                        <td>{certificate.certificateStatus}</td>
                         <td>
-                          <Button
-                            variant="link"
-                            onClick={() => handleShowUpdate(certificate)}
+                          <Tooltip
+                            describeChild
+                            title="Cập nhật thông tin"
+                            arrow
+                            placement="top"
                           >
-                            <EditIcon />
-                          </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleShowUpdate(certificate)}
+                            >
+                              <EditIcon />
+                            </Button>
+                          </Tooltip>
                           <DeleteCertificateForm
                             certificateID={certificate.certificateID}
                             onDelete={() =>
@@ -171,6 +200,19 @@ function CertificateManagerPage() {
           ) : (
             <AddCertificateForm onClose={handleClose} />
           )}
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Certificate Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            src={selectedImage}
+            alt="Certificate"
+            style={{ width: "100%", height: "500px" }}
+          />
         </Modal.Body>
       </Modal>
     </Container>

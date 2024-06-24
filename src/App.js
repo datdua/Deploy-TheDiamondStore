@@ -24,28 +24,31 @@ import WishlistPage from "./pages/Wishlist/WishlistPage";
 
 // actor: Admin
 import AccountManager from "./pages/Manager/AccountManager/AccountManager";
-import CertificateManagerPage from "./pages/Manager/CertificateManager/CertificateManagerPage";
+import JewelryManagerPage from "./pages/Manager/JewelryManager/JewelryManagerPage";
+import PaymentConfirm from "./pages/PaymentConfirm/PaymentConfirm";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import GoldPriceManager from "./pages/Manager/PriceProductManager/GolPriceManagerPage";
 import Dashboard from "./pages/DashBoard/DashBoard";
-import GoldPriceManager from "./pages/Manager/PriceProductManager/GolPriceManager";
 import Knowledge from "./pages/Knowledge/Knowledge";
 import OrderManagerPage from "./pages/Manager/OrderManager/OrderManagePager";
-import PaymentConfirm from "./pages/PaymentConfirm/PaymentConfirm";
 import ProductManagerPage from "./pages/Manager/DiamondManager/DiamondManager";
-import ProfilePage from "./pages/Profile/ProfilePage";
 import SideBarAdmin from "./components/Sidebar/SidebarAdmin";
 import TransactionManagerPage from "./pages/Manager/TransactionManager/TransactionManagerPage";
-import JewelryManagerPage from "./pages/Manager/JewelryManager/JewelryManagerPage";
+import CertificateManagerPage from "./pages/Manager/CertificateManager/CertificateManagerPage";
+import DiamondPriceManager from "./pages/Manager/PriceProductManager/DiamondPriceManagerPage";
+import WarrantyDiamondManagerPage from "./pages/Manager/WarrantyManager/WarrantyDiamondManagerPage";
+import WarrantyJewelryManagerPage from "./pages/Manager/WarrantyManager/WarrantyJewelryManagerPage";
+import PromotionManagerPage from "./pages/Manager/PromotionManager/PromotionManagerPage";
 import { AuthProvider } from "./components/Auth/AuthProvider";
-
+import ScrollToTop from "./components/ScrollToTop";
+import EmailConfirm from "./pages/EmailConfirm/EmailConfirm";
+import ResetPasswordForm from "./components/ResetPasswordForm/ResetPasswordForm";
 
 
 function App() {
   const handleLogout = (logoutCallback) => {
     if (logoutCallback) {
       logoutCallback();
-      setTimeout(() => {
-        window.location.href = "/dangnhap";
-      }, 2000);
     }
   };
 
@@ -63,6 +66,7 @@ function App() {
         pauseOnHover
       />
       <AuthProvider logoutCallback={() => handleLogout(handleLogout)}>
+        <ScrollToTop/>
         <Routes>
           {/* actor: Customer */}
           <Route path="/" element={<> <Header /> <HomePage /> <Footer /> <BackToTop /> </>} />
@@ -81,25 +85,28 @@ function App() {
           <Route path="/checkout/:accountId" element={<> <Header /> <CheckoutPage /> <Footer /> <BackToTop /> </>} />
           <Route path="/wishlist" element={<> <Header /> <WishlistPage /> <Footer /> <BackToTop /> </>} />
           <Route path="/portfolio" element={<> <Header /> <PortfolioPage /> <Footer /> <BackToTop /> </>} />
-          <Route path="/kienthuckimcuong" element={<> <Header /> <Knowledge /> <Footer /> <BackToTop />  </> }>
-          </Route>
+          <Route path="/kienthuckimcuong" element={<> <Header /> <Knowledge /> <Footer /> <BackToTop />  </> }/>
+          <Route path="/xacthucemail" element={<><Header/><EmailConfirm/><Footer/></>}/>
+          <Route path="/datlaimatkhau" element={<><Header/><ResetPasswordForm/><Footer/></>}/>
           {/* actor: //Customer */}
 
           {/* actor: Admin */}
           <Route path="/admin/*" element={<SideBarAdmin />}>
             <Route path="profile" element={<ProfilePage />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="diamond-manager" element={<ProductManagerPage />} />
+            <Route path="diamond/diamond-manager" element={<ProductManagerPage />} />
+            <Route path="diamond/warranty-manager" element={<WarrantyDiamondManagerPage />} />
+            <Route path="jewelry/warranty-manager" element={<WarrantyJewelryManagerPage />} />
             <Route path="account-manager" element={<AccountManager />} />
-            <Route path="jewelry-manager" element={<JewelryManagerPage />} />
+            <Route path="jewelry/jewelry-manager" element={<JewelryManagerPage />} />
+            <Route path="promotion-manager" element={<PromotionManagerPage />} />
             <Route path="order-manager" element={<OrderManagerPage />} />
-            <Route path="price-manager" element={<GoldPriceManager />} />
+            <Route path="jewelry/price/gold-price-manager" element={<GoldPriceManager />} />
+            <Route path="diamond/price/diamond-price-manager" element={<DiamondPriceManager />} />
             <Route path="transaction-manager" element={<TransactionManagerPage />} />
-            <Route path="certificate-manager" element={<CertificateManagerPage />} />
+            <Route path="diamond/certificate-manager" element={<CertificateManagerPage />} />
           </Route>
           {/* actor: //Admin */}
-
-
         </Routes>
       </AuthProvider>
     </BrowserRouter>

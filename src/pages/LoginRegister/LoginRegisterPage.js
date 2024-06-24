@@ -5,7 +5,9 @@ import { NavLink } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginRegisterPage.css";
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode'; // Correct import statement for jwtDecode
+import ForgetPasswordModal from "../../components/ForgetPasswordModal/ForgetPasswordModal";
+
 
 function LoginRegisterPage() {
   const [loginEmail, setLoginEmail] = useState("");
@@ -17,6 +19,7 @@ function LoginRegisterPage() {
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const accountId = useParams();
   const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/login",
+        "http://localhost:8080/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -71,23 +74,23 @@ function LoginRegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-  
+
     if (!termsAccepted) {
       toast.error(
         "Bạn phải đồng ý với các điều khoản và điều kiện của trang web"
       );
       return;
     }
-  
+
     // Check if required fields are filled
     if (!registerName || !registerEmail || !registerPassword) {
       toast.error("Vui lòng điền đầy đủ thông tin đăng ký.");
       return;
     }
-  
+
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
+        "http://localhost:8080/api/accounts/register",
         {
           accountName: registerName,
           email: registerEmail,
@@ -100,12 +103,11 @@ function LoginRegisterPage() {
           },
         }
       );
-  
+
       if (response.status === 200 || response.status === 201) {
         const data = response.data;
         console.log("Đăng ký thành công:", data.message);
         toast.success("Đăng ký thành công!");
-        navigate("/trangchu");
       } else {
         console.error("Đăng ký thất bại:", response);
         toast.error("Đăng ký thất bại!");
@@ -115,7 +117,7 @@ function LoginRegisterPage() {
       console.error("Lỗi khi đăng ký:", error.response);
       toast.error("Lỗi khi đăng ký!");
     }
-  };  
+  };
 
   return (
     <div>
@@ -170,7 +172,9 @@ function LoginRegisterPage() {
                       </div>
                       <div className="tm-form-field">
                         <p className="mb-0">
-                          <a href="#">Quên mật khẩu?</a>
+                          <a href="#" onClick={(e) => { e.preventDefault(); setIsModalOpen(true); }}>
+                            Quên mật khẩu?
+                          </a>
                         </p>
                         <div>
                           <input
@@ -289,6 +293,11 @@ function LoginRegisterPage() {
           </div>
         </main>
       </div>
+      <ForgetPasswordModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <ToastContainer />
     </div>
   );
 }

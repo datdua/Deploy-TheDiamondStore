@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Container, Typography, Paper, Grid } from "@mui/material";
-import { getAccountByID } from "../../api/accountCrud";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  TextField,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import { getAccountByID, updateAccount } from "../../api/accountCrud";
 
 const ProfilePage = () => {
   const [account, setAccount] = useState(null);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const accountID = localStorage.getItem("accountID");
 
   useEffect(() => {
@@ -26,6 +39,29 @@ const ProfilePage = () => {
     fetchAccount();
   }, [accountID]);
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setAccount((prevAccount) => ({
+      ...prevAccount,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    try {
+      await updateAccount(accountID, account);
+      setIsEditing(false);
+      setOpenSnackbar(true);
+    } catch (error) {
+      setError("Failed to update account");
+      console.error("Failed to update account", error);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
@@ -43,35 +79,132 @@ const ProfilePage = () => {
             src="broken-image.jpg"
             sx={{ width: 100, height: 100, marginBottom: 2 }}
           />
-          <Typography variant="h4" gutterBottom>
-            {account.accountName}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-            {account.email}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {account.addressAccount}
-          </Typography>
+          {isEditing ? (
+            <TextField
+              label="Account Name"
+              name="accountName"
+              value={account.accountName}
+              onChange={handleChange}
+              fullWidth
+              sx={{ marginBottom: 2 }}
+            />
+          ) : (
+            <Typography variant="h4" gutterBottom>
+              {account.accountName}
+            </Typography>
+          )}
+          {isEditing ? (
+            <TextField
+              label="Email"
+              name="email"
+              value={account.email}
+              onChange={handleChange}
+              fullWidth
+              sx={{ marginBottom: 2 }}
+            />
+          ) : (
+            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+              {account.email}
+            </Typography>
+          )}
         </Box>
         <Grid container spacing={2} sx={{ marginTop: 2 }}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Role</Typography>
-            <Typography>{account.role}</Typography>
+            {isEditing ? (
+              <TextField
+                label="Role"
+                name="role"
+                value={account.role}
+                onChange={handleChange}
+                fullWidth
+              />
+            ) : (
+              <Typography>{account.role}</Typography>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Phone Number</Typography>
-            <Typography>{account.phoneNumber}</Typography>
+            {isEditing ? (
+              <TextField
+                label="Phone Number"
+                name="phoneNumber"
+                value={account.phoneNumber}
+                onChange={handleChange}
+                fullWidth
+              />
+            ) : (
+              <Typography>{account.phoneNumber}</Typography>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Address</Typography>
-            <Typography>{account.addressAccount || "N/A"}</Typography>
+            {isEditing ? (
+              <TextField
+                label="Address"
+                name="addressAccount"
+                value={account.addressAccount}
+                onChange={handleChange}
+                fullWidth
+              />
+            ) : (
+              <Typography>{account.addressAccount || "N/A"}</Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">Password</Typography>
+            {isEditing ? (
+              <TextField
+                name="password"
+                type="password"
+                value={account.password}
+                onChange={handleChange}
+                fullWidth
+              />
+            ) : (
+              <Typography>{account.password ? "********" : "N/A"}</Typography>
+            )}
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Active</Typography>
             <Typography>{account.active ? "Yes" : "No"}</Typography>
           </Grid>
         </Grid>
+        <Box display="flex" justifyContent="center" marginTop={4}>
+          {isEditing ? (
+            <>
+              <Button variant="contained" color="primary" onClick={handleSave}>
+                Save
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => setIsEditing(false)}
+                sx={{ marginLeft: 2 }}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </Button>
+          )}
+        </Box>
       </Paper>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success">
+          Cập nhật thông tin thành công!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

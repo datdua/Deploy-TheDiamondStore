@@ -15,9 +15,16 @@ function UpdateGoldPriceForm({ goldPrice }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updateGoldPrice(goldPrice.goldPriceID, updatedGoldPrice);
+      await updateGoldPrice(goldPrice.goldpriceID, updatedGoldPrice);
       alert("Cập nhật thông tin Giá Vàng thành công");
     } catch (error) {
+      console.error(error);
+      if (
+        error.response &&
+        error.response.data.message === "Giá vàng này đã tồn tại"
+      ) {
+        alert("Giá vàng cho trang sức này đã tồn tại");
+      }
       alert("Cập nhật thông tin Giá Vàng thất bại");
     }
   };

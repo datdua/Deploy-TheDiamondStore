@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createGoldPrice } from "../../api/GoldPriceAPI.js";
 import { Form, Button } from "react-bootstrap";
 
-
 function AddGoldPriceForm() {
   const [goldPrice, setGoldPrice] = useState({
     jewelryID: "",
@@ -24,10 +23,17 @@ function AddGoldPriceForm() {
     try {
       const response = await createGoldPrice(goldPrice);
       console.log(response);
-      setMessage("Tạo mới Giá Vàng cho Trang Sức thành công"); // Set the message on success
+      alert("Tạo mới Giá Vàng cho Trang Sức thành công"); // Set the message on success
     } catch (error) {
       console.error(error);
-      setMessage("Tạo mới Giá Vàng cho Trang Sức thất bại"); // Set the message on failure
+      if (
+        error.response &&
+        error.response.data.message === "Giá vàng cho trang sức này đã tồn tại"
+      ) {
+        alert("Giá vàng cho trang sức này đã tồn tại"); // Set the message if gold price already exists
+      } else {
+        alert("Tạo mới Giá Vàng cho Trang Sức thất bại"); // Set the message on failure
+      }
     }
   };
 

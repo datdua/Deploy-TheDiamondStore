@@ -3,7 +3,7 @@
 }
 
 .account-table {
-  font-size: 2px; /* Điều chỉnh kích thước phông chữ */
+  font-size: 15px; /* Điều chỉnh kích thước phông chữ */
   border: 1px solid #dee2e6;
 }
 
@@ -32,4 +32,8 @@
 
 .iframe-container {
   padding-left: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 900px;
 }
+

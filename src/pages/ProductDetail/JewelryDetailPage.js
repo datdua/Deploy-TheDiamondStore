@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SizeInstructionModal from "../../components/SizeInstructionModal/SizeInstructionModal";
 import { getAccountIDByEmail } from "../../api/accountCrud";
+import Button from "react-bootstrap/esm/Button";
+
+
 
 function JewelryDetailPage() {
   const navigate = useNavigate();
@@ -62,6 +65,12 @@ function JewelryDetailPage() {
   const handleAddToCart = async (item) => {
     console.log("Add to Cart clicked");
     console.log("Item to be added:", item);
+
+    if (!sizeJewelry) {
+      console.log("Size not selected");
+      toast.error("Vui lòng chọn kích thước trước khi thêm sản phẩm vào giỏ hàng");
+      return;
+    }
 
     if (!isLoggedIn) {
       console.log("Người dùng chưa đăng nhập");
@@ -157,6 +166,7 @@ function JewelryDetailPage() {
                                 <select
                                   value={sizeJewelry}
                                   onChange={handleSizeChange}
+                                  style={{ maxWidth: "150px" }}
                                 >
                                   {[
                                     'Select Size', 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
@@ -169,6 +179,7 @@ function JewelryDetailPage() {
                                 </select>
                                 <button
                                   onClick={() => setModalShow(true)}
+                                  style={{ marginLeft: "10px" }}
                                 >Hướng dẫn đo ni</button>
                               </div>
                               <div className="tm-prodetails-singleinfo">
@@ -179,31 +190,31 @@ function JewelryDetailPage() {
                               </div>
                             </div>
                             <p>{jewelry.description}</p>
-                            <div className="tm-prodetails-quantitycart">
+                            <div className="tm-prodetails-quantitycart">                        
+                              <div className="input-group">
                               <h6>Quantity :</h6>
-                              <div className="tm-quantitybox">
-                                <input type="text" value={quantity} readOnly />
-                                <div className="quantity-buttons">
-                                  <button
-                                    className="increase-button"
-                                    onClick={increaseQuantity}
-                                  >
-                                    +
-                                  </button>
-                                  <button
-                                    className="decrease-button"
-                                    onClick={decreaseQuantity}
-                                  >
-                                    -
-                                  </button>
-                                </div>
-                              </div>
-                              <button
+                                <button
+                                  className="decrease-button"
+                                  onClick={decreaseQuantity}
+                                  style={{fontWeight:"bold"}}
+                                >
+                                  -
+                                </button>
+                                <input type="text" value={quantity} readOnly style={{ maxWidth: "50px", textAlign: "center" }}/>
+                                <button
+                                  className="increase-button"
+                                  onClick={increaseQuantity}
+                                  style={{fontWeight:"bold"}}
+                                >
+                                  +
+                                </button>
+                                <Button
                                 onClick={() => handleAddToCart(jewelry)}
-                                href="/cart"
+                                style={{ background:"#f2ba59", borderRadius:"5px", textAlign:"center" }}
                               >
                                 Add to cart
-                              </button>
+                              </Button>
+                              </div>
                             </div>
                           </div>
                         </div>

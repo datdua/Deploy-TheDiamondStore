@@ -67,17 +67,12 @@ function OrderSidebar({ order, show, onHide }) {
                   <p><span className="detail-title">Warranty Image:</span> <br /><a href={order[0].order.warrantyImage} target="_blank" rel="noopener noreferrer"><img src={order[0].order.warrantyImage} alt="Warranty" className="warranty-image" /></a></p>
                 </div>
                 <hr />
-
-                {/* Total Order Information */}
-                <div className="order-section">
+              </div>
+            ))}
+            <div className="order-section">
                   <h5>Total Order Information</h5>
                   <p><span className="detail-title">Total Order:</span> <span className="detail-info">{order[0].order.totalOrder.toLocaleString()}</span></p>
                 </div>
-                <hr />
-              </div>
-
-
-            ))}
           </>
         ) : (
           <p>Loading...</p>

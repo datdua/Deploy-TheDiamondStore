@@ -16,14 +16,15 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Pagination } from "@mui/material";
+import { Pagination, Tooltip } from "@mui/material";
 import "../ProductManager.css";
-
 
 function JewelryManagerPage() {
   const [jewelryData, setJewelryData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedJewelry, setSelectedJewelry] = useState(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const size = 8;
@@ -51,6 +52,16 @@ function JewelryManagerPage() {
     setSelectedJewelry(item);
     setIsUpdating(true);
     setShowModal(true);
+  };
+
+  const handleShowImage = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+    setSelectedImage("");
   };
 
   const handleDelete = (jewelryID) => {
@@ -121,7 +132,14 @@ function JewelryManagerPage() {
                           <img
                             src={jewelry.jewelryImage}
                             alt={jewelry.jewelryName}
-                            style={{ width: "50px", height: "50px" }}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() =>
+                              handleShowImage(jewelry.jewelryImage)
+                            }
                           />{" "}
                         </td>
                         <td>
@@ -137,12 +155,20 @@ function JewelryManagerPage() {
                             : "N/A"}
                         </td>
                         <td>
-                          <Button
-                            variant="link"
-                            onClick={() => handleShowUpdate(jewelry)}
+                          <Tooltip
+                            describeChild
+                            title="Cập nhật thông tin"
+                            arrow
+                            placement="top"
                           >
-                            <EditIcon />
-                          </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleShowUpdate(jewelry)}
+                            >
+                              <EditIcon />
+                            </Button>
+                          </Tooltip>
+
                           <DeleteJewelryButton
                             jewelryID={jewelry.jewelryID}
                             onDelete={() => handleDelete(jewelry.jewelryID)}
@@ -182,6 +208,19 @@ function JewelryManagerPage() {
           ) : (
             <AddJewelryForm onClose={handleClose} />
           )}
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Jewelry Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            src={selectedImage}
+            alt="Jewelry"
+            style={{ width: "100%", height: "500px" }}
+          />
         </Modal.Body>
       </Modal>
     </Container>

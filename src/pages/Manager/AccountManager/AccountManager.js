@@ -18,7 +18,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Pagination } from "@mui/material";
+import { Pagination, Tooltip } from "@mui/material";
 import "./AccountManager.css";
 
 function AccountManager() {
@@ -119,16 +119,28 @@ function AccountManager() {
                         <td className="password-cell">{account.password}</td>
                         <td>{account.phoneNumber}</td>
                         <td>{account.addressAccount}</td>
-                        <td>{account.active ? "Yes" : "No"}</td>
+                        <td
+                          className={
+                            account.active ? "active-status" : "inactive-status"
+                          }
+                        >
+                          {account.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                        </td>
                         <td>{account.role}</td>
                         <td>
-                          <Button
-                            variant="link"
-                            size="sm"
-                            onClick={() => handleShowUpdate(account)}
+                          <Tooltip
+                            describeChild
+                            title="Cập nhật thông tin"
+                            arrow
+                            placement="top"
                           >
-                            <EditIcon />
-                          </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleShowUpdate(account)}
+                            >
+                              <EditIcon />
+                            </Button>
+                          </Tooltip>
                           <DeleteAccountForm
                             accountID={account.accountID}
                             onDelete={() =>

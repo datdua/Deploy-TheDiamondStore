@@ -47,3 +47,25 @@
     justify-content: space-between; 
     align-items: center; 
 }
+/* Style for the buttons */
+.tm-header-links, .tm-logout-button, .tm-login-button {
+     
+    color: white !important; 
+    
+  }
+  
+  
+  .tm-header-links *, .tm-logout-button *, .tm-login-button * {
+    color: white !important; 
+  }
+  
+  /* Style for the buttons on hover */
+  .tm-header-links:hover, .tm-logout-button:hover, .tm-login-button:hover {
+    background-color: #e0a848 !important; 
+    transition: background-color 0.3s;
+  }
+  
+
+  .MuiSvgIcon-roott {
+    color: white; 
+  }

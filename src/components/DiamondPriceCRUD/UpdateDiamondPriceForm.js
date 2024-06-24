@@ -16,12 +16,19 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
     event.preventDefault();
     try {
       await updateDiamondPrice(
-        diamondPrice.diamondPriceID,
+        diamondPrice.diamondpriceID,
         updatedDiamondPrice
       );
-      alert("Cập nhật thông tin Tài Khoản thành công");
+      alert("Cập nhật thông tin Giá Kim Cương thành công");
     } catch (error) {
-      alert("Cập nhật thông tin Tài Khoản thất bại");
+      console.error(error);
+      if (
+        error.response &&
+        error.response.data.message === "Giá kim cương này đã tồn tại"
+      ) {
+        alert("Giá kim cương này đã tồn tại");
+      }
+      alert("Cập nhật thông tin Giá Kim Cương thất bại");
     }
   };
 

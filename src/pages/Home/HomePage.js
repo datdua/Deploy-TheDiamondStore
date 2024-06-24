@@ -1,65 +1,119 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "fancybox/dist/css/jquery.fancybox.css"
+import "fancybox/dist/css/jquery.fancybox.css";
 import HeroSlider from "../../components/HeroSlider/HeroSlider";
-import "./HomePage.css"
+import "./HomePage.css";
 import { toast } from "react-toastify";
+import { getAllProduct } from "../../api/ProductAPI"; // Updated import
+import { Modal } from "@mui/material";
+
+const customModalStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: "1000",
+    },
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.75)",
+        zIndex: "1000",
+    },
+};
 
 function HomePage() {
-    const [value, setValue] = useState('Default value');
-    const token = localStorage.getItem('jwt')
-    const handleChange = (event) => {
-        setValue(event.target.value);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const productsData = await getAllProduct();
+                const filteredProducts = productsData.filter((product) => {
+                    // Check if it's a diamond based on structure
+                    if (product.carat_size !== undefined && product.cut !== undefined) {
+                        return true; // It's a diamond
+                    }
+                    // Check if it's jewelry based on structure
+                    if (product.gender !== undefined && product.grossJewelryPrice !== undefined) {
+                        return true; // It's jewelry
+                    }
+                    return false;
+                });
+
+                const diamonds = filteredProducts
+                    .filter((product) => product.carat_size !== undefined && product.cut !== undefined)
+                    .slice(0, 4);
+                const jewelries = filteredProducts
+                    .filter((product) => product.gender !== undefined && product.grossJewelryPrice !== undefined)
+                    .slice(0, 4);
+
+                setProducts([...diamonds, ...jewelries]);
+                setLoading(false);
+                console.log("Filtered Products:", filteredProducts); // Log the filtered products array
+                console.log("Diamonds:", diamonds); // Log filtered diamonds array
+                console.log("Jewelries:", jewelries); // Log filtered jewelries array
+            } catch (error) {
+                console.error("Error fetching products:", error);
+                setError("Failed to fetch products");
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Function to open the modal
+    const openModal = (item) => {
+        setSelectedItem(item);
+        setIsOpen(true);
     };
-    console.log('Token:', token)
-    console.log('Account ID:', localStorage.getItem('accountID'));
+
+    // Function to close the modal
+    const closeModal = () => {
+        setIsOpen(false);
+        setSelectedItem(null);
+    };
 
     return (
         <div>
             <div id="wrapper" className="wrapper">
-
-                {/* <!-- Heroslider Area --> */}
-
                 <HeroSlider />
-
-                {/* <!--// Heroslider Area --> 
-        <!-- Page Content --> */}
                 <main className="page-content">
-                    {/* <!-- Banners Area --> */}
                     <div className="tm-section tm-banners-area tm-padding-section1">
                         <div className="container">
                             <div className="row mt-30-reverse">
-
-                                {/* <!-- Single Banner --> */}
-                                <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="/sanpham" className="tm-banner ">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-3.png?alt=media&token=5e4cf140-24e0-4a76-a5df-d63541a60412" alt="banner image" />
-                                    </a>
-                                </div>
-                                {/* <!--// Single Banner -->
-
-                        <!-- Single Banner --> */}
-                                <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="/sanpham" className="tm-banner ">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-1.png?alt=media&token=46c190d2-838e-43ef-9a9e-d5ed09e9e037" alt="banner image" />
-                                    </a>
-                                </div>
-                                {/* <!--// Single Banner -->
-
-                        <!-- Single Banner --> */}
-                                <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30">
-                                    <a href="/sanpham" className="tm-banner ">
-                                        <img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-2.png?alt=media&token=a2cc4d47-102b-43e5-9ce8-a4ecee01705c" alt="banner image" />
-                                    </a>
-                                </div>
-                                {/* <!--// Single Banner --> */}
-
+                                {[
+                                    {
+                                        src:
+                                            "https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-3.png?alt=media&token=5e4cf140-24e0-4a76-a5df-d63541a60412",
+                                        alt: "banner image 1",
+                                    },
+                                    {
+                                        src:
+                                            "https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-1.png?alt=media&token=46c190d2-838e-43ef-9a9e-d5ed09e9e037",
+                                        alt: "banner image 2",
+                                    },
+                                    {
+                                        src:
+                                            "https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fbanner-home-2.png?alt=media&token=a2cc4d47-102b-43e5-9ce8-a4ecee01705c",
+                                        alt: "banner image 3",
+                                    },
+                                ].map((banner, index) => (
+                                    <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-30" key={`banner-${index}`}>
+                                        <a href="/sanpham" className="tm-banner">
+                                            <img src={banner.src} alt={banner.alt} />
+                                        </a>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
-                    {/* <!--// Banners Area -->
-
-            <!-- Popular Products Area --> */}
                     <div id="tm-latest-products-area" className="tm-section tm-latest-products-area tm-padding-section bg-white">
                         <div className="container">
                             <div className="row justify-content-center">
@@ -71,404 +125,87 @@ function HomePage() {
                                 </div>
                             </div>
                             <div className="row mt-50-reverse">
-
-                                {/* <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-4.jpg" alt="product image" />
-                                                <img src="assets/images/products/product-image-5.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
-                                                <span className="tm-product-badges-sale">Sale</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-6.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
+                                {loading ? (
+                                    <div>Loading...</div>
+                                ) : error ? (
+                                    <div>Error: {error}</div>
+                                ) : products.length === 0 ? (
+                                    <div>No products available</div>
+                                ) : (
+                                    products.map((item) => (
+                                        <div className="col-lg-3 col-md-6 col-12" key={item.id}>
+                                            <div className="tm-product">
+                                                <div className="tm-product-topside">
+                                                    <div className="tm-product-images">
+                                                        <img src={item.diamondImage || item.jewelryImage} alt={item.name} />
+                                                    </div>
+                                                    <ul className="tm-product-actions">
+                                                        <li>
+                                                            <button onClick={() => openModal(item)} aria-label="Product Quickview">
+                                                                <i className="ion-eye"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="ion-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tm-product-badges">
+                                                        <span className="tm-product-badges-new">New</span>
+                                                        <span className="tm-product-badges-sale">Sale</span>
+                                                    </div>
+                                                </div>
+                                                <div className="tm-product-bottomside">
+                                                    <h6 className="tm-product-title">
+                                                        <Link
+                                                            to={
+                                                                item.gender !== undefined
+                                                                    ? `/product-detail/jewelry/${item.jewelryID}`
+                                                                    : `/product-detail/diamond/${item.diamondID}`
+                                                            }
+                                                        >
+                                                            {item.jewelryName || item.diamondName}
+                                                        </Link>
+                                                    </h6>
+                                                    <div className="tm-ratingbox">
+                                                        <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                                        <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                                        <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                                        <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                                        <span><i className="ion-android-star-outline"></i></span>
+                                                    </div>
+                                                    <span className="tm-product-price">
+                                                        {item.gender !== undefined
+                                                            ? (item.grossJewelryPrice || "N/A").toLocaleString()
+                                                            : (item.grossDiamondPrice || "N/A").toLocaleString()} VND
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-7.jpg" alt="product image" />
-                                                <img src="assets/images/products/product-image-8.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
-                                                <span className="tm-product-badges-soldout">Sold out</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-9.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-10.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
-                                                <span className="tm-product-badges-sale">Sale</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-11.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-sale">Sale</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-12.jpg" alt="product image" />
-                                                <img src="assets/images/products/product-image-1.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product -->
-
-                        <!-- Single Product --> */}
-                                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mt-50">
-                                    <div className="tm-product ">
-                                        <div className="tm-product-topside">
-                                            <div className="tm-product-images">
-                                                <img src="assets/images/products/product-image-2.jpg" alt="product image" />
-                                            </div>
-                                            <ul className="tm-product-actions">
-                                                <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                </li>
-                                                <li><a href="#"><i className="ion-heart"></i></a></li>
-                                            </ul>
-                                            <div className="tm-product-badges">
-                                                <span className="tm-product-badges-new">New</span>
-                                            </div>
-                                        </div>
-                                        <div className="tm-product-bottomside">
-                                            <h6 className="tm-product-title"><Link to="/product">Stylist daimond
-                                                earring</Link></h6>
-                                            <div className="tm-ratingbox">
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span className="is-active"><i className="ion-android-star-outline"></i></span>
-                                                <span><i className="ion-android-star-outline"></i></span>
-                                            </div>
-                                            <span className="tm-product-price">$29.99</span>
-                                            <div className="tm-product-content">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem
-                                                    Ipsum has been the industry's standard dummy text ever since the
-                                                    when an unknown printer took a galley of type and scrambled it to make a
-                                                    type specimen book. It has survived not only five centuries, but also the
-                                                    leap into electronic typesetting.</p>
-                                                <ul className="tm-product-actions">
-                                                    <li><a href="#"><i className="ion-android-cart"></i> Add to cart</a></li>
-                                                    <li><button data-fancybox="true" data-src="#tm-product-quickview" aria-label="Product Quickview"><i className="ion-eye"></i></button>
-                                                    </li>
-                                                    <li><a href="#"><i className="ion-heart"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!--// Single Product --> */}
-
+                                    ))
+                                )}
                             </div>
                             <div className="tm-product-loadmore text-center mt-50">
-                                <a href="/sanpham" className="tm-button">Tất Cả Sản Phẩm</a>
+                                <a href="/sanpham" className="tm-button">
+                                    Tất Cả Sản Phẩm
+                                </a>
                             </div>
                         </div>
                     </div>
-                    {/* <!--// Popular Products Area -->
-
-            <!-- Offer Area --> */}
                     <div className="tm-section tm-offer-area tm-padding-section bg-grey">
                         <div className="container">
                             <div className="row align-items-center">
                                 <div className="col-lg-6 col-12 order-2 order-lg-1">
                                     <div className="tm-offer-content">
                                         <h6>Siêu đại tiệc voucher</h6>
-                                        <h1>Nhanh tay mua hàng để nhận được <span>Voucher</span> siêu to khổng lồ</h1>
+                                        <h1>
+                                            Nhanh tay mua hàng để nhận được <span>Voucher</span> siêu to khổng lồ
+                                        </h1>
                                         <div className="tm-countdown" data-countdown="2020/10/12"></div>
-                                        <a href="/sanpham" className="tm-button">Mua ngay</a>
+                                        <a href="/sanpham" className="tm-button">
+                                            Mua ngay
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="col-lg-6 col-12 order-1 order-lg-2">
@@ -480,10 +217,30 @@ function HomePage() {
                         </div>
                     </div>
                 </main>
+                <div id="tm-product-quickview">
+                    {selectedItem && (
+                        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customModalStyles} contentLabel="Product Quickview">
+                            <div className="modal-content">
+                                <div className="img-container">
+                                    <img src={selectedItem.imageUrl} alt={selectedItem.name} />
+                                </div>
+                                <button className="close-button" onClick={closeModal}>
+                                    Close
+                                </button>
+                                <div className="content-container">
+                                    <h2>{selectedItem.name}</h2>
+                                    <p>{selectedItem.description}</p>
+                                    <p>Product ID: {selectedItem.id}</p>
+                                    <p>Category: {selectedItem.gender ? "Jewelry" : "Diamond"}</p>
+                                    <span>{selectedItem.price ? selectedItem.price.toLocaleString() : "N/A"} VND</span>
+                                </div>
+                            </div>
+                        </Modal>
+                    )}
+                </div>
             </div>
         </div>
-
-    )
+    );
 }
 
 export default HomePage;

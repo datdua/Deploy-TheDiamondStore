@@ -8,13 +8,13 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { fetchOrderByPaged, deleteOrder, getAllOrder  } from "../../../api/OrderAPI";
+import { deleteOrder, getAllOrder } from "../../../api/OrderAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UpdateOrderForm from "../../../components/OrderCRUD/OrderUpdate";
 import DeleteOrderForm from "../../../components/OrderCRUD/OrderDelete";
-import { Pagination } from "@mui/material";
+import { Pagination, Tooltip } from "@mui/material";
 import "../ProductManager.css";
 
 function OrderManagerPage() {
@@ -134,12 +134,19 @@ function OrderManagerPage() {
                         </td>
                         <td>{order.promotionCode}</td>
                         <td>
-                          <Button
-                            variant="link"
-                            onClick={() => handleShowUpdate(order)}
+                          <Tooltip
+                            describeChild
+                            title="Cập nhật thông tin"
+                            arrow
+                            placement="top"
                           >
-                            <EditIcon />
-                          </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleShowUpdate(order)}
+                            >
+                              <EditIcon />
+                            </Button>
+                          </Tooltip>
                           <DeleteOrderForm
                             orderID={order.orderID}
                             onDelete={handleDelete}

@@ -1,42 +1,43 @@
 import React, { useState } from "react";
-import { createCertificate } from "../../api/CertificateAPI.js";
+import { createWarranty } from "../../api/WarrantyAPI.js";
 import { Form, Button } from "react-bootstrap";
 
-function AddCertificateForm() {
-  const [certificate, setCertificate] = useState({
-    certificateID: "",
+function AddWarrantyForm() {
+  const [warranty, setWarranty] = useState({
+    warrantyID: "",
     diamondID: "",
+    jewelryID: "",
     expirationDate: "",
     expirationTime: "",
-    certificateImage: "",
+    warrantyImage: "",
   });
 
   const [message, setMessage] = useState("");
 
   const handleChange = (event) => {
-    setCertificate({ ...certificate, [event.target.name]: event.target.value });
+    setWarranty({ ...warranty, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const dateTimeCertificate = {
-        ...certificate,
-        expirationDate: `${certificate.expirationDate} ${certificate.expirationTime}:00`,
+      const dateTimeWarranty = {
+        ...warranty,
+        expirationDate: `${warranty.expirationDate} ${warranty.expirationTime}:00`,
       };
-      const response = await createCertificate(dateTimeCertificate);
+      const response = await createWarranty(dateTimeWarranty);
       console.log(response);
-      setMessage("Tạo mới Chứng Chỉ thành công");
+      setMessage("Tạo mới Giấy Bảo Hành thành công");
     } catch (error) {
       console.error(error);
-      setMessage("Tạo mới Chứng Chỉ thất bại");
+      setMessage("Tạo mới Giấy Bảo Hành thất bại");
     }
   };
 
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        {Object.keys(certificate).map((key) => (
+        {Object.keys(warranty).map((key) => (
           <Form.Group controlId={key} key={key}>
             <Form.Label>{key}</Form.Label>
             <Form.Control
@@ -48,14 +49,14 @@ function AddCertificateForm() {
                   : "text"
               }
               name={key}
-              value={certificate[key]}
+              value={warranty[key]}
               onChange={handleChange}
               placeholder={key}
             />
           </Form.Group>
         ))}
         <Button variant="primary" type="submit">
-          Create certificate
+          Create warranty
         </Button>
       </Form>
       {message && <p>{message}</p>}
@@ -63,4 +64,4 @@ function AddCertificateForm() {
   );
 }
 
-export default AddCertificateForm;
+export default AddWarrantyForm;

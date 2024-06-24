@@ -11,7 +11,15 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { NavLink, Outlet } from "react-router-dom";
-import { cilSpeedometer, cilPuzzle, cilUser, cilBank } from "@coreui/icons";
+import {
+  cilSpeedometer,
+  cilPuzzle,
+  cilUser,
+  cilBank,
+  cilCart,
+  cilAddressBook,
+  cilStrikethrough,
+} from "@coreui/icons";
 import "../../components/Sidebar/SidebarAdmin.css";
 
 function SideBarAdmin() {
@@ -65,71 +73,129 @@ function SideBarAdmin() {
               </>
             }
           >
+            <CNavGroup toggler={<>Sản phẩm</>}>
+              <CNavGroup
+                toggler={
+                  <>
+                    <span className="nav-icon">
+                      <span className="nav-icon-bullet"></span>
+                    </span>{" "}
+                    Kim cương
+                  </>
+                }
+              >
+                <NavLink
+                  to="/admin/diamond/diamond-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Kim cương
+                </NavLink>
+                <NavLink
+                  to="/admin/diamond/certificate-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Chứng chỉ kim cương
+                </NavLink>
+                <NavLink
+                  to="/admin/diamond/price/diamond-price-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Giá kim cương
+                </NavLink>
+                <NavLink
+                  to="/admin/diamond/warranty-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Giấy bảo hành kim cương
+                </NavLink>
+              </CNavGroup>
+              <CNavGroup
+                toggler={
+                  <>
+                    <span className="nav-icon">
+                      <span className="nav-icon-bullet"></span>
+                    </span>{" "}
+                    Trang sức
+                  </>
+                }
+              >
+                <NavLink
+                  to="/admin/jewelry/jewelry-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Trang sức
+                </NavLink>
+                <NavLink
+                  to="/admin/jewelry/warranty-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Giấy bảo hành trang sức
+                </NavLink>
+                <NavLink
+                  to="/admin/jewelry/price/gold-price-manager"
+                  className="sidebar-nav-item"
+                  activeClassName="active"
+                >
+                  <span className="nav-icon">
+                    <span className="nav-icon-bullet"></span>
+                  </span>{" "}
+                  Giá vàng
+                </NavLink>
+              </CNavGroup>
+            </CNavGroup>
             <NavLink
               to="/admin/account-manager"
               className="sidebar-nav-item"
               activeClassName="active"
             >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
+              <CIcon customClassName="nav-icon" icon={cilAddressBook} />
               Tài khoản
             </NavLink>
             <NavLink
-              to="/admin/diamond-manager"
+              to="/admin/promotion-manager"
               className="sidebar-nav-item"
               activeClassName="active"
             >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
-              Kim cương
-            </NavLink>
-            <NavLink
-              to="/admin/jewelry-manager"
-              className="sidebar-nav-item"
-              activeClassName="active"
-            >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
-              Trang sức
-            </NavLink>
-            <NavLink
-              to="/admin/certificate-manager"
-              className="sidebar-nav-item"
-              activeClassName="active"
-            >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
-              Chứng chỉ kim cương
+              <CIcon customClassName="nav-icon" icon={cilStrikethrough} />
+              Mã Giảm Giá
             </NavLink>
             <NavLink
               to="/admin/order-manager"
               className="sidebar-nav-item"
               activeClassName="active"
             >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
+              <CIcon className="nav-icon" icon={cilCart} />
               Đơn hàng
-            </NavLink>
-            <NavLink
-              to="/admin/price-manager"
-              className="sidebar-nav-item"
-              activeClassName="active"
-            >
-              <span className="nav-icon">
-                <span className="nav-icon-bullet"></span>
-              </span>{" "}
-              Giá sản phẩm
             </NavLink>
           </CNavGroup>
         </CSidebarNav>
         <CSidebarHeader className="border-top">
           <NavLink to="/" className="sidebar-nav-item" activeClassName="active">
-            <CSidebarToggler style={{ marginRight: "10px" }} /> LOG OUT
+            <CSidebarToggler style={{ marginRight: "10px" }} /> Đăng xuất
           </NavLink>
         </CSidebarHeader>
       </CSidebar>

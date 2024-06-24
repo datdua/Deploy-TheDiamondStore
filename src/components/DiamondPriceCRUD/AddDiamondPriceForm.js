@@ -5,7 +5,6 @@ import { createDiamondPrice } from "../../api/DiamondPriceAPI.js";
 
 function AddCertificateForm() {
   const [diamondPrice, setCertificate] = useState({
-    diamondPriceID: "",
     diamondID: "",
     diamondEntryPrice: "",
     clarity: "",
@@ -16,7 +15,10 @@ function AddCertificateForm() {
   const [message, setMessage] = useState("");
 
   const handleChange = (event) => {
-    setCertificate({ ...diamondPrice, [event.target.name]: event.target.value });
+    setCertificate({
+      ...diamondPrice,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleSubmit = async (event) => {
@@ -24,10 +26,21 @@ function AddCertificateForm() {
     try {
       const response = await createDiamondPrice(diamondPrice);
       console.log(response);
-      setMessage("Tạo mới Giá Kim Cương thành công"); // Set the message on success
+      if (response.status === 200) {
+        alert("Tạo mới Giá Kim Cương thành công"); // Set the message on success
+      } else {
+        alert(response.data.message); // Set the message from the server response
+      }
     } catch (error) {
       console.error(error);
-      setMessage("Tạo mới Giá Kim Cương thất bại"); // Set the message on failure
+      if (
+        error.response &&
+        error.response.data.message === "Giá kim cương này đã tồn tại"
+      ) {
+        alert("Giá cho kim cương đã tồn tại"); // Set the message if diamond price already exists
+      } else {
+        alert("Tạo mới Giá Kim Cương thất bại"); // Set the message on failure
+      }
     }
   };
 
