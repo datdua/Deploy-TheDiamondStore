@@ -1,0 +1,9 @@
+.dash-board{
+    padding-left: 10px;
+    overflow-x: hidden;
+}
+
+.card-info{
+    padding-bottom: 10px;
+    /* color: #daa573; */
+}

@@ -3,22 +3,19 @@ import {
   Button,
   Modal,
   Container,
-  Navbar,
-  Nav,
   Row,
   Col,
   Card,
   Table,
 } from "react-bootstrap";
-import { getAllAccount } from "../../../api/accountCrud.js";
+import { getAllAccount, deleteAccounts } from "../../../api/accountCrud.js";
 import AddAccountForm from "../../../components/AccountCRUD/AddAccountForm.js";
 import UpdateAccountForm from "../../../components/AccountCRUD/UpdateAccountForm.js";
-import DeleteAccountForm from "../../../components/AccountCRUD/DeleteAccountForm.js";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Pagination, Tooltip } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "./AccountManager.css";
 
 function AccountManager() {
@@ -26,12 +23,20 @@ function AccountManager() {
   const [showModal, setShowModal] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [selected, setSelected] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectAll, setSelectAll] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(false);
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
-  // Slice the array to get only the items for the current page
   const currentPageData = accounts.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    getAllAccount().then((data) => {
+      setAccounts(data);
+    });
+  }, []);
 
   const handleClose = () => {
     setShowModal(false);
@@ -41,12 +46,6 @@ function AccountManager() {
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
-
-  useEffect(() => {
-    getAllAccount().then((data) => {
-      setAccounts(data);
-    });
-  }, []);
 
   const handleShowAdd = () => {
     setSelectedAccount(null);
@@ -60,8 +59,61 @@ function AccountManager() {
     setShowModal(true);
   };
 
-  const handleDeleteAccount = (accountID) => {
-    setAccounts(accounts.filter((account) => account.accountID !== accountID));
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === accounts.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < accounts.length);
+  };
+
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    setSelected(event.target.checked ? accounts.map((account) => account.accountID) : []);
+    setIndeterminate(false);
+  };
+
+  const handleCheckboxChange = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === accounts.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < accounts.length);
+  };
+
+  const handleDeleteAccounts = async () => {
+    if (window.confirm("Bạn có chắc muốn XÓA các tài khoản này?")) {
+      try {
+        await deleteAccounts(selected);
+        setAccounts(accounts.filter((account) => !selected.includes(account.accountID)));
+        setSelected([]);
+        alert("Xóa thành công");
+      } catch (error) {
+        alert("Xóa thất bại");
+      }
+    }
   };
 
   const refreshTable = () => {
@@ -69,6 +121,8 @@ function AccountManager() {
       setAccounts(data);
     });
   };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   return (
     <Container fluid>
@@ -92,6 +146,13 @@ function AccountManager() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
                 </Button>
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các tài khoản đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeleteAccounts} style={{ color: "red" }}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -99,6 +160,19 @@ function AccountManager() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
+                      <th>
+                        <FormControlLabel
+                          className="checkbox-align" // Thêm class để áp dụng CSS
+                          control={
+                            <Checkbox
+                              color="primary"
+                              indeterminate={indeterminate}
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                          }
+                        />
+                      </th>
                       <th>Account ID</th>
                       <th>Email</th>
                       <th>Account Name</th>
@@ -111,47 +185,49 @@ function AccountManager() {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentPageData.map((account) => (
-                      <tr key={account.accountID}>
-                        <td>{account.accountID}</td>
-                        <td>{account.email}</td>
-                        <td>{account.accountName}</td>
-                        <td className="password-cell">{account.password}</td>
-                        <td>{account.phoneNumber}</td>
-                        <td>{account.addressAccount}</td>
-                        <td
-                          className={
-                            account.active ? "active-status" : "inactive-status"
-                          }
+                    {currentPageData.map((account) => {
+                      const isItemSelected = isSelected(account.accountID);
+
+                      return (
+                        <tr
+                          key={account.accountID}
+                          style={{ cursor: 'pointer' }}
                         >
-                          {account.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
-                        </td>
-                        <td>{account.role}</td>
-                        <td>
-                          <Tooltip
-                            describeChild
-                            title="Cập nhật thông tin"
-                            arrow
-                            placement="top"
-                          >
-                            <Button
-                              variant="link"
-                              onClick={() => handleShowUpdate(account)}
+                          <td onClick={(event) => handleClick(event, account.accountID)}>
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              onChange={(event) => handleCheckboxChange(event, account.accountID)}
+                            />
+                          </td>
+                          <td>{account.accountID}</td>
+                          <td>{account.email}</td>
+                          <td>{account.accountName}</td>
+                          <td className="password-cell">{account.password}</td>
+                          <td>{account.phoneNumber}</td>
+                          <td>{account.addressAccount}</td>
+                          <td className={account.active ? "active-status" : "inactive-status"}>
+                            {account.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                          </td>
+                          <td>{account.role}</td>
+                          <td>
+                            <Tooltip
+                              describeChild
+                              title="Cập nhật thông tin"
+                              arrow
+                              placement="top"
                             >
-                              <EditIcon />
-                            </Button>
-                          </Tooltip>
-                          <DeleteAccountForm
-                            accountID={account.accountID}
-                            onDelete={() =>
-                              handleDeleteAccount(account.accountID)
-                            }
-                          >
-                            <DeleteIcon style={{ color: "red" }} />
-                          </DeleteAccountForm>
-                        </td>
-                      </tr>
-                    ))}
+                              <Button
+                                variant="link"
+                                onClick={() => handleShowUpdate(account)}
+                              >
+                                <EditIcon />
+                              </Button>
+                            </Tooltip>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>
@@ -175,28 +251,7 @@ function AccountManager() {
         </Modal.Header>
         <Modal.Body>
           {isUpdating ? (
-            <UpdateAccountForm
-              account={selectedAccount}
-              onClose={handleClose}
-            />
-          ) : (
-            <AddAccountForm onClose={handleClose} />
-          )}
-        </Modal.Body>
-      </Modal>
-
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {isUpdating ? "Update Account" : "Add Account"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {isUpdating ? (
-            <UpdateAccountForm
-              account={selectedAccount}
-              onClose={handleClose}
-            />
+            <UpdateAccountForm account={selectedAccount} onClose={handleClose} />
           ) : (
             <AddAccountForm onClose={handleClose} />
           )}

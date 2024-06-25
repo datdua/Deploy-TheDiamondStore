@@ -43,3 +43,32 @@
   font-size: 16px;
 }
 
+/* Override margins for .MuiFormControlLabel-root when it's a descendant of .checkbox-align */
+.checkbox-align {
+  margin-left: 0px !important; /* Remove left margin */
+  margin-right: 0px !important; /* Remove right margin */
+}
+
+/* Target the Material-UI Checkbox directly if needed. Material-UI uses the .MuiCheckbox-root class for its checkbox. */
+.checkbox-align .MuiCheckbox-root {
+  /* Adjustments specific to the checkbox */
+  color: blue; /* Example: Change the default color (applies when not checked) */
+}
+
+/* For the checked state and color, it's controlled via the `color` prop in your JSX, which corresponds to theme colors. */
+
+/* If you need to target the label of the FormControlLabel, you might need to use Material-UI's `classes` prop or styled components for more specific styling. */
+
+/* Additional styling for hover effect on rows */
+.table-responsive .account-table tr:hover {
+  background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Styling for active/inactive status */
+.active-status {
+  color: green;
+}
+
+.inactive-status {
+  color: red;
+}
