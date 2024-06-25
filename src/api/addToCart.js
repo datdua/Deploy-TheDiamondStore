@@ -11,7 +11,7 @@ export const addJewelryToCart = async (
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.post(
-      `http://localhost:8080/api/cart/add?accountID=${accountID}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/add?accountID=${accountID}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`,
       {},
       {
         headers: {
@@ -29,7 +29,7 @@ export const addDiamondToCart = async (accountID, diamondId, quantity) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.post(
-      `http://localhost:8080/api/cart/add?accountID=${accountID}&diamondID=${diamondId}&quantity=${quantity}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/add?accountID=${accountID}&diamondID=${diamondId}&quantity=${quantity}`,
       {},
       {
         headers: {
@@ -47,7 +47,7 @@ export const getAllCartItems = async (accountID) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `http://localhost:8080/api/cart?accountID=${accountID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart?accountID=${accountID}`,
       {
         method: "GET",
         headers: {
@@ -65,7 +65,7 @@ export const getAllCartItems = async (accountID) => {
 export const removeCartItem = async (cartID) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/cart/remove/${cartID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/remove/${cartID}`
     );
     console.log("Item removed successfully:", response.data.message);
     return response.data;
@@ -78,7 +78,7 @@ export const getTotalCart = async (accountID) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `http://localhost:8080/api/cart/totalCart?accountID=${accountID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/totalCart?accountID=${accountID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ export const getTotalCart = async (accountID) => {
 
 export const updateCart = async (cartId, accountId, diamondId, jewelryId, quantity, sizeJewelry) => {
   try {
-      let url = `http://localhost:8080/api/cart/update/${cartId}?accountID=${accountId}&quantity=${quantity}`;
+      let url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/update/${cartId}?accountID=${accountId}&quantity=${quantity}`;
       
       if (diamondId) {
           url += `&diamondID=${diamondId}`;
