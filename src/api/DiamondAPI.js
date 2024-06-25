@@ -3,7 +3,7 @@ import axios from 'axios';
 // Diamond API functions
 export async function getAllDiamond() {
   const response = await axios.get(
-    "http://localhost:8080/api/diamonds"
+    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch diamond data");
@@ -11,7 +11,7 @@ export async function getAllDiamond() {
   return response.data;
 }
 
-const BASE_URL = 'http://localhost:8080/api/diamonds/get';
+const BASE_URL = 'https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/get';
 
 export const getDiamondById = async (diamondId) => {
     try {
@@ -25,7 +25,7 @@ export const getDiamondById = async (diamondId) => {
 export async function getPage(page = 1, size = 9) {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/diamonds/paged/diamonds?page=${page}&size=${size}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/paged/diamonds?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -38,7 +38,7 @@ export async function getPage(page = 1, size = 9) {
 export async function createDiamond(diamond) {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/diamonds/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/create",
       diamond
     );
     return response.data;
@@ -50,7 +50,7 @@ export async function createDiamond(diamond) {
 export async function updateDiamond(diamondID, diamond) {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/diamonds/update/${diamondID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/update/${diamondID}`,
       diamond
     );
     return response.data;
@@ -62,7 +62,7 @@ export async function updateDiamond(diamondID, diamond) {
 export async function deleteDiamond(diamondID) {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/diamonds/delete/${diamondID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/delete/${diamondID}`
     );
     return response.data;
   } catch (error) {
@@ -73,7 +73,7 @@ export async function deleteDiamond(diamondID) {
 export async function getCertificateImage(certificationID) {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/certificates/get/certificateImg/${certificationID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/get/certificateImg/${certificationID}`
     );
     console.log("API Response:", response.data); // Debug line
     return response.data.certificateImage; // Correctly extract the certificateImage URL
@@ -85,7 +85,7 @@ export async function getCertificateImage(certificationID) {
 export async function getWarrantityImage(warrantyID) {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/warranties/get/warrantyImg/${warrantyID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/get/warrantyImg/${warrantyID}`
     );
     console.log("API Response:", response.data); // Debug line
     return response.data.warrantyImage; // Correctly extract the warrantityImage URL
@@ -97,7 +97,7 @@ export async function getWarrantityImage(warrantyID) {
 export async function searchDiamondByName(name) {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/diamonds/search/filter?diamondName=${name}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter?diamondName=${name}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to search diamonds by name");
@@ -119,7 +119,7 @@ export const searchDiamond = async (filters, page = 1, size = 9) => {
       .join("&");
 
     const response = await axios.get(
-      `http://localhost:8080/api/diamonds/search/filter/paged?${queryString}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/search/filter/paged?${queryString}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to fetch diamonds");
