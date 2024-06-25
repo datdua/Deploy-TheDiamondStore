@@ -40,7 +40,7 @@
 }
 
 .drop-hover :hover{
-    color: #f2ba59;
+    color: #f2ba59 !important;
 }
 .flex {
     display: flex;

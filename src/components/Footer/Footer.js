@@ -24,7 +24,7 @@ function Footer(){
 
                     <div className="col-lg-4 col-md-7 col-12">
                         <div className="single-widget widget-info">
-                            <a className="widget-info-logo" href="/trangchu"><img src="assets/images/logo-minisize.png"
+                            <a className="widget-info-logo" href="/trangchu"><img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-logo%2Flogo.png?alt=media&token=64cf8af5-a8ac-42be-9983-88c3935af287"
                                 alt="logo" /></a>
                             <p>Cửa hàng bán kim cương và trang sức</p>
                             <ul>

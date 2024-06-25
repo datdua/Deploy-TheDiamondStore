@@ -107,6 +107,7 @@ function JewelryDetailPage() {
   }, []);
 
   return (
+    <>
     <div>
       <div id="wrapper" className="wrapper">
         <div
@@ -234,6 +235,7 @@ function JewelryDetailPage() {
       </div>
       {/* <!--// Wrapper --> */}
     </div>
+    </>
   );
 }
 export default JewelryDetailPage;

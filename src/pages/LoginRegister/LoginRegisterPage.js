@@ -28,7 +28,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/login",
+        "http://localhost:8080/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -90,7 +90,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
+        "http://localhost:8080/api/accounts/register",
         {
           accountName: registerName,
           email: registerEmail,
@@ -107,7 +107,7 @@ function LoginRegisterPage() {
       if (response.status === 200 || response.status === 201) {
         const data = response.data;
         console.log("Đăng ký thành công:", data.message);
-        toast.success("Đăng ký thành công!");
+        toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác thực");
       } else {
         console.error("Đăng ký thất bại:", response);
         toast.error("Đăng ký thất bại!");

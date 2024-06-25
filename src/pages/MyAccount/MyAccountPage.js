@@ -88,6 +88,7 @@ function MyAccountPage() {
   };
 
   return (
+    <>
     <div>
       <div className="tm-breadcrumb-area tm-padding-section bg-grey">
         <div className="container">
@@ -231,6 +232,7 @@ function MyAccountPage() {
         />
       )}
     </div>
+    </>
   );
 }
 

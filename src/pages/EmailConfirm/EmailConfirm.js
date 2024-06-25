@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
     const email = queryParams.get('email');
     const otp = queryParams.get('otp');
 
-    let apiUrl = "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/verify-account"
+    let apiUrl = "http://localhost:8080/api/accounts/verify-account"
 
     apiUrl += `?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`;
     useEffect(()=>{

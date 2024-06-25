@@ -3,7 +3,7 @@ import axios from "axios";
 // Jewelry API functions
 export async function getAllJewelry() {
   const response = await axios.get(
-    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry"
+    "http://localhost:8080/api/jewelry"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch jewelry data");
@@ -14,7 +14,7 @@ export async function getAllJewelry() {
 export async function searchJewelryByName(name) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/search/filter?jewelryName=${name}`
+      `http://localhost:8080/api/jewelry/search/filter?jewelryName=${name}`
     );
     console.log(response.data); // Log the response data
     return response.data;
@@ -26,7 +26,7 @@ export async function searchJewelryByName(name) {
 export async function getJewelryById(jewelryId) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/get/${jewelryId}`
+      `http://localhost:8080/api/jewelry/get/${jewelryId}`
     );
     return response.data;
   } catch (error) {
@@ -37,7 +37,7 @@ export async function getJewelryById(jewelryId) {
 export async function getPage(page = 1, size = 9) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/paged/jewelrys?page=${page}&size=${size}`
+      `http://localhost:8080/api/jewelry/paged/jewelrys?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -48,7 +48,7 @@ export async function getPage(page = 1, size = 9) {
 export async function createJewelry(jewelry) {
   try {
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/create",
+      "http://localhost:8080/api/jewelry/create",
       jewelry
     );
     return response.data;
@@ -60,7 +60,7 @@ export async function createJewelry(jewelry) {
 export async function updateJewelry(jewelryID, jewelry) {
   try {
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/update/${jewelryID}`,
+      `http://localhost:8080/api/jewelry/update/${jewelryID}`,
       jewelry
     );
     return response.data;
@@ -72,7 +72,7 @@ export async function updateJewelry(jewelryID, jewelry) {
 export async function deleteJewelry(jewelryID) {
   try {
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/delete/${jewelryID}`
+      `http://localhost:8080/api/jewelry/delete/${jewelryID}`
     );
     return response.data;
   } catch (error) {
@@ -84,7 +84,7 @@ export async function deleteJewelry(jewelryID) {
 export const addToCart = async (accountId, jewelryId, quantity, size) => {
   try {
     const response = await axios.post(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/cart/add?accountID=${accountId}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`
+      `http://localhost:8080/api/cart/add?accountID=${accountId}&jewelryID=${jewelryId}&quantity=${quantity}&sizeJewelry=${size}`
     );
     return response.data;
   } catch (error) {
@@ -95,7 +95,7 @@ export const addToCart = async (accountId, jewelryId, quantity, size) => {
 export async function searchJewelry(filters) {
   try {
     const response = await axios.get(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/search/filter",
+      "http://localhost:8080/api/jewelry/search/filter",
       {
         params: filters,
       }
