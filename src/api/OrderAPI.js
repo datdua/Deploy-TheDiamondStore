@@ -135,7 +135,7 @@ export const handleVnpayReturn = async (params) => {
 export const getPromotion = async (promotionCode) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/{promotionCode}?${promotionCode}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/code/${promotionCode}`,
       {
         params: { promotionCode },
       }
