@@ -187,13 +187,13 @@ function DiamondManagerPage() {
                         <td>
                           {diamond.diamondEntryPrice
                             ? diamond.diamondEntryPrice.toLocaleString() +
-                              " VNĐ"
+                            " VNĐ"
                             : "N/A"}
                         </td>
                         <td>
                           {diamond.grossDiamondPrice
                             ? diamond.grossDiamondPrice.toLocaleString() +
-                              " VNĐ"
+                            " VNĐ"
                             : "N/A"}
                         </td>
                         <td>
@@ -204,7 +204,7 @@ function DiamondManagerPage() {
                           />
                         </td>
                         <td>{diamond.carat_weight}</td>
-                        <td>{diamond.carat_size}</td>
+                        <td>{diamond.caratSize}</td>
                         <td>{diamond.color}</td>
                         <td>{diamond.cut}</td>
                         <td>{diamond.clarity}</td>

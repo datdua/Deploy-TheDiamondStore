@@ -22,7 +22,7 @@ export const createOrder = async (
     if (promotionCode) data.append("promotionCode", promotionCode);
 
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/create",
+      "http://localhost:8080/api/orders/create",
       data,
       {
         headers: {
@@ -47,7 +47,7 @@ export async function fetchOrders(accountID) {
   const token = getAuthToken();
   try {
     const response = await fetch(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/account/${accountID}`,
+      `http://localhost:8080/api/orders/account/${accountID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ export async function fetchOrders(accountID) {
 export async function createPayment(orderID) {
   try {
     // URL to make the GET request
-    const url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/payment/createPayment?orderID=${orderID}`;
+    const url = `http://localhost:8080/api/payment/createPayment?orderID=${orderID}`;
 
     // Retrieve the token from localStorage (or wherever you store it)
     const token = getAuthToken();
@@ -108,7 +108,7 @@ export const handleVnpayReturn = async (params) => {
   try {
     const token = getAuthToken();
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/payment/vnpay_return`,
+      `http://localhost:8080/api/payment/vnpay_return`,
       {
         params: params,
         headers: {
@@ -135,7 +135,7 @@ export const handleVnpayReturn = async (params) => {
 export const getPromotion = async (promotionCode) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/{promotionCode}?${promotionCode}`,
+      `http://localhost:8080/api/promotion/{promotionCode}?${promotionCode}`,
       {
         params: { promotionCode },
       }
@@ -151,7 +151,7 @@ export async function fetchOrderDetail(orderID) {
   const token = getAuthToken();
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orderDetail/getOrderDetail?orderID=${orderID}`,
+      `http://localhost:8080/api/orderDetail/getOrderDetail?orderID=${orderID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -174,7 +174,7 @@ export async function fetchOrderDetail(orderID) {
 
 export async function updateOrder(orderId, updatedOrder) {
   try {
-    const url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/update/${orderId}`;
+    const url = `http://localhost:8080/api/orders/update/${orderId}`;
     const response = await axios.put(url, updatedOrder);
 
     if (response.status === 200) {
@@ -190,7 +190,7 @@ export async function updateOrder(orderId, updatedOrder) {
 
 export const deleteOrder = async (orderId) => {
   try {
-    const url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/cancel/${orderId}`;
+    const url = `http://localhost:8080/api/orders/cancel/${orderId}`;
     const response = await axios.delete(url);
 
     if (response.status === 200) {
@@ -207,7 +207,7 @@ export const deleteOrder = async (orderId) => {
 export const fetchOrderByPaged = async (page, size) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/getOrder/paged?page=${page}&size=${size}`
+      `http://localhost:8080/api/orders/getOrder/paged?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -217,7 +217,7 @@ export const fetchOrderByPaged = async (page, size) => {
 };
 
 export async function getAllOrder() {
-  const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/getAll");
+  const response = await axios.get("http://localhost:8080/api/orders/getAll");
   if (response.status !== 200) {
     throw new Error("Failed to fetch jewelry data");
   }
@@ -226,7 +226,7 @@ export async function getAllOrder() {
 
 export async function getOrdersHaveTransactionNo() {
   const response = await axios.get(
-    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/getOrderHaveTransactionNo"
+    "http://localhost:8080/api/orders/getOrderHaveTransactionNo"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch order data");

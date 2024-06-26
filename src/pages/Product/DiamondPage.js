@@ -479,7 +479,7 @@ function DiamondPage() {
                             <div className="content-container">
                                 <h2>{selectedItem.diamondName}</h2>
                                 <p>Price: {selectedItem.diamondEntryPrice ? selectedItem.diamondEntryPrice.toLocaleString() : 'N/A'} VND</p>
-                                <p>Carat Size: {selectedItem.carat_size}</p>
+                                <p>Carat Size: {selectedItem.caratSize}</p>
                                 <p>Color: {selectedItem.color}</p>
                                 <p>Cut: {selectedItem.cut}</p>
                                 <p>Clarity: {selectedItem.clarity}</p>

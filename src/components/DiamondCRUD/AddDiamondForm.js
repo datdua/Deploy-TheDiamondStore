@@ -11,7 +11,7 @@ function AddDiamondForm() {
     diamondEntryPrice: "",
     diamondImage: "",
     carat_weight: "",
-    carat_size: "",
+    caratSize: "",
     color: "",
     cut: "",
     clarity: "",

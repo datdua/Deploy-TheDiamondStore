@@ -28,7 +28,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/login",
+        "http://localhost:8080/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -55,7 +55,7 @@ function LoginRegisterPage() {
         setIsLoggedIn(true);
         toast.success("Đăng nhập thành công!");
 
-        if (decodedToken.role === "ROLE_ADMIN") {
+        if (decodedToken.role === "ROLE_ADMIN", "ROLE_MANAGER") {
           navigate("/admin/profile");
         } else {
           navigate("/trangchu");
@@ -90,7 +90,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
+        "http://localhost:8080/api/accounts/register",
         {
           accountName: registerName,
           email: registerEmail,

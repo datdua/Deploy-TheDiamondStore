@@ -167,7 +167,7 @@ const ProfilePage = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Active</Typography>
-            <Typography>{account.active ? "Yes" : "No"}</Typography>
+            <Typography>{account.active ? "Đã kích họat" : "Khóa tài khoản"}</Typography>
           </Grid>
         </Grid>
         <Box display="flex" justifyContent="center" marginTop={4}>

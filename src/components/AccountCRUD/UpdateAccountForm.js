@@ -78,6 +78,14 @@ function UpdateAccountForm({ account }) {
           onChange={handleChange}
         />
       </Form.Group>
+      <Form.Group>
+          <Form.Label>Account Status</Form.Label>
+          <Form.Control as="select" name="Account Status" value={updatedAccount.active ? "true" : "false"} onChange={handleChange}>
+            <option value="true">Kích hoạt</option>
+            <option value="false">Khóa tài khoản</option>
+          </Form.Control>
+        </Form.Group>
+      
       <Button variant="primary" type="submit">
         Update
       </Button>

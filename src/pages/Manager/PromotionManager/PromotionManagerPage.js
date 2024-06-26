@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { getAllPromotions } from "../../../api/PromotionAPI";
+import { getAllPromotions, deletePromotion} from "../../../api/PromotionAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,7 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddPromotionForm from "../../../components/PromotionCRUD/AddPromotionForm";
 import UpdatePromotionForm from "../../../components/PromotionCRUD/UpdatePromotionForm";
 import DeletePromotionForm from "../../../components/PromotionCRUD/DeletePromotionForm";
-import { Pagination, Tooltip } from "@mui/material";
+import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
 
 function PromotionManagerPage() {
@@ -25,8 +25,10 @@ function PromotionManagerPage() {
   const [selectedPromotion, setSelectedPromotion] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(false);
   const size = 8;
-
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
   const currentPageData = promotionData.slice(startIndex, endIndex);
@@ -57,6 +59,65 @@ function PromotionManagerPage() {
       setPromotionData(data);
     });
   };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === promotionData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < promotionData.length);
+  };
+
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    setSelected(event.target.checked ? promotionData.map((promotion) => promotion.promotionID) : []);
+    setIndeterminate(false);
+  };
+
+  const handleCheckboxChange = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === promotionData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < promotionData.length);
+  };
+
+  const handleDeletePromotion = async () => {
+    if (window.confirm("Bạn có chắc muốn XÓA các giá kim cương này?")) {
+      try {
+        await deletePromotion(selected);
+        setPromotionData(promotionData.filter((promotion) => !selected.includes(promotion.promotionID)));
+        setSelected([]);
+        alert("Xóa thành công");
+      } catch (error) {
+        alert("Xóa thất bại");
+      }
+    }
+  };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   useEffect(() => {
     getAllPromotions()
@@ -90,14 +151,33 @@ function PromotionManagerPage() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
                 </Button>
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các mã khuyến mãi đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeletePromotion} style={{ color: "red" }}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
                 <Table striped bordered hover className="account-table">
                   <thead>
-                    <tr>
-                      <th>#</th>
+                      <tr>
+                        <th>
+                          <FormControlLabel
+                            className="checkbox-align"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                indeterminate={indeterminate}
+                                checked={selectAll}
+                                onChange={handleSelectAllChange}
+                              />
+                            }
+                          />
+                        </th>
                       <th>Promotion ID</th>
                       <th>Promotion Code</th>
                       <th>Start Date</th>
@@ -109,9 +189,21 @@ function PromotionManagerPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentPageData.map((promotion, index) => (
-                      <tr key={index}>
-                        <td>{startIndex + index + 1}</td>
+                    {currentPageData.map((promotion) => {
+                      const isItemSelected = isSelected(promotion.promotionID);
+
+                      return (
+                        <tr
+                          key={promotion.promotionI}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td onClick={(event) => handleClick(event, promotion.promotionID)}>
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              onChange={(event) => handleCheckboxChange(event, promotion.promotionID)}
+                            />
+                          </td>
                         <td>{promotion.promotionID}</td>
                         <td>{promotion.promotionCode}</td>
                         <td>{promotion.startDate}</td>
@@ -140,7 +232,8 @@ function PromotionManagerPage() {
                           </DeletePromotionForm>
                         </td>
                       </tr>
-                    ))}
+                    );
+                  })}
                   </tbody>
                 </Table>
               </div>

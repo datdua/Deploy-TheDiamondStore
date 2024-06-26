@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { getAllJewelry } from "../../../api/JewelryAPI.js";
+import { getAllJewelry, deleteJewelry } from "../../../api/JewelryAPI.js";
 import AddJewelryForm from "../../../components/JewelryCRUD/AddJewelryForm.js";
 import UpdateJewelryForm from "../../../components/JewelryCRUD/UpdateJewelryForm.js";
 import DeleteJewelryButton from "../../../components/JewelryCRUD/DeleteJewelryForm.js";
@@ -16,7 +16,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Pagination, Tooltip } from "@mui/material";
+import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
 
 function JewelryManagerPage() {
@@ -27,6 +27,9 @@ function JewelryManagerPage() {
   const [selectedImage, setSelectedImage] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(false);
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -70,6 +73,64 @@ function JewelryManagerPage() {
     );
   };
 
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === jewelryData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < jewelryData.length);
+  };
+
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    setSelected(event.target.checked ? jewelryData.map((jewelry) => jewelry.jewelryID) : []);
+    setIndeterminate(false);
+  };
+
+  const handleCheckboxChange = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === jewelryData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < jewelryData.length);
+  };
+
+
+  const handleDeleteJewelry = async () => {
+    if (window.confirm("Bạn có chắc muốn XÓA các trang sức này?")) {
+      try {
+        await deleteJewelry(selected);
+        setJewelryData(jewelryData.filter((jewelry) => !selected.includes(jewelry.jewelryID)));
+        setSelected([]);
+        alert("Xóa thành công");
+      } catch (error) {
+        alert("Xóa thất bại");
+      }
+    }
+  };
+
   const refreshTable = () => {
     getAllJewelry().then((data) => {
       setJewelryData(data);
@@ -81,6 +142,8 @@ function JewelryManagerPage() {
       .then((data) => setJewelryData(data))
       .catch((error) => console.error(error));
   }, []);
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   return (
     <Container fluid>
@@ -104,6 +167,13 @@ function JewelryManagerPage() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
                 </Button>
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các trang sức đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeleteJewelry} style={{ color: "red" }}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -111,7 +181,19 @@ function JewelryManagerPage() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>#</th>
+                      <th>
+                        <FormControlLabel
+                          className="checkbox-align"
+                          control={
+                            <Checkbox
+                              color="primary"
+                              indeterminate={indeterminate}
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                          }
+                        />
+                      </th>
                       <th>Jewelry ID</th>
                       <th>Jewelry Name</th>
                       <th>Gender</th>
@@ -122,9 +204,21 @@ function JewelryManagerPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentPageData.map((jewelry, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
+                    {currentPageData.map((jewelry) => {
+                      const isItemSelected = isSelected(jewelry.jewelryID)
+
+                      return (
+                        <tr
+                          key={jewelry.jewelryID}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td onClick={(event) => handleClick(event, jewelry.jewelryID)}>
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              onChange={(event) => handleCheckboxChange(event, jewelry.jewelryID)}
+                            />
+                          </td>
                         <td>{jewelry.jewelryID}</td>
                         <td>{jewelry.jewelryName}</td>
                         <td>{jewelry.gender}</td>
@@ -168,16 +262,10 @@ function JewelryManagerPage() {
                               <EditIcon />
                             </Button>
                           </Tooltip>
-
-                          <DeleteJewelryButton
-                            jewelryID={jewelry.jewelryID}
-                            onDelete={() => handleDelete(jewelry.jewelryID)}
-                          >
-                            <DeleteIcon />
-                          </DeleteJewelryButton>
-                        </td>
+                          </td>
                       </tr>
-                    ))}
+                    );
+                  })}
                   </tbody>
                 </Table>
               </div>

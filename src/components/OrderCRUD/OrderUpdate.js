@@ -3,7 +3,16 @@ import { Form, Button } from "react-bootstrap";
 import { updateOrder } from "../../api/OrderAPI";
 
 function UpdateOrderForm({ order }) {
-  const [updatedOrder, setUpdatedOrder] = useState(order);
+  const [updatedOrder, setUpdatedOrder] = useState({
+    orderStatus: order.orderStatus,
+    deliveryDate: order.deliveryDate.split(" ")[0],
+    deliveryTime: order.deliveryDate.split(" ")[1].slice(0, 5),
+    deliveryAddress: order.deliveryAddress,
+    phoneNumber: order.phoneNumber,
+    warrantyImage: order.warrantyImage,
+    certificateImage: order.certificateImage,
+
+  });
 
   const handleChange = (event) => {
     setUpdatedOrder({
@@ -15,10 +24,14 @@ function UpdateOrderForm({ order }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updateOrder(order.orderID, updatedOrder);
-      alert("Cập nhật thông tin Kim Cương thành công");
+      const dateTimeDelivery = {
+        ...updatedOrder,
+        deliveryDate: `${updatedOrder.deliveryDate} ${updatedOrder.deliveryTime}:00`,
+      };
+      await updateOrder(order.orderID, dateTimeDelivery);
+      alert("Cập nhật thông tin Order thành công");
     } catch (error) {
-      alert("Cập nhật thông tin Kim Cương thất bại");
+      alert("Cập nhật thông tin Order thất bại");
     }
   };
 
@@ -39,6 +52,15 @@ function UpdateOrderForm({ order }) {
           type="date"
           name="deliveryDate"
           value={updatedOrder.deliveryDate}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Delivery Time</Form.Label>
+        <Form.Control
+          type="time"
+          name="deliveryTime"
+          value={updatedOrder.deliveryTime}
           onChange={handleChange}
         />
       </Form.Group>
@@ -66,15 +88,6 @@ function UpdateOrderForm({ order }) {
           type="text"
           name="certificateImage"
           value={updatedOrder.certificateImage}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Promotion Code</Form.Label>
-        <Form.Control
-          type="text"
-          name="promotionCode"
-          value={updatedOrder.promotionCode}
           onChange={handleChange}
         />
       </Form.Group>

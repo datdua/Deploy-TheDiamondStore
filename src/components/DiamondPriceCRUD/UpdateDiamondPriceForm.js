@@ -16,7 +16,7 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
     event.preventDefault();
     try {
       await updateDiamondPrice(
-        diamondPrice.diamondpriceID,
+        diamondPrice.diamondPriceID,
         updatedDiamondPrice
       );
       alert("Cập nhật thông tin Giá Kim Cương thành công");
@@ -74,8 +74,8 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
         <Form.Label>Carat Size</Form.Label>
         <Form.Control
           type="text"
-          name="carat_size"
-          value={updatedDiamondPrice.carat_size}
+          name="caratSize"
+          value={updatedDiamondPrice.caratSize}
           onChange={handleChange}
         />
       </Form.Group>

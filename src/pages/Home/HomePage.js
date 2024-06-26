@@ -29,14 +29,14 @@ function HomePage() {
     const [error, setError] = useState(null);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const productsData = await getAllProduct();
                 const filteredProducts = productsData.filter((product) => {
                     // Check if it's a diamond based on structure
-                    if (product.carat_size !== undefined && product.cut !== undefined) {
+                    if (product.caratSize !== undefined && product.cut !== undefined) {
                         return true; // It's a diamond
                     }
                     // Check if it's jewelry based on structure
@@ -47,7 +47,7 @@ function HomePage() {
                 });
 
                 const diamonds = filteredProducts
-                    .filter((product) => product.carat_size !== undefined && product.cut !== undefined)
+                    .filter((product) => product.caratSize !== undefined && product.cut !== undefined)
                     .slice(0, 4);
                 const jewelries = filteredProducts
                     .filter((product) => product.gender !== undefined && product.grossJewelryPrice !== undefined)

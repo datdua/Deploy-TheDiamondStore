@@ -9,7 +9,7 @@ import {
   Col,
 } from "react-bootstrap";
 import {
-  getAllWarranties,
+  deleteWarranty,
   getWarrantyJewelryIDIsNull,
 } from "../../../api/WarrantyAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddWarrantyForm from "../../../components/WarrantyCRUD/AddWarrantyForm";
 import UpdateWarrantyDiamondForm from "../../../components/WarrantyCRUD/UpdateWarrantyDiamondForm";
 import DeleteWarrantyForm from "../../../components/WarrantyCRUD/DeleteWarrantyForm";
-import { Pagination, Tooltip } from "@mui/material";
+import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
 
 function WarrantyManagerPage() {
@@ -29,6 +29,9 @@ function WarrantyManagerPage() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const size = 8;
 
@@ -73,6 +76,63 @@ function WarrantyManagerPage() {
     setSelectedImage("");
   };
 
+  const handleCheckboxChange = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === warrantyData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < warrantyData.length);
+  };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === warrantyData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < warrantyData.length);
+  };
+
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    setSelected(event.target.checked ? warrantyData.map((warranty) => warranty.warrantyID) : []);
+    setIndeterminate(false);
+  };
+
+  const handleDeleteWarranty = async () => {
+    if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
+      try {
+        await deleteWarranty(selectedWarranty);
+        setWarrantyData(warrantyData.filter((warranty) => !selectedWarranty.includes(warranty.warrantyID)));
+        setSelected([]);
+        alert("Xóa thành công");
+      } catch (error) {
+        alert("Xóa thất bại");
+      }
+    }
+  };
+
   useEffect(() => {
     getWarrantyJewelryIDIsNull()
       .then((data) => {
@@ -82,6 +142,8 @@ function WarrantyManagerPage() {
         console.error("Error fetching warranty data:", error);
       });
   }, []);
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   return (
     <Container fluid>
@@ -105,6 +167,13 @@ function WarrantyManagerPage() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
                 </Button>
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các giấy bảo hành đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeleteWarranty} style={{ color: "red" }}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -112,7 +181,19 @@ function WarrantyManagerPage() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>#</th>
+                      <th>
+                        <FormControlLabel
+                          className="checkbox-align"
+                          control={
+                            <Checkbox
+                              color="primary"
+                              indeterminate={indeterminate}
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                          }
+                        />
+                      </th>
                       <th>Warranty ID</th>
                       <th>Diamond ID</th>
                       <th>Expiration Date</th>
@@ -122,9 +203,20 @@ function WarrantyManagerPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentPageData.map((warranty, index) => (
-                      <tr key={index}>
-                        <td>{startIndex + index + 1}</td>
+                    {currentPageData.map((warranty) => {
+                      const isItemSelected = isSelected(warranty.warrantyID);
+                      return (
+                        <tr
+                          key={warranty.warrantyID}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td onClick={(event) => handleClick(event, warranty.warrantyID)}>
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              onChange={(event) => handleCheckboxChange(event, warranty.warrantyID)}
+                            />
+                          </td>
                         <td>{warranty.warrantyID}</td>
                         <td>{warranty.diamondID || "N/A"}</td>
                         <td>{warranty.expirationDate}</td>
@@ -157,15 +249,10 @@ function WarrantyManagerPage() {
                               <EditIcon />
                             </Button>
                           </Tooltip>
-                          <DeleteWarrantyForm
-                            warrantyID={warranty.warrantyID}
-                            onDelete={() => handleDelete(warranty.warrantyID)}
-                          >
-                            <DeleteIcon />
-                          </DeleteWarrantyForm>
                         </td>
                       </tr>
-                    ))}
+                    );
+                  })}
                   </tbody>
                 </Table>
               </div>

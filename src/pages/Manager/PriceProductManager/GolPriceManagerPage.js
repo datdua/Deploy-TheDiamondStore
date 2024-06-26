@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { getAllGoldPrice } from "../../../api/GoldPriceAPI.js";
+import { getAllGoldPrice, deleteGoldPrice } from "../../../api/GoldPriceAPI.js";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -16,7 +16,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import AddGoldPriceForm from "../../../components/GoldPriceCRUD/AddGoldPriceForm.js";
 import UpdateGoldPriceForm from "../../../components/GoldPriceCRUD/UpdateGoldPriceForm.js";
 import DeleteGoldPriceForm from "../../../components/GoldPriceCRUD/DeleteGoldPriceForm.js";
-import { Pagination, Tooltip } from "@mui/material";
+import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
 
 function GoldPriceManager() {
@@ -25,6 +25,9 @@ function GoldPriceManager() {
   const [selectedGoldPrice, setSelectedGoldPrice] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selected, setSelected] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(false);
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -51,9 +54,9 @@ function GoldPriceManager() {
     setShowModal(true);
   };
 
-  const handleDelete = (goldPriceID) => {
+  const handleDelete = (goldpriceID) => {
     setGoldPriceData(
-      goldPriceData.filter((goldPrice) => goldPrice.goldPriceID !== goldPriceID)
+      goldPriceData.filter((goldPrice) => goldPrice.goldpriceID !== goldpriceID)
     );
   };
 
@@ -62,6 +65,65 @@ function GoldPriceManager() {
       setGoldPriceData(data);
     });
   };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === goldPriceData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < goldPriceData.length);
+  };
+
+  const handleSelectAllChange = (event) => {
+    setSelectAll(event.target.checked);
+    setSelected(event.target.checked ? goldPriceData.map((goldPrice) => goldPrice.goldpriceID) : []);
+    setIndeterminate(false);
+  };
+
+  const handleCheckboxChange = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = selected.slice(1);
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+    setSelectAll(newSelected.length === goldPriceData.length);
+    setIndeterminate(newSelected.length > 0 && newSelected.length < goldPriceData.length);
+  };
+
+  const handleDeleteGoldPrice = async () => {
+    if (window.confirm("Bạn có chắc muốn XÓA các giá vàng này?")) {
+      try {
+        await deleteGoldPrice(selected);
+        setGoldPriceData(goldPriceData.filter((goldPrice) => !selected.includes(goldPrice.goldpriceID)));
+        setSelected([]);
+        alert("Xóa thành công");
+      } catch (error) {
+        alert("Xóa thất bại");
+      }
+    }
+  };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   useEffect(() => {
     getAllGoldPrice()
@@ -91,6 +153,13 @@ function GoldPriceManager() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
                 </Button>
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các giá kim cương đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeleteGoldPrice} style={{ color: "red" }}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -98,7 +167,20 @@ function GoldPriceManager() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>Gold Price ID</th>
+                      <th>
+                        <FormControlLabel
+                          className="checkbox-align"
+                          control={
+                            <Checkbox
+                              color="primary"
+                              indeterminate={indeterminate}
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                          }
+                        />
+                      </th>
+                      <th>ID</th>
                       <th>Jewelry ID</th>
                       <th>Gold Price</th>
                       <th>Gold Age</th>
@@ -106,9 +188,21 @@ function GoldPriceManager() {
                     </tr>
                   </thead>
                   <tbody>
-                    {goldPriceData.length > 0 ? (
-                      currentPageData.map((goldPrice) => (
-                        <tr key={goldPrice.goldPriceID}>
+                      {currentPageData.map((goldPrice) => {
+                        const isItemSelected = isSelected(goldPrice.goldpriceID);
+
+                        return (
+                          <tr
+                            key={goldPrice.goldpriceID}
+                            style={{ cursor: 'pointer' }}
+                          >
+                          <td onClick={(event) => handleClick(event, goldPrice.goldpriceID)}>
+                              <Checkbox
+                                color="primary"
+                                checked={isItemSelected}
+                                onChange={(event) => handleCheckboxChange(event, goldPrice.goldpriceID)}
+                              />
+                          </td>
                           <td>{goldPrice.goldpriceID}</td>
                           <td>{goldPrice.jewelryID}</td>
                           <td>
@@ -131,19 +225,13 @@ function GoldPriceManager() {
                               </Button>
                             </Tooltip>
                             <DeleteGoldPriceForm
-                              goldPriceID={goldPrice.goldPriceID}
+                              goldpriceID={goldPrice.goldpriceID}
                               onDelete={handleDelete}
                             />
                           </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="4" className="text-center">
-                          No data available
-                        </td>
-                      </tr>
-                    )}
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>

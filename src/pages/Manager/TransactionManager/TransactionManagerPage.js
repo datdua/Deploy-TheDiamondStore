@@ -22,6 +22,8 @@ function TransactionManagerPage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const size = 8;
 
   const startIndex = (currentPage - 1) * size;
@@ -56,6 +58,16 @@ function TransactionManagerPage() {
     getOrdersHaveTransactionNo().then((data) => {
       setOrderData(data);
     });
+  };
+
+  const handleShowImage = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
+
+  const handleCloseImageModal = () => {
+    setShowImageModal(false);
+    setSelectedImage("");
   };
 
   useEffect(() => {
@@ -155,14 +167,16 @@ function TransactionManagerPage() {
                           <img
                             src={order.certificateImage}
                             alt="Certificate"
-                            style={{ width: "50px", height: "50px" }}
+                            style={{ width: "50px", height: "50px", cursor: "pointer" }}
+                            onClick={() => handleShowImage(order.certificateImage)}
                           />
                         </td>
                         <td>
                           <img
                             src={order.warrantyImage}
                             alt="Warranty"
-                            style={{ width: "50px", height: "50px" }}
+                            style={{ width: "50px", height: "50px", cursor: "pointer" }}
+                            onClick={() => handleShowImage(order.warrantyImage)}
                           />
                         </td>
                         <td>{order.promotionCode}</td>
@@ -213,6 +227,19 @@ function TransactionManagerPage() {
           ) : (
             <div>Add Order Form Here</div> // Placeholder for Add Order Form if needed
           )}
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            src={selectedImage}
+            alt="Image"
+            style={{ width: "100%", height: "500px" }}
+          />
         </Modal.Body>
       </Modal>
     </Container>

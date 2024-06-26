@@ -9,7 +9,7 @@ function AddCertificateForm() {
     diamondEntryPrice: "",
     clarity: "",
     color: "",
-    carat_size: "",
+    caratSize: "",
   });
 
   const [message, setMessage] = useState("");
@@ -55,8 +55,8 @@ function AddCertificateForm() {
                 key.includes("Date")
                   ? "date"
                   : key.includes("Time")
-                  ? "time"
-                  : "text"
+                    ? "time"
+                    : "text"
               }
               name={key}
               value={diamondPrice[key]}
