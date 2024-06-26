@@ -3,7 +3,7 @@ import axios from "axios";
 export const getAllGoldPrice = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8080/api/goldPrices"
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices"
     );
     return response.data;
   } catch (error) {
@@ -14,7 +14,7 @@ export const getAllGoldPrice = async () => {
 export const getGoldPriceById = async (goldPriceID) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/goldPrices/${goldPriceID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/${goldPriceID}`
     );
     return response.data;
   } catch (error) {
@@ -25,7 +25,7 @@ export const getGoldPriceById = async (goldPriceID) => {
 export const createGoldPrice = async (goldPrice) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/goldPrices",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices",
       goldPrice
     );
     return response.data;
@@ -37,7 +37,7 @@ export const createGoldPrice = async (goldPrice) => {
 export const updateGoldPrice = async (goldPriceID, goldPrice) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/goldPrices/${goldPriceID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/${goldPriceID}`,
       goldPrice
     );
     return response.data;
@@ -49,7 +49,7 @@ export const updateGoldPrice = async (goldPriceID, goldPrice) => {
 export const deleteGoldPrice = async (goldPriceIDs) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/goldPrices`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices`
       , { data: goldPriceIDs }
     );
     return response.data;

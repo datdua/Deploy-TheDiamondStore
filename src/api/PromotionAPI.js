@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getAllPromotions = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/promotion");
+    const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion");
     return response.data;
   } catch (error) {
     console.error("Error fetching promotions:", error);
@@ -13,7 +13,7 @@ export const getAllPromotions = async () => {
 export const getPromotionById = async (promotionID) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/promotion/${promotionID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/${promotionID}`
     );
     return response.data;
   } catch (error) {
@@ -25,7 +25,7 @@ export const getPromotionById = async (promotionID) => {
 export const createPromotion = async (promotion) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/promotion/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/create",
       promotion
     );
     return response.data;
@@ -38,7 +38,7 @@ export const createPromotion = async (promotion) => {
 export const updatePromotion = async (promotionID, promotion) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/promotion/update/${promotionID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/update/${promotionID}`,
       promotion
     );
     return response.data;
@@ -51,7 +51,7 @@ export const updatePromotion = async (promotionID, promotion) => {
 export const deletePromotion = async (promotionIDs) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/promotion/delete`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/delete`
       , { data: promotionIDs }
     );
     return response.data;

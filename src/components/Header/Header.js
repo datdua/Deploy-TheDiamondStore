@@ -29,11 +29,11 @@ function Header() {
     const accountId = await getAccountIDByEmail(email);
     if (accountId) {
       // Redirect to the user's cart
-      window.location.href = `http://localhost:3000/cart/${accountId}`;
+      window.location.href = `https://www.thediamondstore.site/cart/${accountId}`;
     } else {
       // Handle the case when accountId is null
       // For example, redirect to the login page
-      window.location.href = 'http://localhost:3000/dangnhap';
+      window.location.href = 'https://www.thediamondstore.site/dangnhap';
     }
   };
   const handleAccountClick = async () => {
@@ -41,11 +41,11 @@ function Header() {
     const accountId = await getAccountIDByEmail(email)
     if (accountId) {
       // Redirect to the user's cart
-      window.location.href = `http://localhost:3000/account/${accountId}`;
+      window.location.href = `https://www.thediamondstore.site/account/${accountId}`;
     } else {
       // Handle the case when accountId is null
       // For example, redirect to the login page
-      window.location.href = 'http://localhost:3000/login';
+      window.location.href = 'https://www.thediamondstore.site/login';
     }
   };
 

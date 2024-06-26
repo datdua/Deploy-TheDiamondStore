@@ -9,7 +9,7 @@ export async function getAllProduct() {
     try {
 // Logging token for debugging
         const response = await axios.get(
-          "http://localhost:8080/api/production/all",
+          "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/all",
         );
         console.log('Response:', response); // Logging entire response object for inspection
 
@@ -32,7 +32,7 @@ export async function getProductPage(page = 1, size = 4) {
       page = typeof page === 'object' ? 1 : Number(page);
 
       const response = await axios.get(
-        `http://localhost:8080/api/production/paged?page=${page}&size=${size}`,
+        `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/paged?page=${page}&size=${size}`,
       );
       
       if (response.status !== 200) {
@@ -49,7 +49,7 @@ export const searchProductionByName = async (name, page = 1, size = 9) => {
   try {
     const token = getAuthToken();
     const response = await axios.get(
-      `http://localhost:8080/api/production/search/filter/page`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/search/filter/page`,
       {
         params: {
           name: name,
