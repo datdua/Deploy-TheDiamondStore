@@ -117,7 +117,6 @@ const ProfilePage = () => {
             <Typography variant="h6">Số Điện Thoại</Typography>
             {isEditing ? (
               <TextField
-                label="Phone Number"
                 name="phoneNumber"
                 value={account.phoneNumber}
                 onChange={handleChange}
@@ -131,7 +130,6 @@ const ProfilePage = () => {
             <Typography variant="h6">Địa Chỉ</Typography>
             {isEditing ? (
               <TextField
-                label="Address"
                 name="addressAccount"
                 value={account.addressAccount}
                 onChange={handleChange}
