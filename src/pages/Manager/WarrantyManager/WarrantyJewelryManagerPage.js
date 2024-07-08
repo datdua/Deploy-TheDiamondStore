@@ -152,7 +152,7 @@ function WarrantyManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Warranty List
+                Danh Sách Giấy Bảo Hành
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
