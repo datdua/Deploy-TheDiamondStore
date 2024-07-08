@@ -16,8 +16,8 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import AddWarrantyForm from "../../../components/WarrantyCRUD/AddWarrantyForm";
-import UpdateWarrantyDiamondForm from "../../../components/WarrantyCRUD/UpdateWarrantyDiamondForm";
+import AddWarrantyJewelryForm from "../../../components/WarrantyCRUD/AddWarrantyJewelryForm";
+import UpdateWarrantyJewelryForm from "../../../components/WarrantyCRUD/UpdateWarrantyJewelryForm";
 import DeleteWarrantyForm from "../../../components/WarrantyCRUD/DeleteWarrantyForm";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
@@ -123,8 +123,8 @@ function WarrantyManagerPage() {
   const handleDeleteWarranty = async () => {
     if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
       try {
-        await deleteWarranty(selectedWarranty);
-        setWarrantyData(warrantyData.filter((warranty) => !selectedWarranty.includes(warranty.warrantyID)));
+        await deleteWarranty(selected);
+        setWarrantyData(warrantyData.filter((warranty) => !selected.includes(warranty.warrantyID)));
         setSelected([]);
         alert("Xóa thành công");
       } catch (error) {
@@ -158,14 +158,14 @@ function WarrantyManagerPage() {
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={() => setShowModal(true)}
                 >
-                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
+                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Giấy Bảo Hành
                 </Button>
                 {selected.length > 0 && (
                   <Tooltip describeChild title="Xóa các giấy bảo hành đã chọn" arrow placement="top">
@@ -194,12 +194,12 @@ function WarrantyManagerPage() {
                           }
                         />
                       </th>
-                      <th>Warranty ID</th>
-                      <th>Jewelry ID</th>
-                      <th>Expiration Date</th>
-                      <th>Warranty Image</th>
-                      <th>Status</th>
-                      <th>Action</th>
+                      <th>Mã Bảo Hành</th>
+                      <th>Mã Trang Sức</th>
+                      <th>Ngày Hết Hạn</th>
+                      <th>Giấy Bảo Hành</th>
+                      <th>Tình Trạng</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -276,12 +276,12 @@ function WarrantyManagerPage() {
         </Modal.Header>
         <Modal.Body>
           {isUpdating ? (
-            <UpdateWarrantyDiamondForm
+            <UpdateWarrantyJewelryForm
               warranty={selectedWarranty}
               onClose={handleClose}
             />
           ) : (
-            <AddWarrantyForm onClose={handleClose} />
+            <AddWarrantyJewelryForm onClose={handleClose} />
           )}
         </Modal.Body>
       </Modal>

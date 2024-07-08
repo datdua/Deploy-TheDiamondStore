@@ -146,8 +146,8 @@ function HomePage() {
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
-                                                                <i className="ion-heart"></i>
+                                                            <a>
+                                                                <i className="ion-heart" style={{color:'white'}}></i>
                                                             </a>
                                                         </li>
                                                     </ul>

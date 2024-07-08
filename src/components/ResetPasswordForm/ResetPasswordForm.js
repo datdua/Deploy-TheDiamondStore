@@ -48,7 +48,7 @@ function ResetPasswordForm() {
             <div className="horizontal-form-box">
               <div className="horizontal-info-container text-center">
                 <img src="https://static.stayjapan.com/assets/top/icon/values-7dd5c8966d7a6bf57dc4bcd11b2156e82a4fd0da94a26aecb560b6949efad2be.svg" alt="Reset Password" />
-                <p className="horizontal-heading">Reset your password</p>
+                <p className="horizontal-heading">Đổi lại mật khẩu</p>
               </div>
               <form className="horizontal-form" onSubmit={handleSubmit}>
                 <div className="o3-form-group">
@@ -60,10 +60,11 @@ function ResetPasswordForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    disabled
                   />
                 </div>
                 <div className="o3-form-group">
-                  <label htmlFor="new_password">New password</label>
+                  <label htmlFor="new_password">Mật khẩu mới</label>
                   <input
                     type="password"
                     className="o3-form-control o3-input-lg"
@@ -74,7 +75,7 @@ function ResetPasswordForm() {
                   />
                 </div>
                 <div className="o3-form-group">
-                  <label htmlFor="confirm_password">Confirm new password</label>
+                  <label htmlFor="confirm_password">Xác nhận mật khẩu</label>
                   <input
                     type="password"
                     className="o3-form-control o3-input-lg"
@@ -85,7 +86,7 @@ function ResetPasswordForm() {
                   />
                 </div>
                 <div className="o3-form-group">
-                  <Button type="submit" className="o3-btn o3-btn-primary o3-btn-block">Set new password</Button>
+                  <Button type="submit" className="o3-btn o3-btn-primary o3-btn-block">Đặt mật khẩu mới</Button>
                 </div>
               </form>
               {message && <p>{message}</p>}

@@ -1,48 +1,46 @@
 import React, { useState } from "react";
-import { createGoldPrice } from "../../api/GoldPriceAPI.js";
+import { createWarranty } from "../../api/WarrantyAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
-function AddGoldPriceForm() {
-  const [goldPrice, setGoldPrice] = useState({
-    jewelryID: "",
-    goldPrice: "",
-    goldAge: "",
+function AddWarrantyDiamondForm() {
+  const [warranty, setWarranty] = useState({
+    warrantyID: "",
+    diamondID: "",
+    expirationDate: "",
+    expirationTime: "",
+    warrantyImage: "",
   });
 
   const [message, setMessage] = useState("");
 
   const labels = {
-    jewelryID: "Mã trang sức",
-    goldPrice: "Giá vàng",
-    goldAge: "Tuổi vàng",
+    warrantyID: "Mã giấy bảo hành",
+    diamondID: "Mã kim cương",
+    expirationDate: "Ngày hết hạn",
+    expirationTime: "Giờ hết hạn",
+    warrantyImage: "Hình ảnh giấy bảo hành",
   };
 
   const handleChange = (event) => {
-    setGoldPrice({ ...goldPrice, [event.target.name]: event.target.value });
+    setWarranty({ ...warranty, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await createGoldPrice(goldPrice);
+      const dateTimeWarranty = {
+        ...warranty,
+        expirationDate: `${warranty.expirationDate} ${warranty.expirationTime}:00`,
+      };
+      const response = await createWarranty(dateTimeWarranty);
       console.log(response);
-      alert("Tạo mới Giá Vàng cho Trang Sức thành công"); // Set the message on success
-      setMessage("Tạo mới Giá Vàng cho Trang Sức thành công");
+      setMessage("Tạo mới Giấy Bảo Hành thành công");
     } catch (error) {
       console.error(error);
-      if (
-        error.response &&
-        error.response.data.message === "Giá vàng cho trang sức này đã tồn tại"
-      ) {
-        alert("Giá vàng cho trang sức này đã tồn tại"); // Set the message if gold price already exists
-        setMessage("Giá vàng cho trang sức này đã tồn tại");
-      } else {
-        alert("Tạo mới Giá Vàng cho Trang Sức thất bại"); // Set the message on failure
-        setMessage("Tạo mới Giá Vàng cho Trang Sức thất bại");
-      }
+      setMessage("Tạo mới Giấy Bảo Hành thất bại");
     }
   };
 
@@ -57,14 +55,14 @@ function AddGoldPriceForm() {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        {Object.keys(goldPrice).map((key) => (
+        {Object.keys(warranty).map((key) => (
           <TextField
             key={key}
             id="outlined-basic"
             label={labels[key]}
             variant="outlined"
             name={key}
-            value={goldPrice[key]}
+            value={warranty[key]}
             onChange={handleChange}
             type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
           />
@@ -76,4 +74,4 @@ function AddGoldPriceForm() {
   );
 }
 
-export default AddGoldPriceForm;
+export default AddWarrantyDiamondForm;

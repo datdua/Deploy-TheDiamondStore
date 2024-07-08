@@ -107,22 +107,9 @@ function ProductPage() {
               <div className="row">
                 <div className="col-lg-9 col-12">
                   <form action="#" className="tm-shop-header">
-                    <div className="tm-shop-productview">
-                      <span>View:</span>
-                      <button data-view="grid" className="active" aria-label="Grid View"><i className="ion-android-apps"></i></button>
-                      <button data-view="list" aria-label="List View"><i className="ion-android-menu"></i></button>
-                    </div>
                     <p className="tm-shop-countview">
                       Showing {((currentPage - 1) * itemsPerPage * 2) + 1} to {((currentPage * 2) * (itemsPerPage))} of {products.length} products
                     </p>
-                    <label htmlFor="mySelect">My Select:</label>
-                    <select id="mySelect">
-                      <option value="default">Default Sorting</option>
-                      <option value="name">Name A-Z</option>
-                      <option value="date">Date</option>
-                      <option value="best">Best Sellers</option>
-                      <option value="trending">Trending</option>
-                    </select>
                   </form>
 
                   <div className="tm-shop-products">
@@ -204,33 +191,7 @@ function ProductPage() {
           </div>
         </main>
         {/* Modal for Product Quickview */}
-        <div id="tm-product-quickview">
-          {selectedItem && (
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              style={customModalStyles}
-              contentLabel="Product Quickview"
-            >
-              <div className="modal-content">
-                <div className="img-container">
-                  <img src={selectedItem.imageUrl} alt={selectedItem.name} />
-                </div>
-                <button className="close-button" onClick={closeModal}>
-                  Close
-                </button>
-                <div className="content-container">
-                  <h2>{selectedItem.name}</h2>
-                  <p>{selectedItem.description}</p>
-                  <p>Product ID: {selectedItem.id}</p>
-                  {/* Assuming selectedItem has category and price */}
-                  <p>Category: {selectedItem.category}</p>
-                  <span>{selectedItem.price.toLocaleString()} VND</span>
-                </div>
-              </div>
-            </Modal>
-          )}
-        </div>
+        
       </div>
     </div>
   );

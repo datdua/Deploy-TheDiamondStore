@@ -23,24 +23,24 @@ function SizeInstructionModal(props) {
       <Modal.Body className="grid-example">
         {/* Instruction Row 1 */}
         <Row className="mb-3">
-          <Col>
+          <Col className="text-center">
             1. Dùng chỉ hoặc giấy bản nhỏ đo quấn quanh khớp tay, đánh dấu vị trí cắt nhau
-            <br/>
-            <img src='https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-other%2FHDDN-1.svg?alt=media&token=42f6373a-415a-4c57-9d8d-9bf42c9c0b3e'/>
+            <br />
+            <img src='https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-other%2FHDDN-1.svg?alt=media&token=42f6373a-415a-4c57-9d8d-9bf42c9c0b3e' />
           </Col>
         </Row>
 
         {/* Instruction Row 2 */}
         <Row className="mb-3">
-          <Col>
+          <Col className="text-center">
             2. Dùng thước đo chiều dài đoạn dây vừa đo được (đơn vị cm)
-            <br/>
-            <img src='https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-other%2FHDDN-2.svg?alt=media&token=130dd236-5c4e-41de-b139-4e0cf00ba75f'/>
+            <br />
+            <img src='https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-other%2FHDDN-2.svg?alt=media&token=130dd236-5c4e-41de-b139-4e0cf00ba75f' />
           </Col>
         </Row>
         <Row className="mb-3">
           <Col>
-             <b>Kết quả bạn đo được là</b>
+            <b>Kết quả bạn đo được là</b>
             <Form.Select value={selectedSize} onChange={handleSizeChange}>
               <option value="">Chọn size nhẫn</option>
               <option value="6">4.6 cm</option>
@@ -57,19 +57,19 @@ function SizeInstructionModal(props) {
               <option value="17">6.0 cm</option>
               <option value="18">6.1 cm</option>
               <option value="19">6.3 cm</option>
-              <option value="20">6.4 cm</option>        
+              <option value="20">6.4 cm</option>
             </Form.Select>
           </Col>
-        
+
           <Col xs={6}>
             <b>Bảng size phổ biến</b><br />
-            
+
             <b>Size nhẫn của bạn là: </b>
             {selectedSize ? ` ${selectedSize}` : 'Chưa chọn size'}
           </Col>
         </Row>
       </Modal.Body>
-      
+
     </Modal>
   );
 }

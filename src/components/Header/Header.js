@@ -1,67 +1,61 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { searchJewelryByName } from "../../api/JewelryAPI";
-import { searchDiamondByName } from "../../api/DiamondAPI";
+import { searchProductionByName } from "../../api/ProductAPI";
 import { AuthContext } from "../Auth/AuthContext";
 import { toast } from "react-toastify";
-import { searchProductionByName } from "../../api/ProductAPI";
 import { getAccountIDByEmail } from "../../api/accountCrud";
 import { Button } from "@mui/material";
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import LoginSharpIcon from '@mui/icons-material/LoginSharp';
+
 function Header() {
   const { isLoggedIn, accountName, onLogout } = useContext(AuthContext);
   const [isAccountDropdownOpen, setAccountDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const accountId = localStorage.getItem('accountID')
-
+  const accountId = localStorage.getItem('accountID');
 
   const toggleDropdown = () => {
     setAccountDropdownOpen(!isAccountDropdownOpen);
   };
+
   const handleCartClick = async () => {
     const email = localStorage.getItem("email");
     const accountId = await getAccountIDByEmail(email);
     if (accountId) {
-      // Redirect to the user's cart
-      window.location.href = `https://www.thediamondstore.site/cart/${accountId}`;
+      navigate(`/cart/${accountId}`);
     } else {
-      // Handle the case when accountId is null
-      // For example, redirect to the login page
-      window.location.href = 'https://www.thediamondstore.site/dangnhap';
-    }
-  };
-  const handleAccountClick = async () => {
-    const email = localStorage.getItem("email");
-    const accountId = await getAccountIDByEmail(email)
-    if (accountId) {
-      // Redirect to the user's cart
-      window.location.href = `https://www.thediamondstore.site/account/${accountId}`;
-    } else {
-      // Handle the case when accountId is null
-      // For example, redirect to the login page
-      window.location.href = 'https://www.thediamondstore.site/login';
+      navigate('/dangnhap');
     }
   };
 
+  const handleAccountClick = async () => {
+    const email = localStorage.getItem("email");
+    const accountId = await getAccountIDByEmail(email);
+    if (accountId) {
+      navigate(`/account/${accountId}`);
+    } else {
+      navigate('/login');
+    }
+  };
 
   const handleSearch = async () => {
     try {
-      const [jewelryResults, diamondResults, productResults] = await Promise.all([
-        searchJewelryByName(searchTerm),
-        searchDiamondByName(searchTerm),
-        searchProductionByName(searchTerm)
-      ]);
+      const productResults = await searchProductionByName(searchTerm);
+      if (productResults.length === 0) {
+        toast.error("Không tìm thấy sản phẩm nào");
+      } else {
+        // Navigate to the search results page
+        navigate('/sanpham', { state: { results: productResults } });
+      }
     } catch (error) {
-      toast.error("Không tìm thấy sản phẩm nào");
+      toast.error("Có lỗi xảy ra khi tìm kiếm sản phẩm");
     }
-  }
-
+  };
 
   return (
     <>
@@ -71,32 +65,27 @@ function Header() {
             <div className="row justify-between items-center">
               <div className="col-lg-6 col-12">
                 <ul className="tm-header-info">
-                  <li><a href="tel:18883456789"><i className="ion-ios-telephone"></i>02.873.005.588</a></li>
-                  <li><a href="mailto:contact@example.com"><i className="ion-android-mail"></i>thediamondstore.info@gmail.com</a></li>
+                  <li><a href="tel:18883456789"><i className="ion-ios-telephone"></i>0912051433</a></li>
+                  <li><a href="mailto:thediamondstore.info24@gmail.com"><i className="ion-android-mail"></i>thediamondstore.info24@gmail.com</a></li>
                   {accountName && <li>Welcome, {accountName}!</li>}
                 </ul>
               </div>
               <div className="col-lg-6 col-12">
-                <div className="tm-header-options"
-                >
-
+                <div className="tm-header-options">
                   {isLoggedIn ? (
-                    <>
-                      <div className="flex">
-                        <Button onClick={handleAccountClick} className="tm-header-links">
-                          <AccountCircleSharpIcon /> Tài Khoản
-                        </Button>
-                        <Button onClick={handleCartClick} className="tm-header-links">
-                          <ShoppingCartSharpIcon /> Giỏ Hàng
-                        </Button>
-                        <Button onClick={onLogout} className="tm-logout-button">
-                          <LogoutSharpIcon />
-                          Đăng xuất
-                        </Button>
-                      </div>
-                    </>
+                    <div className="flex">
+                      <Button onClick={handleAccountClick} className="tm-header-links">
+                        <AccountCircleSharpIcon /> Tài Khoản
+                      </Button>
+                      <Button onClick={handleCartClick} className="tm-header-links">
+                        <ShoppingCartSharpIcon /> Giỏ Hàng
+                      </Button>
+                      <Button onClick={onLogout} className="tm-logout-button">
+                        <LogoutSharpIcon /> Đăng xuất
+                      </Button>
+                    </div>
                   ) : (
-                    <Button onClick={() => navigate('/dangnhap')} className="tm-login-button">
+                    <Button onClick={() => navigate('/dangnhap')} className="tm-login-button d-flex justify-content-center align-items-center" style={{marginLeft:"11rem"}}>
                       <LoginSharpIcon /> Đăng nhập/Đăng ký
                     </Button>
                   )}
@@ -153,57 +142,12 @@ function Header() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </li>
-                <li><Link to="#">Bảng Giá</Link></li>
+                <li><Link to="/banggia">Bảng Giá</Link></li>
                 <li><Link to="/kienthuckimcuong">Kiến Thức Kim Cương</Link></li>
                 <li><Link to="/lienhe">Liên Hệ</Link></li>
               </ul>
             </nav>
           </div>
-        </div>
-      </div>
-      <div className="tm-header-bottomarea bg-white">
-        <div className="container">
-          <nav className="tm-header-nav">
-            <ul>
-              <li>
-                <Link to="/trangchu">Trang Chủ</Link>
-              </li>
-              <li>
-                <Link to="/gioithieu">Giới Thiệu</Link>
-              </li>
-              <li style={{ marginRight: "5px" }}>
-                <Link to="/sanpham">Sản Phẩm</Link>
-              </li>
-              <li style={{ margin: "0px" }}>
-                <NavDropdown
-                  className="drop-hover"
-                  id="collapsible-nav-dropdown"
-                >
-                  <NavDropdown.Item
-                    style={{ textAlign: "center" }}
-                    href="/kimcuong"
-                  >
-                    Kim Cương
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    style={{ textAlign: "center" }}
-                    href="/trangsuc"
-                  >
-                    Trang Sức
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </li>
-              <li>
-                <Link to="#">Bảng Giá</Link>
-              </li>
-              <li>
-                <Link to="/kienthuckimcuong">Kiến Thức Kim Cương</Link>
-              </li>
-              <li>
-                <Link to="/lienhe">Liên Hệ</Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </>

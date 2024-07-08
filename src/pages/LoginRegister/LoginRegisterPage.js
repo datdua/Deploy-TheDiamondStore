@@ -27,8 +27,9 @@ function LoginRegisterPage() {
     e.preventDefault();
 
     try {
+      
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/login",
+        "http://localhost:8080/guest/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -55,9 +56,14 @@ function LoginRegisterPage() {
         setIsLoggedIn(true);
         toast.success("Đăng nhập thành công!");
 
-        if (decodedToken.role === "ROLE_ADMIN" || decodedToken.role === "ROLE_MANAGER") {
+        if (decodedToken.role === "ROLE_ADMIN") {
           navigate("/admin/profile");
-        } else {
+        } else if (decodedToken.role === "ROLE_MANAGER") {
+          navigate("/manager/profile");
+        } else if (decodedToken.role === "ROLE_SALE-STAFF") {
+          navigate("/sale-staff/profile");
+        }
+        else {
           navigate("/trangchu");
           window.location.reload();
           window.scrollTo(0, 0);
@@ -90,7 +96,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
+        "http://localhost:8080/api/accounts/guest/register",
         {
           accountName: registerName,
           email: registerEmail,
@@ -195,18 +201,6 @@ function LoginRegisterPage() {
                         <button type="submit" className="tm-button">
                           Đăng Nhập
                         </button>
-                      </div>
-                      <div className="tm-form-field">
-                        <div className="tm-form-sociallogin">
-                          <h6>Hoặc, đăng nhập với :</h6>
-                          <ul>
-                            <li>
-                              <a href="#" className="google-btn">
-                                <i className="ion-social-google"></i>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
                       </div>
                     </div>
                   </form>

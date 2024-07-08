@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
 import { createJewelry } from "../../api/JewelryAPI.js"; // Adjust this import to your file structure
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function AddJewelryForm() {
   const [jewelry, setJewelry] = useState({
@@ -8,10 +11,20 @@ function AddJewelryForm() {
     jewelryName: "",
     gender: "",
     jewelryImage: "",
+    warrantyID: "",
     jewelryEntryPrice: "",
   });
 
   const [message, setMessage] = useState(""); // New state variable for the message
+
+  const labels = {
+    jewelryID: "Mã trang sức",
+    jewelryName: "Tên trang sức",
+    gender: "Giới tính",
+    jewelryImage: "Hình ảnh trang sức",
+    warrantyID: "Mã giấy bảo hành",
+    jewelryEntryPrice: "Giá nhập",
+  };
 
   const handleChange = (event) => {
     setJewelry({ ...jewelry, [event.target.name]: event.target.value });
@@ -31,24 +44,30 @@ function AddJewelryForm() {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         {Object.keys(jewelry).map((key) => (
-          <Form.Group controlId={key} key={key}>
-            <Form.Label>{key}</Form.Label>
-            <Form.Control
-              type="text"
-              name={key}
-              value={jewelry[key]}
-              onChange={handleChange}
-              placeholder={key}
-            />
-          </Form.Group>
+          <TextField
+            key={key}
+            id="outlined-basic"
+            label={labels[key]}
+            variant="outlined"
+            name={key}
+            value={jewelry[key]}
+            onChange={handleChange}
+            type="text"
+          />
         ))}
-        <Button variant="primary" type="submit">
-          Create
-        </Button>
-      </Form>
-      {message && <p>{message}</p>} {/* Render the message if it exists */}
+        <Button type="submit" variant="contained" color="success">Hoàn thành</Button>
+        {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>} {/* Render the message if it exists */}
+      </Box>
     </div>
   );
 }

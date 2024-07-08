@@ -75,7 +75,7 @@ function OrderSidebar({ order, show, onHide }) {
                 </div>
           </>
         ) : (
-          <p>Loading...</p>
+          <p>Thông tin chi tiết của đơn hàng sẽ được hiển thị khi bạn đã thanh toán thành công</p>
         )}
       </Offcanvas.Body>
     </Offcanvas>

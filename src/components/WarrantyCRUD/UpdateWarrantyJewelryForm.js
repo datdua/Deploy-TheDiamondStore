@@ -4,7 +4,7 @@ import { Form, Button } from "react-bootstrap";
 
 function UpdateWarrantyForm({ warranty }) {
   const [updatedWarranty, setUpdatedWarranty] = useState({
-    diamondID: warranty.diamondID,
+    jewelryID: warranty.jewelryID,
     expirationDate: warranty.expirationDate.split(" ")[0],
     expirationTime: warranty.expirationDate.split(" ")[1].slice(0, 5),
     warrantyImage: warranty.warrantyImage,

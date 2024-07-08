@@ -1,14 +1,37 @@
 import React, { useState } from "react";
 import { updateAccount } from "../../api/accountCrud";
-import { Form, Button } from "react-bootstrap";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
 function UpdateAccountForm({ account }) {
   const [updatedAccount, setUpdateAccount] = useState(account);
+
+  const labels = {
+    email: "Email",
+    accountName: "Tên Tài Khoản",
+    password: "Mật Khẩu",
+    phoneNumber: "Số Điện Thoại",
+    role: "Vai Trò",
+    addressAccount: "Địa Chỉ",
+    // Removed 'active' from here since it will be handled separately
+  };
 
   const handleChange = (event) => {
     setUpdateAccount({
       ...updatedAccount,
       [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleActiveStatusChange = (event) => {
+    setUpdateAccount({
+      ...updatedAccount,
+      active: event.target.value === "true", // Convert string to boolean
     });
   };
 
@@ -23,74 +46,44 @@ function UpdateAccountForm({ account }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Account Email</Form.Label>
-        <Form.Control
-          type="text"
-          name="email"
-          value={updatedAccount.email}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Account Name</Form.Label>
-        <Form.Control
-          type="text"
-          name="accountName"
-          value={updatedAccount.accountName}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Account Password</Form.Label>
-        <Form.Control
-          type="text"
-          name="password"
-          value={updatedAccount.password}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Account Phone Number</Form.Label>
-        <Form.Control
-          type="text"
-          name="phoneNumber"
-          value={updatedAccount.phoneNumber}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Account Role</Form.Label>
-        <Form.Control
-          type="text"
-          name="role"
-          value={updatedAccount.role}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Account Address</Form.Label>
-        <Form.Control
-          type="text"
-          name="addressAccount"
-          value={updatedAccount.addressAccount}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-          <Form.Label>Account Status</Form.Label>
-          <Form.Control as="select" name="Account Status" value={updatedAccount.active ? "true" : "false"} onChange={handleChange}>
-            <option value="true">Kích hoạt</option>
-            <option value="false">Khóa tài khoản</option>
-          </Form.Control>
-        </Form.Group>
-      
-      <Button variant="primary" type="submit">
-        Update
-      </Button>
-    </Form>
+    <div>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        {Object.keys(labels).map((key) => (
+          <TextField
+            key={key}
+            label={labels[key]}
+            variant="outlined"
+            name={key}
+            value={updatedAccount[key]}
+            onChange={handleChange}
+            type="text"
+          />
+        ))}
+        <FormControl fullWidth>
+          <InputLabel id="active-status-label">Trạng Thái</InputLabel>
+          <Select
+            labelId="active-status-label"
+            id="active-status"
+            value={updatedAccount.active.toString()}
+            label="Trạng Thái"
+            onChange={handleActiveStatusChange}
+            name="active"
+          >
+            <MenuItem value="true">Đang kích hoạt</MenuItem>
+            <MenuItem value="false">Chưa kích hoạt</MenuItem>
+          </Select>
+        </FormControl>
+        <Button type="submit" variant="contained" color="success">Cập nhật</Button>
+      </Box>
+    </div>
   );
-
 }
 export default UpdateAccountForm;

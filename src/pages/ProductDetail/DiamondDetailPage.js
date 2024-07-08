@@ -74,10 +74,10 @@ function DiamondDetailPage() {
           <div className="tm-breadcrumb-area tm-padding-section bg-grey" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-nhan1.png?alt=media&token=8056b83a-6c63-446a-9505-7cc15364c8f7)` }}>
             <div className="container">
               <div className="tm-breadcrumb">
-                <h2>Product Details</h2>
-                <ul>
-                  <li><Link to="/trangchu">Home</Link></li>
-                  <li><Link to="/sanpham">Products</Link></li>
+                <h2>Thông tin chi tiết</h2>
+                <ul className="add-back">
+                  <li><Link to="/trangchu">Trang chủ</Link></li>
+                  <li><Link to="/sanpham">Sản phẩm</Link></li>
                   <li>{diamond ? diamond.diamondName : "Loading..."}</li>
                 </ul>
               </div>
@@ -101,46 +101,45 @@ function DiamondDetailPage() {
                             </div>
                           </div>
                           <div className="col-lg-6 col-md-6 col-12">
-                            <div className="tm-prodetails-contents" >
-                              <h4 className="tm-prodetails-title">{diamond.diamondName}</h4>
+                            <h1 className="tm-prodetails-title" style={{ fontSize: '25px' }}>{diamond.diamondName}</h1>
+                            <div className="tm-prodetails-contents" style={{ fontSize: 'larger' }}>
                               <span className="tm-prodetails-price">{diamond.diamondEntryPrice.toLocaleString()} VND</span>
-                              <div className="tm-prodetails-infos">
-                                <div className="tm-prodetails-singleinfo" >
+                              <div className="tm-prodetails-infos" >
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }} >
                                   <b>Carat Size : </b>
                                   {diamond.caratSize}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Carat Weight : </b>
-                                  {diamond.carat_weight}
+                                  {diamond.weight}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Color : </b>
                                   {diamond.color}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Clarity : </b>
                                   {diamond.clarity}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Cut : </b>
                                   {diamond.cut}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Shape : </b>
                                   {diamond.shape}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                   <b>Origin : </b>
                                   {diamond.origin}
                                 </div>
                               </div>
-                              <div className="tm-prodetails-quantitycart">
-                                <h6>Quantity :</h6>
+                              <div className="tm-prodetails-quantitycart" style={{ marginBottom: '20px', marginTop: '20px' }}>
                                 <div className="input-group">
                                   <button className="decrease-button" onClick={decreaseQuantity}>-</button>
                                   <input type="text" value={quantity} readOnly style={{ maxWidth: "50px", textAlign: "center" }} />
                                   <button className="increase-button" onClick={increaseQuantity}>+</button>
-                                  <Button onClick={() => handleAddToCart(diamond)} style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center" }}>Add to cart</Button>
+                                  <Button onClick={() => handleAddToCart(diamond)} style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px' }}>Add to cart</Button>
                                 </div>
                               </div>
                             </div>

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getAllCartItems, removeCartItem, getTotalCart, updateCart } from "../../api/addToCart";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Tooltip from '@mui/material/Tooltip';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState([]);
@@ -121,9 +122,11 @@ function CartPage() {
                                                     <div className="tm-quantitybox">
                                                         <input
                                                             type="number"
+                                                            min="1"
                                                             value={item.quantity}
                                                             onChange={(e) => handleUpdateCartItem(item.cartID, parseInt(e.target.value, 10), item.sizeJewelry, item.diamondID, item.jewelryID)}
                                                             className="w-12 text-center"
+                                                            style={{ textAlign: 'center' }}
                                                             disabled={!isEditing}
                                                         />
                                                     </div>
@@ -157,10 +160,21 @@ function CartPage() {
                                 <div className="row">
                                     <div className="col-lg-8 col-md-6">
                                         <div className="tm-buttongroup">
-                                            <Link to="/sanpham" className="tm-button">Tiếp tục mua sắm</Link>
-                                            <button className="tm-button" onClick={toggleEditing}>
-                                                {isEditing ? "Lưu thay đổi" : "Cập nhật giỏ hàng"}
-                                            </button>
+                                            <div className="row">
+                                                <div className="col-lg-3 col-md-4">
+                                                    <Link to="/sanpham" className="tm-button">Mua Tiếp </Link>
+                                                </div>
+                                                <div className="col-lg-3 col-md-4">
+                                                    <button className="tm-button" onClick={toggleEditing}>
+                                                        {isEditing ? "Lưu" : "Cập nhật "}
+                                                    </button>
+                                                </div>
+                                                <div className="col-lg-3 col-md-4">
+                                                    <Tooltip title="Để sử dụng thông tin cá nhân (bao gồm: địa chỉ, số điện thoại) áp dụng cho các đơn hàng sau, vui lòng nhấp vào đây để tiến hành cập nhật." arrow>
+                                                    <Link to={`/account/${accountId}`} style={{ marginTop: '10px' }} className="tm-button">Thông tin</Link>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-6">

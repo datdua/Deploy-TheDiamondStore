@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { createPromotion } from "../../api/PromotionAPI.js";
-import { Form, Button } from "react-bootstrap";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function AddPromotionForm() {
   const [promotion, setPromotion] = useState({
@@ -14,6 +17,16 @@ function AddPromotionForm() {
   });
 
   const [message, setMessage] = useState("");
+
+  const labels = {
+    promotionCode: "Mã Giảm Giá",
+    startDate: "Ngày Bắt Đầu",
+    startTime: "Giờ Bắt Đầu",
+    endDate: "Ngày Kết Thúc",
+    endTime: "Giờ Kết Thúc",
+    discountAmount: "Giảm Giá",
+    description: "Mô Tả",
+  };
 
   const handleChange = (event) => {
     setPromotion({ ...promotion, [event.target.name]: event.target.value });
@@ -38,30 +51,36 @@ function AddPromotionForm() {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         {Object.keys(promotion).map((key) => (
-          <Form.Group controlId={key} key={key}>
-            <Form.Label>{key}</Form.Label>
-            <Form.Control
-              type={
-                key.includes("Date")
-                  ? "date"
-                  : key.includes("Time")
+          <TextField
+            key={key}
+            id="outlined-basic"
+            label={labels[key]}
+            variant="outlined"
+            name={key}
+            value={promotion[key]}
+            onChange={handleChange}
+            type={
+              key.includes("Date")
+                ? "date"
+                : key.includes("Time")
                   ? "time"
                   : "text"
-              }
-              name={key}
-              value={promotion[key]}
-              onChange={handleChange}
-              placeholder={key}
-            />
-          </Form.Group>
+            }
+          />
         ))}
-        <Button variant="primary" type="submit">
-          Tạo Mã Giảm Giá
-        </Button>
-      </Form>
-      {message && <p>{message}</p>}
+        <Button type="submit" variant="contained" color="success">Tạo Mã Giảm Giá</Button>
+        {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
+      </Box>
     </div>
   );
 }

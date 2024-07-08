@@ -11,7 +11,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import { getAccountByID, updateAccount } from "../../api/accountCrud";
+import { getAccountByID_AdminManager, updateProfile } from "../../api/accountCrud";
 
 const ProfilePage = () => {
   const [account, setAccount] = useState(null);
@@ -28,7 +28,7 @@ const ProfilePage = () => {
 
     const fetchAccount = async () => {
       try {
-        const accountData = await getAccountByID(accountID);
+        const accountData = await getAccountByID_AdminManager(accountID);
         setAccount(accountData);
       } catch (error) {
         setError("Failed to fetch account");
@@ -49,7 +49,7 @@ const ProfilePage = () => {
 
   const handleSave = async () => {
     try {
-      await updateAccount(accountID, account);
+      await updateProfile(accountID, account);
       setIsEditing(false);
       setOpenSnackbar(true);
     } catch (error) {
@@ -110,21 +110,11 @@ const ProfilePage = () => {
         </Box>
         <Grid container spacing={2} sx={{ marginTop: 2 }}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Role</Typography>
-            {isEditing ? (
-              <TextField
-                label="Role"
-                name="role"
-                value={account.role}
-                onChange={handleChange}
-                fullWidth
-              />
-            ) : (
+            <Typography variant="h6">Vai Trò</Typography>
               <Typography>{account.role}</Typography>
-            )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Phone Number</Typography>
+            <Typography variant="h6">Số Điện Thoại</Typography>
             {isEditing ? (
               <TextField
                 label="Phone Number"
@@ -138,7 +128,7 @@ const ProfilePage = () => {
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Address</Typography>
+            <Typography variant="h6">Địa Chỉ</Typography>
             {isEditing ? (
               <TextField
                 label="Address"
@@ -152,7 +142,7 @@ const ProfilePage = () => {
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Password</Typography>
+            <Typography variant="h6">Mật Khẩu</Typography>
             {isEditing ? (
               <TextField
                 name="password"
@@ -166,7 +156,7 @@ const ProfilePage = () => {
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Active</Typography>
+            <Typography variant="h6">Trạng Thái</Typography>
             <Typography>{account.active ? "Đã kích họat" : "Khóa tài khoản"}</Typography>
           </Grid>
         </Grid>

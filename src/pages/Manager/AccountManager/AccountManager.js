@@ -8,7 +8,7 @@ import {
   Card,
   Table,
 } from "react-bootstrap";
-import { getAllAccount, deleteAccounts } from "../../../api/accountCrud.js";
+import { getAccountHaveNotRoleCustomer, deleteAccounts } from "../../../api/accountCrud.js";
 import AddAccountForm from "../../../components/AccountCRUD/AddAccountForm.js";
 import UpdateAccountForm from "../../../components/AccountCRUD/UpdateAccountForm.js";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -34,7 +34,7 @@ function AccountManager() {
   const currentPageData = accounts.slice(startIndex, endIndex);
 
   useEffect(() => {
-    getAllAccount().then((data) => {
+    getAccountHaveNotRoleCustomer().then((data) => {
       setAccounts(data);
     });
   }, []);
@@ -118,7 +118,7 @@ function AccountManager() {
   };
 
   const refreshTable = () => {
-    getAllAccount().then((data) => {
+    getAccountHaveNotRoleCustomer().then((data) => {
       setAccounts(data);
     });
   };
@@ -132,20 +132,20 @@ function AccountManager() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Account List
+                Ban Điều Hành
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={handleShowAdd}
                 >
-                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
+                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Tài Khoản
                 </Button>
                 {selected.length > 0 && (
                   <Tooltip describeChild title="Xóa các tài khoản đã chọn" arrow placement="top">
@@ -243,7 +243,6 @@ function AccountManager() {
           </Card>
         </Col>
       </Row>
-
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>

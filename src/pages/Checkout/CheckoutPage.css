@@ -7,3 +7,6 @@
 .tm-checkout-final-total.highlight td:last-child {
     color: #f2ba59;            /* Change the color of the final total price */
 }
+.button-hover:hover {
+    background-color: #d3a04c; 
+  }

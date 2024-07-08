@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import { updateDiamondPrice } from "../../api/DiamondPriceAPI.js";
-import { Form, Button } from "react-bootstrap";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function UpdateDiamondPriceForm({ diamondPrice }) {
   const [updatedDiamondPrice, setUpdateDiamondPrice] = useState(diamondPrice);
+
+  const labels = {
+    diamondEntryPrice: "Giá Kim Cương",
+    clarity: "Độ trong",
+    color: "Màu sắc",
+    caratSize: "Trọng lượng",
+  };
 
   const handleChange = (event) => {
     setUpdateDiamondPrice({
@@ -33,56 +43,31 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Diamond ID</Form.Label>
-        <Form.Control
-          type="text"
-          name="diamondID"
-          value={updatedDiamondPrice.diamondID}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Diamond Entry Price</Form.Label>
-        <Form.Control
-          type="text"
-          name="diamondEntryPrice"
-          value={updatedDiamondPrice.diamondEntryPrice}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Clarity</Form.Label>
-        <Form.Control
-          type="text"
-          name="clarity"
-          value={updatedDiamondPrice.clarity}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Colour</Form.Label>
-        <Form.Control
-          type="text"
-          name="color"
-          value={updatedDiamondPrice.color}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Carat Size</Form.Label>
-        <Form.Control
-          type="text"
-          name="caratSize"
-          value={updatedDiamondPrice.caratSize}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Update
-      </Button>
-    </Form>
+    <div>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        {Object.keys(labels).map((key) => (
+          <TextField
+            key={key}
+            id="outlined-basic"
+            label={labels[key]}
+            variant="outlined"
+            name={key}
+            value={updatedDiamondPrice[key]}
+            onChange={handleChange}
+            type="text"
+          />
+        ))}
+        <Button type="submit" variant="contained" color="success">Cập nhật</Button>
+      </Box>
+    </div>
   );
 }
 export default UpdateDiamondPriceForm;

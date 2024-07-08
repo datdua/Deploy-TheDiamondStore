@@ -2,7 +2,12 @@ import axios from "axios";
 
 export const getAllCertificates = async () => {
   try {
-    const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates");
+    const token = localStorage.getItem("jwt");
+    const response = await axios.get("http://localhost:8080/api/certificates/get-all",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching certificates:", error);
@@ -13,7 +18,7 @@ export const getAllCertificates = async () => {
 export const getCertificateById = async (certificateId) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/${certificateId}`
+      `http://localhost:8080/api/certificates/${certificateId}`
     );
     return response.data;
   } catch (error) {
@@ -24,9 +29,13 @@ export const getCertificateById = async (certificateId) => {
 
 export const createCertificate = async (certificate) => {
   try {
+    const token = localStorage.getItem("jwt");
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/create",
-      certificate
+      "http://localhost:8080/api/certificates/manager/create",
+      certificate,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return response.data;
   } catch (error) {
@@ -37,9 +46,13 @@ export const createCertificate = async (certificate) => {
 
 export const updateCertificate = async (certificateId, certificate) => {
   try {
+    const token = localStorage.getItem("jwt");
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/update/${certificateId}`,
-      certificate
+      `http://localhost:8080/api/certificates/manager/update/${certificateId}`,
+      certificate,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return response.data;
   } catch (error) {
@@ -48,11 +61,16 @@ export const updateCertificate = async (certificateId, certificate) => {
   }
 };
 
+
 export async function deleteCertificate(certificateIDs) {
   try {
-    const response = await axios.delete("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/delete", {
-      data: certificateIDs,
-    });
+    const token = localStorage.getItem("jwt");
+    const response = await axios.delete("http://localhost:8080/api/certificates/manager/delete", 
+      { 
+        headers: { Authorization: `Bearer ${token}` },
+        data: certificateIDs
+       }
+    );
     return response.data;
   } catch (error) {
     throw new Error("Failed to delete accounts");
@@ -62,7 +80,7 @@ export async function deleteCertificate(certificateIDs) {
 export const getCertificateImage = async (certificationID) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/get/certificateImg/${certificationID}`
+      `http://localhost:8080/api/certificates/get/certificateImg/${certificationID}`
     );
     return response.data;
   } catch (error) {
@@ -74,7 +92,7 @@ export const getCertificateImage = async (certificationID) => {
 export const getCertificateByPage = async (page = 1, size = 9) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/paged?page=${page}&size=${size}`
+      `http://localhost:8080/api/certificates/paged?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {

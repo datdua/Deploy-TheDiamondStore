@@ -6,11 +6,13 @@
 .input-group {
     display: flex;
     margin-left: 10px;
-    align-items: center
+    align-items: center;
+    
 }
 
-.input-group button {
-    border: none;
-    background: none;
-    cursor: pointer;
+.increase-button .decrease-button{
+    border: 2px groove #a81042;
+    border-radius: 50%;
+    padding: 5px;
+    
 }

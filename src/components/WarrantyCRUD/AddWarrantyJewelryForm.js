@@ -1,42 +1,46 @@
 import React, { useState } from "react";
-import { createAccount } from "../../api/accountCrud"; // Adjust the import path as necessary
+import { createWarranty } from "../../api/WarrantyAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
-function AddAccountForm() {
-    const [account, setAccount] = useState({
-        accountName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        role: "",
+function AddWarrantyJewelryForm() {
+    const [warranty, setWarranty] = useState({
+        warrantyID: "",
+        jewelryID: "",
+        expirationDate: "",
+        expirationTime: "",
+        warrantyImage: "",
     });
 
     const [message, setMessage] = useState("");
 
     const labels = {
-        accountName: "Tên tài khoản",
-        email: "Email",
-        password: "Mật khẩu",
-        phoneNumber: "Số điện thoại",
-        role: "Vai trò",
+        warrantyID: "Mã giấy bảo hành",
+        jewelryID: "Mã trang sức",
+        expirationDate: "Ngày hết hạn",
+        expirationTime: "Giờ hết hạn",
+        warrantyImage: "Hình ảnh giấy bảo hành",
     };
 
     const handleChange = (event) => {
-        setAccount({ ...account, [event.target.name]: event.target.value });
+        setWarranty({ ...warranty, [event.target.name]: event.target.value });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await createAccount(account);
+            const dateTimeWarranty = {
+                ...warranty,
+                expirationDate: `${warranty.expirationDate} ${warranty.expirationTime}:00`,
+            };
+            const response = await createWarranty(dateTimeWarranty);
             console.log(response);
-            setMessage("Tạo mới tài khoản thành công");
+            setMessage("Tạo mới Giấy Bảo Hành thành công");
         } catch (error) {
             console.error(error);
-            setMessage("Tạo mới tài khoản thất bại");
+            setMessage("Tạo mới Giấy Bảo Hành thất bại");
         }
     };
 
@@ -51,24 +55,23 @@ function AddAccountForm() {
                 autoComplete="off"
                 onSubmit={handleSubmit}
             >
-                {Object.keys(account).map((key) => (
+                {Object.keys(warranty).map((key) => (
                     <TextField
                         key={key}
                         id="outlined-basic"
                         label={labels[key]}
                         variant="outlined"
                         name={key}
-                        value={account[key]}
+                        value={warranty[key]}
                         onChange={handleChange}
-                        type="text"
-                        required={key !== "phoneNumber"}
+                        type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
                     />
                 ))}
-                <Button type="submit" variant="contained" color="success">Tạo tài khoản</Button>
+                <Button type="submit" variant="contained" color="success">Hoàn thành</Button>
                 {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
             </Box>
         </div>
     );
 }
 
-export default AddAccountForm;
+export default AddWarrantyJewelryForm;

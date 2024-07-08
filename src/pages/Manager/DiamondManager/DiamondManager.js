@@ -76,11 +76,6 @@ function DiamondManagerPage() {
     setSelectedImage("");
   };
 
-  const handleDelete = (diamondID) => {
-    setDiamondData(
-      diamondData.filter((diamond) => diamond.diamondID !== diamondID)
-    );
-  };
 
   const handleShowCertificate = async (certificationID) => {
     try {
@@ -198,14 +193,14 @@ function DiamondManagerPage() {
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={handleShowAdd}
                 >
-                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
+                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Kim Cương
                 </Button>
                 {selected.length > 0 && (
                   <Tooltip describeChild title="Xóa các kim cương đã chọn" arrow placement="top">
@@ -234,21 +229,21 @@ function DiamondManagerPage() {
                           }
                         />
                       </th>
-                      <th>Diamond ID</th>
-                      <th>Warranty ID</th>
-                      <th>Certification ID</th>
-                      <th>Diamond Name</th>
-                      <th>Diamond Entry Price</th>
-                      <th>Diamond Gross Price</th>
-                      <th>Diamond Image</th>
-                      <th>Carat Weight</th>
-                      <th>Carat Size</th>
-                      <th>Color</th>
-                      <th>Cut</th>
-                      <th>Clarity</th>
-                      <th>Shape</th>
-                      <th>Origin</th>
-                      <th>Action</th>
+                      <th>Mã Kim Cương</th>
+                      <th>Mã Giấy Bảo Hành</th>
+                      <th>Mã Chứng Chỉ</th>
+                      <th>Tên Kim Cương</th>
+                      <th>Giá Nhập Km Cương</th>
+                      <th>Giá Bán Kim Cương</th>
+                      <th>Hình Ảnh Kim Cương</th>
+                      <th>Trọng Lượng Carat</th>
+                      <th>Kích Cỡ Carat</th>
+                      <th>Màu Sắc</th>
+                      <th>Vết Cắt</th>
+                      <th>Độ Trong</th>
+                      <th>Hình Dạng</th>
+                      <th>Xuất Xứ</th>
+                      <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -275,7 +270,7 @@ function DiamondManagerPage() {
                                 handleShowWarrantity(diamond.warrantyID)
                               }
                             >
-                              {diamond.warrantyID}
+                              {diamond.warrantyID ? diamond.warrantyID : "N/A"}
                             </a>
                           </td>
                           <td>
@@ -285,7 +280,7 @@ function DiamondManagerPage() {
                                 handleShowCertificate(diamond.certificationID)
                               }
                             >
-                              {diamond.certificationID}
+                              {diamond.certificationID ? diamond.certificationID : "N/A"}
                             </a>
                           </td>
                           <td>{diamond.diamondName}</td>
@@ -315,7 +310,7 @@ function DiamondManagerPage() {
                               }
                             />
                           </td>
-                          <td>{diamond.carat_weight}</td>
+                          <td>{diamond.weight}</td>
                           <td>{diamond.caratSize}</td>
                           <td>{diamond.color}</td>
                           <td>{diamond.cut}</td>
@@ -375,7 +370,6 @@ function DiamondManagerPage() {
 
       <Modal show={showCertificateModal} onHide={handleCloseCertificateModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Certificate Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {certificateImage ? (
@@ -397,7 +391,6 @@ function DiamondManagerPage() {
 
       <Modal show={showWarrantityModal} onHide={handleCloseWarrantityModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Warrantity Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {warrantyImg ? (

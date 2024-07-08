@@ -1,0 +1,51 @@
+.tablePriceWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 16px 0;
+}
+
+.tablePriceContainer {
+    max-width: 80%;
+    overflow-x: auto;
+    border: 2px solid #bd9a7a;
+    width: auto;
+}
+
+.headerPriceCell {
+    background-color: #bd9a7a;
+    color: white;
+    font-weight: bold;
+    width: 120px;
+    text-align: center;
+}
+
+.bodyPriceCell {
+    width: 120px;
+    text-align: center;
+}
+
+
+.bodyPriceCell:nth-of-type(odd) {
+    background-color: #f5f5f5;
+}
+
+.tablePriceTypography {
+    padding: 16px;
+    color: #bd9a7a;
+    
+}
+
+.mainTitle {
+    color: #bd9a7a;
+    margin-bottom: 16px;
+    text-align: center;
+    padding-top: 60px;
+}
+
+.description {
+    max-width: 80%;
+    text-align: center;
+    margin-bottom: 32px;
+}

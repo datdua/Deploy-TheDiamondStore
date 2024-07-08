@@ -3,7 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllDiamond, getPage, searchDiamond } from "../../api/DiamondAPI";
 import { Pagination } from "@mui/material";
-
+import CloseIcon from '@mui/icons-material/Close';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 Modal.setAppElement('#root');
 
 const customModalStyles = {
@@ -19,6 +20,7 @@ const customModalStyles = {
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         zIndex: '1000',
+        transition: 'opacity 0.5s ease-in-out',
     },
 };
 
@@ -37,8 +39,8 @@ function DiamondPage() {
         clarity: 'All',
         shape: 'All',
         origin: 'All',
-        minPrice: '',
-        maxPrice: '',
+        minDiamondPrice: '',
+        maxDiamondPrice: '',
         minCaratSize: '',
         maxCaratSize: '',
         minCaratWeight: '',
@@ -53,32 +55,9 @@ function DiamondPage() {
     const shapes = ['All', 'Radiant', 'Around', 'Pear'];
     const origins = ['All', 'GIA']
 
-    function openModal(item) {
-        setSelectedItem(item);
-        setIsOpen(true);
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-        setSelectedItem(null);
-    }
-
-    const fetchDiamonds = async (page) => {
-        setLoading(true);
-        try {
-            const data = await getPage(page);
-            setDiamonds(data.content);
-            setTotalPages(data.totalPages);
-            setLoading(false);
-        } catch (error) {
-            setError(error.message);
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         fetchDiamonds(currentPage);
-    }, [currentPage]);
+    }, [currentPage, filterApplied]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -91,49 +70,84 @@ function DiamondPage() {
     }, [location]);
 
     const resultsPerPage = 9;
-
-    const handleSearch = async (e) => {
-        e.preventDefault();
+    const fetchDiamonds = async (page) => {
         setLoading(true);
         try {
-            const filtersToUse = { ...filters };
-            if (filters.cut === 'All') {
-                delete filtersToUse.cut;
+            let apiParams = {
+                page: page,
+                size: resultsPerPage
+            };
+
+            if (filterApplied) {
+                // Only include non-empty and non-'All' filters
+                Object.entries(filters).forEach(([key, value]) => {
+                    if (value !== '' && value !== 'All') {
+                        apiParams[key] = value;
+                    }
+                });
+
+                const { content, totalPages } = await searchDiamond(apiParams);
+                setDiamonds(content);
+                setTotalPages(totalPages);
+            } else {
+                const data = await getPage(page, resultsPerPage);
+                setDiamonds(data.content);
+                setTotalPages(data.totalPages);
             }
-            if (filters.color === 'All') {
-                delete filtersToUse.color;
-            }
-            if (filters.clarity === 'All') {
-                delete filtersToUse.clarity;
-            }
-            if (filters.shape === 'All') {
-                delete filtersToUse.shape;
-            }
-            if (filters.origin === 'All') {
-                delete filtersToUse.origin;
-            }
-            const { content, totalPages } = await searchDiamond(filtersToUse, currentPage, resultsPerPage);
-            setTotalPages(totalPages);
-            setDiamonds(content);
             setLoading(false);
             window.scrollTo(0, 0);
         } catch (error) {
             setError(error.message);
             setLoading(false);
         }
-    }
+    };
 
-    const handlePageChange = async (page) => {
+
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         try {
-            const data = await searchDiamond(filters, page);
-            setSearchResults(data.content);
-            setCurrentPage(data.pageable.pageNumber + 1);
-            setTotalPages(data.totalPages);
+            let filtersToUse = {
+                page: 1,
+                size: resultsPerPage
+            };
+
+            // Include only non-empty and non-'All' filters
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value !== '' && value !== 'All') {
+                    filtersToUse[key] = value;
+                }
+            });
+
+            const { content, totalPages } = await searchDiamond(filtersToUse);
+            setDiamonds(content);
+            setTotalPages(totalPages);
+
+            setLoading(false);
             window.scrollTo(0, 0);
+            closeModal();
+            setFilterApplied(true); // Filters are now applied
         } catch (error) {
-            console.error(error);
+            setError(error.message);
+            setLoading(false);
         }
     };
+
+
+    const handlePageChange = async (page) => {
+        setCurrentPage(page); // Update currentPage state
+    };
+
+    function openModal(item) {
+        setSelectedItem(item);
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+        setSelectedItem(null);
+    }
 
     return (
         <div>
@@ -153,247 +167,255 @@ function DiamondPage() {
                     <div className="tm-products-area tm-section tm-padding-section bg-white">
                         <div className="container">
                             <div className="row">
-                                <div className="col-12">
-                                    <form action="#" className="tm-shop-header">
-                                        <div className="container-fluid px-1 px-sm-4 py-5 mx-auto">
-                                            <div className="row d-flex justify-content-center">
-                                                <div className="col-md-12">
-                                                    <div className="card border-0">
-                                                        <div className="card-header bg-white">
-                                                            <h4 className="mb-1">Advanced Search and Filter</h4>
-                                                            <small className="text-muted">Create segments for filtering your data for seeing business insights.</small>
-                                                        </div>
-                                                        <div className="card-body px-4 px-md-5 py-4">
+                                <button className="btn btn-primary mb-4 " onClick={openModal} style={{ backgroundColor: '#f2ba59', maxWidth: '10%', }}><FilterAltIcon />Nâng cao</button>
+                                <Modal
+                                    isOpen={modalIsOpen}
+                                    onRequestClose={closeModal}
+                                    style={customModalStyles}
+                                    contentLabel="Advanced Search Modal"
+                                >
+                                    <div className="col-12">
+                                        <form action="#" className="tm-shop-header">
+                                            <div className="container-fluid px-1 px-sm-4 py-5 mx-auto">
+                                                <div className="row d-flex justify-content-center">
+                                                    <div className="col-md-12">
+                                                        <div className="card border-0">
+                                                            <div className="card-header bg-white d-flex justify-content-between align-items-center">
+                                                                <h4 className="mb-0">Advanced Search and Filter</h4>
+                                                                <button type="button" className="btn btn-link" onClick={closeModal}><CloseIcon /></button>
+                                                            </div>
+                                                            <div className="card-body px-4 px-md-5 py-4">
 
-                                                            <h5>FILTER LIST</h5>
+                                                                <h5>FILTER LIST</h5>
 
-                                                            <div className="row">
-                                                                <div className="col-md-2 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Color</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <select
-                                                                                id="colorSearch"
-                                                                                className="form-control"
-                                                                                value={filters.color}
-                                                                                onChange={(e) => setFilters({ ...filters, color: e.target.value })}
-                                                                            >
-                                                                                {colors.map((color) => (
-                                                                                    <option key={color} value={color}>
-                                                                                        {color}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-2 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Cut</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <select
-                                                                                id="cutSearch"
-                                                                                className="form-control"
-                                                                                value={filters.cut}
-                                                                                onChange={(e) => setFilters({ ...filters, cut: e.target.value })}
-                                                                            >
-                                                                                {cuts.map((cut) => (
-                                                                                    <option key={cut} value={cut}>
-                                                                                        {cut}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
+                                                                <div className="row">
+                                                                    <div className="col-md-2 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Color</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <select
+                                                                                    id="colorSearch"
+                                                                                    className="form-control"
+                                                                                    value={filters.color}
+                                                                                    onChange={(e) => setFilters({ ...filters, color: e.target.value })}
+                                                                                >
+                                                                                    {colors.map((color) => (
+                                                                                        <option key={color} value={color}>
+                                                                                            {color}
+                                                                                        </option>
+                                                                                    ))}
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-md-2 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Clarity</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <select
-                                                                                id="claritySearch"
-                                                                                className="form-control"
-                                                                                value={filters.clarity}
-                                                                                onChange={(e) => setFilters({ ...filters, clarity: e.target.value })}
-                                                                            >
-                                                                                {clarities.map((clarity) => (
-                                                                                    <option key={clarity} value={clarity}>
-                                                                                        {clarity}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
+                                                                    <div className="col-md-2 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Cut</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <select
+                                                                                    id="cutSearch"
+                                                                                    className="form-control"
+                                                                                    value={filters.cut}
+                                                                                    onChange={(e) => setFilters({ ...filters, cut: e.target.value })}
+                                                                                >
+                                                                                    {cuts.map((cut) => (
+                                                                                        <option key={cut} value={cut}>
+                                                                                            {cut}
+                                                                                        </option>
+                                                                                    ))}
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                    <div className="col-md-2 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Clarity</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <select
+                                                                                    id="claritySearch"
+                                                                                    className="form-control"
+                                                                                    value={filters.clarity}
+                                                                                    onChange={(e) => setFilters({ ...filters, clarity: e.target.value })}
+                                                                                >
+                                                                                    {clarities.map((clarity) => (
+                                                                                        <option key={clarity} value={clarity}>
+                                                                                            {clarity}
+                                                                                        </option>
+                                                                                    ))}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
-                                                                <div className="col-md-2 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Shape</h6>
+                                                                    <div className="col-md-2 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Shape</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <select
+                                                                                    id="shapeSearch"
+                                                                                    className="form-control"
+                                                                                    value={filters.shape}
+                                                                                    onChange={(e) => setFilters({ ...filters, shape: e.target.value })}
+                                                                                >
+                                                                                    {shapes.map((shape) => (
+                                                                                        <option key={shape} value={shape}>
+                                                                                            {shape}
+                                                                                        </option>
+                                                                                    ))}
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="card-body">
-                                                                            <select
-                                                                                id="shapeSearch"
-                                                                                className="form-control"
-                                                                                value={filters.shape}
-                                                                                onChange={(e) => setFilters({ ...filters, shape: e.target.value })}
-                                                                            >
-                                                                                {shapes.map((shape) => (
-                                                                                    <option key={shape} value={shape}>
-                                                                                        {shape}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
+                                                                    </div>
+                                                                    <div className="col-md-2 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Origin</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <select
+                                                                                    id="originSearch"
+                                                                                    className="form-control"
+                                                                                    value={filters.origin}
+                                                                                    onChange={(e) => setFilters({ ...filters, origin: e.target.value })}
+                                                                                >
+                                                                                    {origins.map((origin) => (
+                                                                                        <option key={origin} value={origin}>
+                                                                                            {origin}
+                                                                                        </option>
+                                                                                    ))}
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-md-2 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Origin</h6>
+                                                                <div className="row">
+                                                                    <div className="col-md-4 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Price</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <div className="form-row">
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="minPrice">Min Price</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="minPrice"
+                                                                                            placeholder="Min Price"
+                                                                                            value={filters.minDiamondPrice}
+                                                                                            onChange={(e) => setFilters({ ...filters, minDiamondPrice: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="maxPrice">Max Price</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="maxPrice"
+                                                                                            placeholder="Max Price"
+                                                                                            value={filters.maxDiamondPrice}
+                                                                                            onChange={(e) => setFilters({ ...filters, maxDiamondPrice: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="card-body">
-                                                                            <select
-                                                                                id="originSearch"
-                                                                                className="form-control"
-                                                                                value={filters.origin}
-                                                                                onChange={(e) => setFilters({ ...filters, origin: e.target.value })}
-                                                                            >
-                                                                                {origins.map((origin) => (
-                                                                                    <option key={origin} value={origin}>
-                                                                                        {origin}
-                                                                                    </option>
-                                                                                ))}
-                                                                            </select>
+                                                                    </div>
+                                                                    <div className="col-md-4 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Carat Size</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <div className="form-row">
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="minCaratSize">Min Carat Size</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="minCaratSize"
+                                                                                            placeholder="Min Carat Size"
+                                                                                            value={filters.minCaratSize}
+                                                                                            onChange={(e) => setFilters({ ...filters, minCaratSize: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="maxCaratSize">Max Carat Size</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="maxCaratSize"
+                                                                                            placeholder="Max Carat Size"
+                                                                                            value={filters.maxCaratSize}
+                                                                                            onChange={(e) => setFilters({ ...filters, maxCaratSize: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-md-4 mb-4">
+                                                                        <div className="card">
+                                                                            <div className="card-header">
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Carat Weight</h6>
+                                                                            </div>
+                                                                            <div className="card-body">
+                                                                                <div className="form-row">
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="minCaratWeight">Min Carat Weight</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="minCaratWeight"
+                                                                                            placeholder="Min Carat Weight"
+                                                                                            value={filters.minCaratWeight}
+                                                                                            onChange={(e) => setFilters({ ...filters, minCaratWeight: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                    <div className="form-group col-md-6">
+                                                                                        <label htmlFor="maxCaratWeight">Max Carat Weight</label>
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            className="form-control"
+                                                                                            id="maxCaratWeight"
+                                                                                            placeholder="Max Carat Weight"
+                                                                                            value={filters.maxCaratWeight}
+                                                                                            onChange={(e) => setFilters({ ...filters, maxCaratWeight: e.target.value })}
+                                                                                        />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="row">
-                                                                <div className="col-md-4 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Price</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <div className="form-row">
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="minPrice">Min Price</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="minPrice"
-                                                                                        placeholder="Min Price"
-                                                                                        value={filters.minPrice}
-                                                                                        onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="maxPrice">Max Price</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="maxPrice"
-                                                                                        placeholder="Max Price"
-                                                                                        value={filters.maxPrice}
-                                                                                        onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                            <div className="col-md-12 d-flex flex-column">
+                                                                <div className="mt-auto w-100">
+                                                                    <div className="card-footer bg-white d-flex justify-content-end">
+                                                                        <button className="btn btn-secondary px-4 mb-2 mr-5" type="button" onClick={closeModal}>Cancel</button>
+                                                                        <button className="btn  ml-5" onClick={handleSearch} style={{ backgroundColor: '#f2ba59' }}>
+                                                                            <span className="fa fa-filter"></span> &nbsp;&nbsp;Apply Filter
+                                                                        </button>
                                                                     </div>
-                                                                </div>
-                                                                <div className="col-md-4 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Carat Size</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <div className="form-row">
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="minCaratSize">Min Carat Size</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="minCaratSize"
-                                                                                        placeholder="Min Carat Size"
-                                                                                        value={filters.minCaratSize}
-                                                                                        onChange={(e) => setFilters({ ...filters, minCaratSize: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="maxCaratSize">Max Carat Size</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="maxCaratSize"
-                                                                                        placeholder="Max Carat Size"
-                                                                                        value={filters.maxCaratSize}
-                                                                                        onChange={(e) => setFilters({ ...filters, maxCaratSize: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-md-4 mb-4">
-                                                                    <div className="card">
-                                                                        <div className="card-header">
-                                                                            <h6><span className="fa fa-filter mr-3"></span>Carat Weight</h6>
-                                                                        </div>
-                                                                        <div className="card-body">
-                                                                            <div className="form-row">
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="minCaratWeight">Min Carat Weight</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="minCaratWeight"
-                                                                                        placeholder="Min Carat Weight"
-                                                                                        value={filters.minCaratWeight}
-                                                                                        onChange={(e) => setFilters({ ...filters, minCaratWeight: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                                <div className="form-group col-md-6">
-                                                                                    <label htmlFor="maxCaratWeight">Max Carat Weight</label>
-                                                                                    <input
-                                                                                        type="number"
-                                                                                        className="form-control"
-                                                                                        id="maxCaratWeight"
-                                                                                        placeholder="Max Carat Weight"
-                                                                                        value={filters.maxCaratWeight}
-                                                                                        onChange={(e) => setFilters({ ...filters, maxCaratWeight: e.target.value })}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-12 d-flex flex-column">
-                                                            <div className="mt-auto w-100">
-                                                                <div className="col-md-4 card-footer bg-white d-flex mx-0 mb-2 justify-content-end">
-                                                                    <button className="btn btn-secondary px-4 mb-2">Cancel</button>
-                                                                    <button className="btn btn-success ml-auto" onClick={handleSearch}>
-                                                                        <span className="fa fa-filter"></span> &nbsp;&nbsp;Apply Filter
-                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <p className="tm-shop-countview">Showing 1 to {diamonds.length} of {diamonds.length}</p>
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+                                </Modal>
+                                <p className="tm-shop-countview">Showing 1 to {diamonds.length} of {diamonds.length}</p>
                                 <div className="col-12">
                                     <div className="row">
                                         <div className="col-lg-9">
@@ -442,7 +464,11 @@ function DiamondPage() {
                                                 </div>
                                             </div>
                                             <div className="tm-pagination mt-50">
-                                                <Pagination count={totalPages} page={currentPage} onChange={(event, page) => handlePageChange(page)} />
+                                                <Pagination
+                                                    count={totalPages}
+                                                    page={currentPage}
+                                                    onChange={(event, page) => handlePageChange(page)}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-lg-3">
@@ -462,34 +488,6 @@ function DiamondPage() {
                         </div>
                     </div>
                 </main>
-            </div>
-            <div id="tm-product-quickview">
-                {selectedItem && (
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        style={customModalStyles}
-                        contentLabel="Product Modal"
-                    >
-                        <div className="modal-content">
-                            <div className="img-container">
-                                <img src={selectedItem.diamondImage} alt={selectedItem.diamondName} />
-                            </div>
-                            <button className="close-button" onClick={closeModal}>Close</button>
-                            <div className="content-container">
-                                <h2>{selectedItem.diamondName}</h2>
-                                <p>Price: {selectedItem.diamondEntryPrice ? selectedItem.diamondEntryPrice.toLocaleString() : 'N/A'} VND</p>
-                                <p>Carat Size: {selectedItem.caratSize}</p>
-                                <p>Color: {selectedItem.color}</p>
-                                <p>Cut: {selectedItem.cut}</p>
-                                <p>Clarity: {selectedItem.clarity}</p>
-                                <p>Shape: {selectedItem.shape}</p>
-                                <p>Origin: {selectedItem.origin}</p>
-                            </div>
-                        </div>
-                    </Modal>
-                )}
-
             </div>
         </div>
     );

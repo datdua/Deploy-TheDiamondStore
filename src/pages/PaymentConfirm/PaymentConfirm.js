@@ -10,7 +10,8 @@ function PaymentConfirm() {
     const token = getAuthToken();
     const queryParams = new URLSearchParams(location.search);
 
-    // Get the values of the query parameters
+    // Get the values of the query parameters 
+    // ...&vnp_BankCode=NCB&vnp_BankTranNo=VNP14445453...vnp_OrderInfo=Thanh+toan+don+hang%3A18...&vnp_ResponseCode=00&...
     const vnp_BankCode = queryParams.get('vnp_BankCode');
     let vnp_BankTranNo = queryParams.get('vnp_BankTranNo');
     if (vnp_BankTranNo) {
@@ -18,12 +19,12 @@ function PaymentConfirm() {
     }
     let vnp_OrderInfo = queryParams.get('vnp_OrderInfo');
     if (vnp_OrderInfo) {
-        vnp_OrderInfo = decodeURIComponent(vnp_OrderInfo).split(':')[1];
+        vnp_OrderInfo = decodeURIComponent(vnp_OrderInfo).split(':')[1]; // "Thanh+toan+don+hang%3A18" => "Thanh toan don hang:18" //OrderID:18
     }
     const vnp_ResponseCode = queryParams.get('vnp_ResponseCode');
 
     // Your base API URL
-    let apiUrl = "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/payment/vnpay_return";
+    let apiUrl = "http://localhost:8080/api/payment/customer/vnpay_return";
 
     // Append the query parameters to the API URL
     apiUrl += `?vnp_BankCode=${encodeURIComponent(vnp_BankCode)}&vnp_OrderInfo=${encodeURIComponent(vnp_OrderInfo)}&vnp_ResponseCode=${encodeURIComponent(vnp_ResponseCode)}&vnp_TransactionNo=${encodeURIComponent(vnp_BankTranNo)}`;

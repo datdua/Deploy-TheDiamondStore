@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { getAllPromotions, deletePromotion} from "../../../api/PromotionAPI";
+import { getAllPromotions, deletePromotion } from "../../../api/PromotionAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -142,14 +142,14 @@ function PromotionManagerPage() {
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={() => setShowModal(true)}
                 >
-                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
+                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Mã Khuyến Mãi
                 </Button>
                 {selected.length > 0 && (
                   <Tooltip describeChild title="Xóa các mã khuyến mãi đã chọn" arrow placement="top">
@@ -164,28 +164,28 @@ function PromotionManagerPage() {
               <div className="table-responsive">
                 <Table striped bordered hover className="account-table">
                   <thead>
-                      <tr>
-                        <th>
-                          <FormControlLabel
-                            className="checkbox-align"
-                            control={
-                              <Checkbox
-                                color="primary"
-                                indeterminate={indeterminate}
-                                checked={selectAll}
-                                onChange={handleSelectAllChange}
-                              />
-                            }
-                          />
-                        </th>
-                      <th>Promotion ID</th>
-                      <th>Promotion Code</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Discount Amount</th>
-                      <th>Status</th>
-                      <th>Description</th>
-                      <th>Action</th>
+                    <tr>
+                      <th>
+                        <FormControlLabel
+                          className="checkbox-align"
+                          control={
+                            <Checkbox
+                              color="primary"
+                              indeterminate={indeterminate}
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                          }
+                        />
+                      </th>
+                      <th>Mã Khuyến Mãi</th>
+                      <th>Mã Code Khuyến Mãi</th>
+                      <th>Ngày Bắt Đầu</th>
+                      <th>Ngày Kết Thúc</th>
+                      <th>Số Tiền Giảm Giá</th>
+                      <th>Tình Trạng</th>
+                      <th>Mô Tả</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -204,36 +204,30 @@ function PromotionManagerPage() {
                               onChange={(event) => handleCheckboxChange(event, promotion.promotionID)}
                             />
                           </td>
-                        <td>{promotion.promotionID}</td>
-                        <td>{promotion.promotionCode}</td>
-                        <td>{promotion.startDate}</td>
-                        <td>{promotion.endDate}</td>
-                        <td>{promotion.discountAmount}</td>
-                        <td>{promotion.promotionStatus}</td>
-                        <td>{promotion.description}</td>
-                        <td>
-                          <Tooltip
-                            describeChild
-                            title="Cập nhật thông tin"
-                            arrow placement="top"
-                          >
-                            <Button
-                              variant="link"
-                              onClick={() => handleShowUpdate(promotion)}
+                          <td>{promotion.promotionID}</td>
+                          <td>{promotion.promotionCode}</td>
+                          <td>{promotion.startDate}</td>
+                          <td>{promotion.endDate}</td>
+                          <td>{promotion.discountAmount}</td>
+                          <td>{promotion.promotionStatus}</td>
+                          <td>{promotion.description}</td>
+                          <td>
+                            <Tooltip
+                              describeChild
+                              title="Cập nhật thông tin"
+                              arrow placement="top"
                             >
-                              <EditIcon />
-                            </Button>
-                          </Tooltip>
-                          <DeletePromotionForm
-                            promotionID={promotion.promotionID}
-                            onDelete={() => handleDelete(promotion.promotionID)}
-                          >
-                            <DeleteIcon />
-                          </DeletePromotionForm>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                              <Button
+                                variant="link"
+                                onClick={() => handleShowUpdate(promotion)}
+                              >
+                                <EditIcon />
+                              </Button>
+                            </Tooltip>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>

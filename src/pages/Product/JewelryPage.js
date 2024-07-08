@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
-import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI"; // Import the functions
+import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI";
 import { Pagination } from "@mui/material";
 
-// Set the app element for accessibility
-Modal.setAppElement("#root"); // Ensure this matches your app's root element
+Modal.setAppElement("#root");
 
 const customModalStyles = {
   content: {
@@ -15,11 +14,11 @@ const customModalStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    zIndex: "1000", // Ensure the modal appears on top
+    zIndex: "1000",
   },
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.75)", // Dim background
-    zIndex: "1000", // Ensure the overlay appears on top
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    zIndex: "1000",
   },
 };
 
@@ -37,14 +36,19 @@ function JewelryPage() {
   const [searchResults, setSearchResults] = useState([]);
   const resultsPerPage = 9;
   const { jewelryId } = useParams();
-  const genders = ["All", "male", "female"];
+  const genders = ["All", "Male", "Female"];
 
-  const fetchJewelryPage = async (page) => {
+  const fetchJewelryPage = async (page = 1, filtersToUse = {}) => {
     try {
       setLoading(true);
-      const pageData = await getPage(page);
-      setJewelry(pageData.content);
-      setTotalPages(pageData.totalPages);
+      let data;
+      if (Object.keys(filtersToUse).length > 0) {
+        data = await searchJewelry(page, filtersToUse);
+      } else {
+        data = await getPage(page);
+      }
+      setJewelry(data.content);
+      setTotalPages(data.totalPages);
       setLoading(false);
     } catch (error) {
       setError(error.message);
@@ -53,8 +57,8 @@ function JewelryPage() {
   };
 
   useEffect(() => {
-    fetchJewelryPage(currentPage);
-  }, [currentPage]);
+    fetchJewelryPage(currentPage, filters);
+  }, [currentPage, filters]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -83,35 +87,22 @@ function JewelryPage() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     setLoading(true);
     try {
-      let filtersToUse = { ...filters, page: 1 }; // Always start from page 1 when searching
-  
-      // Convert price filters to numbers if they exist
+      let filtersToUse = { ...filters };
       if (filtersToUse.minjewelryEntryPrice !== undefined && filtersToUse.minjewelryEntryPrice !== '') {
         filtersToUse.minjewelryEntryPrice = parseInt(filtersToUse.minjewelryEntryPrice);
       } else {
         delete filtersToUse.minjewelryEntryPrice;
       }
-  
       if (filtersToUse.maxjewelryEntryPrice !== undefined && filtersToUse.maxjewelryEntryPrice !== '') {
         filtersToUse.maxjewelryEntryPrice = parseInt(filtersToUse.maxjewelryEntryPrice);
       } else {
         delete filtersToUse.maxjewelryEntryPrice;
       }
   
-      const data = await searchJewelry(filtersToUse);
-      const totalPages = Math.ceil(data.length / resultsPerPage);
-      setTotalPages(totalPages);
-  
-      // Slice the results based on the current page
-      const results = data.slice(
-        (currentPage - 1) * resultsPerPage,
-        currentPage * resultsPerPage
-      );
-      setJewelry(results);
-      setLoading(false);
-      window.scrollTo(0, 0);
+      await fetchJewelryPage(1, filtersToUse); 
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -121,29 +112,12 @@ function JewelryPage() {
 
   const handlePageChange = async (event, page) => {
     setCurrentPage(page);
-    setLoading(true);
-    try {
-      const data =
-        filters.gender === "All"
-          ? await getPage(page)
-          : await searchJewelry(filters);
-      const results = data.slice(
-        (page - 1) * resultsPerPage,
-        page * resultsPerPage
-      );
-      setJewelry(results);
-      setLoading(false);
-      window.scrollTo(0, 0);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
   };
 
   useEffect(() => {
     const checkLoginStatus = () => {
       const jwt = localStorage.getItem("jwt");
-      setIsLoggedIn(!!jwt); 
+      setIsLoggedIn(!!jwt);
     };
     checkLoginStatus();
   }, []);
@@ -174,7 +148,7 @@ function JewelryPage() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-9 col-12">
-                  <form className="tm-shop-header">
+                  <form className="tm-shop-header" onSubmit={handleSearch}>
                     <div className="tm-shop-productview">
                       <span>View:</span>
                       <button
@@ -189,7 +163,7 @@ function JewelryPage() {
                       </button>
                     </div>
                     <p className="tm-shop-countview">
-                      Showing 1 to 9 of {jewelry.length}{" "}
+                      Showing 1 to {resultsPerPage} of {jewelry.length}{" "}
                     </p>
                     <label htmlFor="mySelect">My Select:</label>
                     <select id="mySelect">
@@ -231,9 +205,8 @@ function JewelryPage() {
                                     <Link
                                       to={`/product-detail/jewelry/${item.jewelryID}`}
                                     >
-                                      <i className="ion-android-cart"></i> Add
-                                      to cart
-                                    </Link>
+                                      <i className="ion-android-cart"></i> Add to cart
+                                      </Link>
                                   </li>
                                   <li>
                                     <button
@@ -368,39 +341,23 @@ function JewelryPage() {
             </div>
           </div>
         </main>
-        <div id="tm-product-quickview">
-          {/* Ensure this div is outside the main content */}
-          {selectedItem && (
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              style={customModalStyles}
-              contentLabel="Product Quickview"
-            >
-              <div className="modal-content">
-                <div className="img-container">
-                  <img
-                    src={selectedItem.jewelryImage}
-                    alt={selectedItem.jewelryName}
-                  />
-                </div>
-                <button className="close-button" onClick={closeModal}>
-                  Close
-                </button>
-                <div className="content-container">
-                  <h2>{selectedItem.jewelryName}</h2>
-                  <p>{selectedItem.jewelryDescription}</p>
-                  <p>Gender: {selectedItem.gender}</p>
-                  <span>
-                    {selectedItem.jewelryEntryPrice.toLocaleString()} VND
-                  </span>
-                </div>
-              </div>
-            </Modal>
-          )}
-        </div>
-        {/*<Footer />*/}
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customModalStyles}
+        contentLabel="Product Quickview"
+      >
+        {selectedItem && (
+          <div>
+            <h2>{selectedItem.jewelryName}</h2>
+            <img src={selectedItem.jewelryImage} alt={selectedItem.jewelryName} />
+            <p>{selectedItem.jewelryDescription}</p>
+            <p>Price: {selectedItem.jewelryEntryPrice.toLocaleString()} VND</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

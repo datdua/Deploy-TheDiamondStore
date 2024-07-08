@@ -89,7 +89,7 @@ function OrderManagerPage() {
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
               </Card.Title>
             </Card.Header>
@@ -98,18 +98,18 @@ function OrderManagerPage() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>Order ID</th>
-                      <th>Account ID</th>
-                      <th>Start Order Date</th>
-                      <th>Order Status</th>
-                      <th>Delivery Date</th>
-                      <th>Total Order</th>
-                      <th>Delivery Address</th>
-                      <th>Phone Number</th>
-                      <th>Certificate Image</th>
-                      <th>Warranty Image</th>
-                      <th>Promotion Code</th>
-                      <th>Action</th>
+                      <th>Mã Đơn Hàng</th>
+                      <th>Mã Tài Khoản</th>
+                      <th>Ngày Bắt Đầu Đơn Hàng</th>
+                      <th>Tình Trạng Đơn Hàng</th>
+                      <th>Ngày Giao Hàng</th>
+                      <th>Tổng Đơn</th>
+                      <th>Địa Chỉ Giao Hàng</th>
+                      <th>Số Điện Thoại</th>
+                      <th>Giấy Chứng Nhận</th>
+                      <th>Giấy Bảo Hành</th>
+                      <th>Mã Khuyến Mãi</th>
+                      <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -195,7 +195,6 @@ function OrderManagerPage() {
 
       <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Image</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           <img

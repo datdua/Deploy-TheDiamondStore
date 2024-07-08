@@ -138,20 +138,20 @@ function GoldPriceManager() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Gold Price Manager
+                Quản lý giá vàng
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={refreshTable}
                 >
-                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> REFRESH
+                  <RefreshIcon style={{ margin: "0 5px 5px 0" }} /> Tải Lại
                 </Button>
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={handleShowAdd}
                 >
-                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> ADD
+                  <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Giá Vàng
                 </Button>
                 {selected.length > 0 && (
                   <Tooltip describeChild title="Xóa các giá kim cương đã chọn" arrow placement="top">
@@ -180,28 +180,28 @@ function GoldPriceManager() {
                           }
                         />
                       </th>
-                      <th>ID</th>
-                      <th>Jewelry ID</th>
-                      <th>Gold Price</th>
-                      <th>Gold Age</th>
-                      <th>Actions</th>
+                      <th>Mã Giá Vàng</th>
+                      <th>Mã Trang Cức</th>
+                      <th>Giá Vàng</th>
+                      <th>Lượng</th>
+                      <th>Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody>
-                      {currentPageData.map((goldPrice) => {
-                        const isItemSelected = isSelected(goldPrice.goldpriceID);
+                    {currentPageData.map((goldPrice) => {
+                      const isItemSelected = isSelected(goldPrice.goldpriceID);
 
-                        return (
-                          <tr
-                            key={goldPrice.goldpriceID}
-                            style={{ cursor: 'pointer' }}
-                          >
+                      return (
+                        <tr
+                          key={goldPrice.goldpriceID}
+                          style={{ cursor: 'pointer' }}
+                        >
                           <td onClick={(event) => handleClick(event, goldPrice.goldpriceID)}>
-                              <Checkbox
-                                color="primary"
-                                checked={isItemSelected}
-                                onChange={(event) => handleCheckboxChange(event, goldPrice.goldpriceID)}
-                              />
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              onChange={(event) => handleCheckboxChange(event, goldPrice.goldpriceID)}
+                            />
                           </td>
                           <td>{goldPrice.goldpriceID}</td>
                           <td>{goldPrice.jewelryID}</td>
@@ -224,10 +224,6 @@ function GoldPriceManager() {
                                 <EditIcon />
                               </Button>
                             </Tooltip>
-                            <DeleteGoldPriceForm
-                              goldpriceID={goldPrice.goldpriceID}
-                              onDelete={handleDelete}
-                            />
                           </td>
                         </tr>
                       );

@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useContext }from "react";
 import {
   CSidebar,
   CSidebarBrand,
@@ -23,9 +23,11 @@ import {
   cilDiamond,
   cilWatch
 } from "@coreui/icons";
+import { AuthContext } from "../Auth/AuthContext";
 import "../../components/Sidebar/SidebarAdmin.css";
 
 function SideBarAdmin() {
+  const { isLoggedIn, accountName, onLogout } = useContext(AuthContext);
   return (
     <div className="sidebar-admin" style={{ display: "flex" }}>
       <CSidebar className="sidebar-full-height border-end" colorScheme="dark">
@@ -49,19 +51,19 @@ function SideBarAdmin() {
           </NavLink>
 
           <NavLink
-            to="/admin/dashboard"
-            className="sidebar-nav-item"
-            activeClassName="active"
-          >
-            <CIcon className="nav-icon" icon={cilSpeedometer} /> Dashboard
-          </NavLink>
-
-          <NavLink
             to="/admin/transaction-manager"
             className="sidebar-nav-item"
             activeClassName="active"
           >
             <CIcon className="nav-icon" icon={cilBank} /> Quản lý giao dịch
+          </NavLink>
+
+          <NavLink
+            to="/admin/order-manager"
+            className="sidebar-nav-item"
+            activeClassName="active"
+          >
+            <CIcon className="nav-icon" icon={cilInbox} /> Đơn hàng
           </NavLink>
 
           <CNavGroup
@@ -140,17 +142,10 @@ function SideBarAdmin() {
             >
               <CIcon className="nav-icon" icon={cilTextStrike} /> Mã giảm giá
             </NavLink>
-            <NavLink
-              to="/admin/order-manager"
-              className="sidebar-nav-item-manager"
-              activeClassName="active"
-            >
-              <CIcon className="nav-icon" icon={cilInbox} /> Đơn hàng
-            </NavLink>
           </CNavGroup>
         </CSidebarNav>
-        <CSidebarHeader className="border-top" style={{ height: "50px" }}>
-          <NavLink to="/" className="sidebar-nav-item" activeClassName="active">
+        <CSidebarHeader onClick={onLogout} className="border-top" style={{ height: "50px" }}>
+          <NavLink className="sidebar-nav-item" activeClassName="active">
             <CSidebarToggler style={{ marginRight: "10px"}} /> Đăng xuất
           </NavLink>
         </CSidebarHeader>

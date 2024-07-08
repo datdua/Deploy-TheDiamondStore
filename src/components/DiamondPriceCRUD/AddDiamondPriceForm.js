@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { createCertificate } from "../../api/CertificateAPI.js";
-import { Form, Button } from "react-bootstrap";
 import { createDiamondPrice } from "../../api/DiamondPriceAPI.js";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function AddCertificateForm() {
-  const [diamondPrice, setCertificate] = useState({
-    diamondID: "",
+  const [diamondPrice, setDiamondPrice] = useState({
     diamondEntryPrice: "",
     clarity: "",
     color: "",
@@ -14,11 +15,15 @@ function AddCertificateForm() {
 
   const [message, setMessage] = useState("");
 
+  const labels = {
+    diamondEntryPrice: "Giá Kim Cương",
+    clarity: "Độ trong",
+    color: "Màu sắc",
+    caratSize: "Kích thước",
+  };
+
   const handleChange = (event) => {
-    setCertificate({
-      ...diamondPrice,
-      [event.target.name]: event.target.value,
-    });
+    setDiamondPrice({ ...diamondPrice, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
@@ -26,50 +31,39 @@ function AddCertificateForm() {
     try {
       const response = await createDiamondPrice(diamondPrice);
       console.log(response);
-      if (response.status === 200) {
-        alert("Tạo mới Giá Kim Cương thành công"); // Set the message on success
-      } else {
-        alert(response.data.message); // Set the message from the server response
-      }
+      setMessage("Tạo mới Giá Kim Cương thành công");
     } catch (error) {
       console.error(error);
-      if (
-        error.response &&
-        error.response.data.message === "Giá kim cương này đã tồn tại"
-      ) {
-        alert("Giá cho kim cương đã tồn tại"); // Set the message if diamond price already exists
-      } else {
-        alert("Tạo mới Giá Kim Cương thất bại"); // Set the message on failure
-      }
+      setMessage("Tạo mới Giá Kim Cương thất bại");
     }
   };
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         {Object.keys(diamondPrice).map((key) => (
-          <Form.Group controlId={key} key={key}>
-            <Form.Label>{key}</Form.Label>
-            <Form.Control
-              type={
-                key.includes("Date")
-                  ? "date"
-                  : key.includes("Time")
-                    ? "time"
-                    : "text"
-              }
-              name={key}
-              value={diamondPrice[key]}
-              onChange={handleChange}
-              placeholder={key}
-            />
-          </Form.Group>
+          <TextField
+            key={key}
+            id="outlined-basic"
+            label={labels[key]}
+            variant="outlined"
+            name={key}
+            value={diamondPrice[key]}
+            onChange={handleChange}
+            type="text"
+          />
         ))}
-        <Button variant="primary" type="submit">
-          Create diamondPrice
-        </Button>
-      </Form>
-      {message && <p>{message}</p>}
+        <Button type="submit" variant="contained" color="success">Tạo Giá Kim Cương</Button>
+        {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
+      </Box>
     </div>
   );
 }
