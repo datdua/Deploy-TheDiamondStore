@@ -38,7 +38,7 @@ function UpdateOrderForm({ order }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Order Status</Form.Label>
+        <Form.Label>Trạng thái hóa đơn</Form.Label>
         <Form.Control
           type="text"
           name="orderStatus"
@@ -47,7 +47,7 @@ function UpdateOrderForm({ order }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Delivery Date</Form.Label>
+        <Form.Label>Ngày giao hàng</Form.Label>
         <Form.Control
           type="date"
           name="deliveryDate"
@@ -56,7 +56,7 @@ function UpdateOrderForm({ order }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Delivery Time</Form.Label>
+        <Form.Label>Thời gian giao hàng</Form.Label>
         <Form.Control
           type="time"
           name="deliveryTime"
@@ -65,7 +65,7 @@ function UpdateOrderForm({ order }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Delivery Address</Form.Label>
+        <Form.Label>Địa chỉ giao hàng</Form.Label>
         <Form.Control
           type="text"
           name="deliveryAddress"
@@ -74,7 +74,7 @@ function UpdateOrderForm({ order }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Warrantity Image</Form.Label>
+        <Form.Label>Giấy bảo hành</Form.Label>
         <Form.Control
           type="text"
           name="warrantyImage"
@@ -83,7 +83,7 @@ function UpdateOrderForm({ order }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Certification Image</Form.Label>
+        <Form.Label>Giấy chứng nhận</Form.Label>
         <Form.Control
           type="text"
           name="certificateImage"
@@ -91,8 +91,8 @@ function UpdateOrderForm({ order }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Update
+      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+        Cập nhật
       </Button>
     </Form>
   );

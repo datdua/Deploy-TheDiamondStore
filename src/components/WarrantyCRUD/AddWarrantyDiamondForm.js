@@ -58,13 +58,13 @@ function AddWarrantyDiamondForm() {
         {Object.keys(warranty).map((key) => (
           <TextField
             key={key}
-            id="outlined-basic"
+            id="outlined-helperText"
             label={labels[key]}
-            variant="outlined"
             name={key}
-            value={warranty[key]}
-            onChange={handleChange}
             type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         ))}
         <Button type="submit" variant="contained" color="success">Hoàn thành</Button>

@@ -67,7 +67,7 @@ const ProfilePage = () => {
   }
 
   if (!account) {
-    return <Typography>Loading...</Typography>;
+    return <Typography>Đang tải...</Typography>;
   }
 
   return (
@@ -81,7 +81,7 @@ const ProfilePage = () => {
           />
           {isEditing ? (
             <TextField
-              label="Account Name"
+              label="Tên Tài khoản"
               name="accountName"
               value={account.accountName}
               onChange={handleChange}
@@ -162,7 +162,7 @@ const ProfilePage = () => {
           {isEditing ? (
             <>
               <Button variant="contained" color="primary" onClick={handleSave}>
-                Save
+                Lưu
               </Button>
               <Button
                 variant="contained"
@@ -170,7 +170,7 @@ const ProfilePage = () => {
                 onClick={() => setIsEditing(false)}
                 sx={{ marginLeft: 2 }}
               >
-                Cancel
+                Thoát
               </Button>
             </>
           ) : (
@@ -179,7 +179,7 @@ const ProfilePage = () => {
               color="primary"
               onClick={() => setIsEditing(true)}
             >
-              Edit
+              Chỉnh sửa
             </Button>
           )}
         </Box>

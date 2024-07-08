@@ -55,8 +55,8 @@ function AddWarrantyForm() {
             />
           </Form.Group>
         ))}
-        <Button variant="primary" type="submit">
-          Create warranty
+        <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+          Create
         </Button>
       </Form>
       {message && <p>{message}</p>}

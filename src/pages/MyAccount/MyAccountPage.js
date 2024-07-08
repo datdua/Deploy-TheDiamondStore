@@ -177,7 +177,7 @@ function MyAccountPage() {
                   <div className="tab-pane fade" id="account-orders" role="tabpanel"
                     aria-labelledby="account-orders-tab">
                     <div className="tm-myaccount-orders">
-                      {loading && <p>Loading...</p>}
+                      {loading && <p>Đang tải...</p>}
                       {error && <p className="error">{error}</p>}
                       <div className="table-responsive">
                         <table className="table table-bordered mb-0">

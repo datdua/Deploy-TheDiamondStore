@@ -115,7 +115,7 @@ function ProductPage() {
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <div>Loading...</div>
+                        <div>Đang tải...</div>
                       ) : error ? (
                         <div>Error: {error}</div>
                       ) : products.length === 0 ? (

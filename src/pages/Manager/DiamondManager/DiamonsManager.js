@@ -118,7 +118,7 @@ function DiamondManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4" style={{ marginRight: "10px" }}>
-                Diamond List
+                Danh Sách Kim Cương
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
@@ -141,7 +141,7 @@ function DiamondManagerPage() {
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Diamond ID</th>
+                      <th>Mã kim cương</th>
                       <th>Warranty ID</th>
                       <th>Certification ID</th>
                       <th>Diamond Name</th>
@@ -244,7 +244,7 @@ function DiamondManagerPage() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Update Diamond" : "Add Diamond"}
+            {isUpdating ? "Cập nhật kim cương" : "Thêm kim cương"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -261,7 +261,7 @@ function DiamondManagerPage() {
 
       <Modal show={showCertificateModal} onHide={handleCloseCertificateModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Certificate Image</Modal.Title>
+          <Modal.Title>Giấy chứng chỉ</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {certificateImage ? (
@@ -271,7 +271,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Loading...</p>
+            <p>Đang tải...</p>
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -293,7 +293,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Loading...</p>
+            <p>Đang tải...</p>
           )}
         </Modal.Body>
         <Modal.Footer>

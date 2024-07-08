@@ -126,7 +126,7 @@ function HomePage() {
                             </div>
                             <div className="row mt-50-reverse">
                                 {loading ? (
-                                    <div>Loading...</div>
+                                    <div>Đang tải...</div>
                                 ) : error ? (
                                     <div>Error: {error}</div>
                                 ) : products.length === 0 ? (

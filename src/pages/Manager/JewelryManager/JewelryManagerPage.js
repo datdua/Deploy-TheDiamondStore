@@ -163,7 +163,7 @@ function JewelryManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Jewelry List
+                Danh sách trang sức
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
@@ -306,7 +306,7 @@ function JewelryManagerPage() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Update Jewelry" : "Add Jewelry"}
+            {isUpdating ? "Cập nhật trang sức" : "Thêm trang sức"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -333,7 +333,7 @@ function JewelryManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Loading...</p>
+            <p>Đang tải...</p>
           )}
         </Modal.Body>
         <Modal.Footer>

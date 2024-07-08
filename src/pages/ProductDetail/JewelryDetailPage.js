@@ -124,7 +124,7 @@ function JewelryDetailPage() {
                 <li>
                   <Link to="/sanpham">Sản phẩm</Link>
                 </li>
-                <li>{jewelry ? jewelry.jewelryName : "Loading..."}</li>
+                <li>{jewelry ? jewelry.jewelryName : "Đang tải..."}</li>
               </ul>
             </div>
           </div>

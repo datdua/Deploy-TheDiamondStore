@@ -61,7 +61,7 @@ function AddCertificateForm() {
             type="text"
           />
         ))}
-        <Button type="submit" variant="contained" color="success">Tạo Giá Kim Cương</Button>
+        <Button type="submit" variant="contained" color="success">Thêm giá</Button>
         {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
       </Box>
     </div>

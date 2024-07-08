@@ -6,7 +6,7 @@ import { Tooltip } from "@mui/material";
 
 function DeleteOrderForm({ orderID, onDelete }) {
   const handleDelete = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA order này ?")) {
+    if (window.confirm("Bạn có chắc muốn XÓA đơn hàng này ?")) {
       try {
         await deleteOrder(orderID);
         onDelete(orderID);

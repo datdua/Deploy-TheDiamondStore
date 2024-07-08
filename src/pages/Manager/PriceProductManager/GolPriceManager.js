@@ -98,7 +98,7 @@ function GoldPriceManager() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>Jewelry ID</th>
+                      <th>Mã trang sức</th>
                       <th>Gold Price</th>
                       <th>Gold Age</th>
                       <th>Actions</th>

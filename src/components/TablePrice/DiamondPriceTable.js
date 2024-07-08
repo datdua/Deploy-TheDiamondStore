@@ -38,7 +38,7 @@ const DiamondPriceTable = () => {
     }, [caratSizes]);
 
     if (Object.keys(diamondPrices).length === 0 || caratSizes.length === 0 || clarityLevels.length === 0 || colours.length === 0) {
-        return <div>Loading...</div>;
+        return <div>Đang tải...</div>;
     }
 
     return (

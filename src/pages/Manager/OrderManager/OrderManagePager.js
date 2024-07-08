@@ -83,7 +83,7 @@ function OrderManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Order List
+                Danh Sách Đơn Hàng
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
@@ -182,7 +182,7 @@ function OrderManagerPage() {
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{isUpdating ? "Update Order" : "Add Order"}</Modal.Title>
+          <Modal.Title>{isUpdating ? "Cập Nhật Đơn Hàng" : "Thêm Đơn Hàng"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {isUpdating ? (

@@ -189,7 +189,7 @@ function TransactionManagerPage() {
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{isUpdating ? "Update Order" : "Add Order"}</Modal.Title>
+          <Modal.Title>{isUpdating ? "Cập Nhật Đơn Hàng" : "Thêm Đơn Hàng"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {isUpdating ? (

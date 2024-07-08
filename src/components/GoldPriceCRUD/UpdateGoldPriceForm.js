@@ -32,7 +32,7 @@ function UpdateGoldPriceForm({ goldPrice }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Jewelry ID</Form.Label>
+        <Form.Label>Mã trang sức</Form.Label>
         <Form.Control
           type="text"
           name="jewelryID"
@@ -58,8 +58,8 @@ function UpdateGoldPriceForm({ goldPrice }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Update
+      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+        Cập nhật
       </Button>
     </Form>
   );

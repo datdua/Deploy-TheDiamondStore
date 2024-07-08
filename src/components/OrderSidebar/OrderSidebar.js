@@ -27,9 +27,9 @@ function OrderSidebar({ order, show, onHide }) {
               <h5>Order Information</h5>
               <p><span className="detail-title">Order ID:</span> <span className="detail-info">{order[0].order.orderID}</span></p>
               <p><span className="detail-title">Start Order Date:</span> <span className="detail-info">{order[0].order.startorderDate}</span></p>
-              <p><span className="detail-title">Delivery Date:</span> <span className="detail-info">{order[0].order.deliveryDate}</span></p>
+              <p><span className="detail-title">Ngày giao hàng:</span> <span className="detail-info">{order[0].order.deliveryDate}</span></p>
               <p><span className="detail-title">Status:</span> <span className="detail-info">{order[0].order.orderStatus}</span></p>
-              <p><span className="detail-title">Delivery Address:</span> <span className="detail-info">{order[0].order.deliveryAddress}</span></p>
+              <p><span className="detail-title">Địa chỉ giao hàng:</span> <span className="detail-info">{order[0].order.deliveryAddress}</span></p>
             </div>
             <hr />
 

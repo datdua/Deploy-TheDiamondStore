@@ -35,7 +35,7 @@ function UpdateCertificateForm({ certificate }) {
     
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Diamond ID</Form.Label>
+        <Form.Label>Mã kim cương</Form.Label>
         <Form.Control
           type="text"
           name="diamondID"
@@ -44,7 +44,7 @@ function UpdateCertificateForm({ certificate }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Expiration Date</Form.Label>
+        <Form.Label>Ngày hết hạn</Form.Label>
         <Form.Control
           type="date"
           name="expirationDate"
@@ -53,7 +53,7 @@ function UpdateCertificateForm({ certificate }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Expiration Time</Form.Label>
+        <Form.Label>Thời gian hết hạn</Form.Label>
         <Form.Control
           type="time"
           name="expirationTime"
@@ -62,7 +62,7 @@ function UpdateCertificateForm({ certificate }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Certificate Image</Form.Label>
+        <Form.Label>Giấy chứng chỉ</Form.Label>
         <Form.Control
           type="text"
           name="certificateImage"
@@ -70,8 +70,8 @@ function UpdateCertificateForm({ certificate }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Update certificate
+      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+        Cập nhật
       </Button>
     </Form>
   );

@@ -21,7 +21,7 @@ function AddCertificateForm() {
     diamondID: "Mã kim cương",
     expirationDate: "Ngày hết hạn",
     expirationTime: "Giờ hết hạn",
-    certificateImage: "Hình ảnh chứng chỉ",
+    certificateImage: "Giấy chứng chỉ",
   };
 
   const handleChange = (event) => {
@@ -65,6 +65,9 @@ function AddCertificateForm() {
             value={certificate[key]}
             onChange={handleChange}
             type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         ))}
         <Button type="submit" variant="contained" color="success">Hoàn thành</Button>

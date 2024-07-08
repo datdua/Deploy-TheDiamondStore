@@ -132,7 +132,7 @@ function DiamondPriceManager() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Diamond Price Manager
+                Quản Lý Giá Kim Cương
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
@@ -180,7 +180,7 @@ function DiamondPriceManager() {
                       <th>Trọng Lượng</th>
                       <th>Độ Trong</th>
                       <th>Màu Sắc</th>
-                      <th>Kích Cỡ Carat</th>
+                      <th>Kích cỡ</th>
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
@@ -259,7 +259,7 @@ function DiamondPriceManager() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Update Diamond Price" : "Add Diamond Price"}
+            {isUpdating ? "Cập nhật giá kim cương" : "Thêm giá kim cương"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

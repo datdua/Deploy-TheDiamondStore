@@ -78,7 +78,7 @@ function DiamondDetailPage() {
                 <ul className="add-back">
                   <li><Link to="/trangchu">Trang chủ</Link></li>
                   <li><Link to="/sanpham">Sản phẩm</Link></li>
-                  <li>{diamond ? diamond.diamondName : "Loading..."}</li>
+                  <li>{diamond ? diamond.diamondName : "Đang tải..."}</li>
                 </ul>
               </div>
             </div>

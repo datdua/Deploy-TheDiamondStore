@@ -76,6 +76,9 @@ function AddPromotionForm() {
                   ? "time"
                   : "text"
             }
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         ))}
         <Button type="submit" variant="contained" color="success">Tạo Mã Giảm Giá</Button>

@@ -246,7 +246,7 @@ function PromotionManagerPage() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Update Promotion" : "Add Promotion"}
+            {isUpdating ? "Cập nhật mã giảm giá" : "Thêm mã giảm giá"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

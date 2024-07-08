@@ -174,15 +174,15 @@ function CustomerManager() {
                                                     }
                                                 />
                                             </th>
-                                            <th>Account ID</th>
+                                            <th>Mã Tài khoản</th>
                                             <th>Email</th>
-                                            <th>Account Name</th>
-                                            <th>Password</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>Active</th>
-                                            <th>Role</th>
-                                            <th>Actions</th>
+                                            <th>Tên Tài Khoản</th>
+                                            <th>Mật Khẩu</th>
+                                            <th>SĐT</th>
+                                            <th>Địa Chỉ</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Vai Trò</th>
+                                            <th>Thao Tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -246,7 +246,7 @@ function CustomerManager() {
             <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {isUpdating ? "Update Account" : "Add Account"}
+                        {isUpdating ? "Cập nhật tài khoản" : "Thêm tài khoản"}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

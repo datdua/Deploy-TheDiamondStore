@@ -423,7 +423,7 @@ function DiamondPage() {
 
                                                 <div className="row mt-30-reverse">
                                                     {loading ? (
-                                                        <div>Loading...</div>
+                                                        <div>Đang tải...</div>
                                                     ) : error ? (
                                                         <div>Error: {error}</div>
                                                     ) : (

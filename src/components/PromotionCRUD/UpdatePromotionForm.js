@@ -100,8 +100,8 @@ function UpdatePromotionForm({ promotion }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Update promotion
+      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+        Cập nhật
       </Button>
     </Form>
   );

@@ -31,7 +31,7 @@ function AddDiamondForm() {
     diamondName: "Tên kim cương",
     diamondEntryPrice: "Giá nhập",
     diamondImage: "Hình ảnh",
-    weight: "Trọng lượng carat",
+    weight: "Trọng lượng",
     caratSize: "Kích thước carat",
     color: "Màu sắc",
     cut: "Vết cắt",

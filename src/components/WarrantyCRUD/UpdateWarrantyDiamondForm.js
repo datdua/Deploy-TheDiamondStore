@@ -34,7 +34,7 @@ function UpdateWarrantyForm({ warranty }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Diamond ID</Form.Label>
+        <Form.Label>Mã kim cương</Form.Label>
         <Form.Control
           type="text"
           name="diamondID"
@@ -43,7 +43,7 @@ function UpdateWarrantyForm({ warranty }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Expiration Date</Form.Label>
+        <Form.Label>Ngày hết hạn</Form.Label>
         <Form.Control
           type="date"
           name="expirationDate"
@@ -52,7 +52,7 @@ function UpdateWarrantyForm({ warranty }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Expiration Time</Form.Label>
+        <Form.Label>Thời gian hết hạn</Form.Label>
         <Form.Control
           type="time"
           name="expirationTime"
@@ -61,7 +61,7 @@ function UpdateWarrantyForm({ warranty }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Warranty Image</Form.Label>
+        <Form.Label>Giấy bảo hành</Form.Label>
         <Form.Control
           type="text"
           name="warrantyImage"
@@ -69,8 +69,8 @@ function UpdateWarrantyForm({ warranty }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Update warranty
+      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+        Cập nhật
       </Button>
     </Form>
   );
