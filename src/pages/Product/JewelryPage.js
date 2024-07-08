@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI";
 import { Pagination } from "@mui/material";
-
+import CircularProgress from '@mui/material/CircularProgress';
 Modal.setAppElement("#root");
 
 const customModalStyles = {
@@ -178,7 +178,7 @@ function JewelryPage() {
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <div>Đang tải...</div>
+                        <CircularProgress color="success" />
                       ) : error ? (
                         <div>Error: {error}</div>
                       ) : (

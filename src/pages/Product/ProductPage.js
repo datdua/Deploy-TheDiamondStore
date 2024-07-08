@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllProduct, getProductPage } from "../../api/ProductAPI"; // Ensure this API call is correct
 import { Pagination } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 
 Modal.setAppElement("#root"); // Ensure this matches your app's root element
 
@@ -115,7 +116,7 @@ function ProductPage() {
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <div>Đang tải...</div>
+                        <CircularProgress color="success" />
                       ) : error ? (
                         <div>Error: {error}</div>
                       ) : products.length === 0 ? (

@@ -5,6 +5,7 @@ import { getAllDiamond, getPage, searchDiamond } from "../../api/DiamondAPI";
 import { Pagination } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import CircularProgress from '@mui/material/CircularProgress';
 Modal.setAppElement('#root');
 
 const customModalStyles = {
@@ -423,7 +424,7 @@ function DiamondPage() {
 
                                                 <div className="row mt-30-reverse">
                                                     {loading ? (
-                                                        <div>Đang tải...</div>
+                                                        <CircularProgress color="success" />
                                                     ) : error ? (
                                                         <div>Error: {error}</div>
                                                     ) : (

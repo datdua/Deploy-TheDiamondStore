@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import { getAllClarity, getAllColor, getAllCaratSize, getDiamondPriceByCaratSize } from '../../api/DiamondPriceAPI';
+import CircularProgress from '@mui/material/CircularProgress';
 import './TablePrice.css';
 
 const DiamondPriceTable = () => {
@@ -38,7 +39,7 @@ const DiamondPriceTable = () => {
     }, [caratSizes]);
 
     if (Object.keys(diamondPrices).length === 0 || caratSizes.length === 0 || clarityLevels.length === 0 || colours.length === 0) {
-        return <div>Đang tải...</div>;
+        return <CircularProgress color="success" />;
     }
 
     return (
