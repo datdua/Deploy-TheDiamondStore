@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import "../ProductManager.css";
 
 function JewelryManagerPage() {
@@ -333,7 +334,7 @@ function JewelryManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Đang tải...</p>
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>

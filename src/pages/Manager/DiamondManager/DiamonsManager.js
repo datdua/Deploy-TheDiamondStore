@@ -21,6 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Pagination from "@mui/material/Pagination";
+import CircularProgress from '@mui/material/CircularProgress';
 import "../ProductManager.css";
 
 function DiamondManagerPage() {
@@ -271,7 +272,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Đang tải...</p>
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -293,7 +294,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <p>Đang tải...</p>
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>

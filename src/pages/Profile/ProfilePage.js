@@ -11,6 +11,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import { getAccountByID_AdminManager, updateProfile } from "../../api/accountCrud";
 
 const ProfilePage = () => {
@@ -67,7 +68,7 @@ const ProfilePage = () => {
   }
 
   if (!account) {
-    return <Typography>Đang tải...</Typography>;
+    return <CircularProgress color="success" />;
   }
 
   return (

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getDiamondById } from "../../api/DiamondAPI";
 import { getAccountIDByEmail } from "../../api/accountCrud";
 import Button from "react-bootstrap/esm/Button";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function DiamondDetailPage() {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ function DiamondDetailPage() {
                 <ul className="add-back">
                   <li><Link to="/trangchu">Trang chủ</Link></li>
                   <li><Link to="/sanpham">Sản phẩm</Link></li>
-                  <li>{diamond ? diamond.diamondName : "Đang tải..."}</li>
+                  <li>{diamond ? diamond.diamondName : <CircularProgress color="success" />}</li>
                 </ul>
               </div>
             </div>

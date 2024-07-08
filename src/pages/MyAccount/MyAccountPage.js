@@ -7,6 +7,7 @@ import { AuthContext } from "../../components/Auth/AuthContext";
 import OrderSidebar from "../../components/OrderSidebar/OrderSidebar";
 import { toast } from "react-toastify";
 import { PointsContext } from "../../components/PointsContext/PointsContext";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function MyAccountPage() {
   const { accountName } = useContext(AuthContext);
@@ -177,7 +178,7 @@ function MyAccountPage() {
                   <div className="tab-pane fade" id="account-orders" role="tabpanel"
                     aria-labelledby="account-orders-tab">
                     <div className="tm-myaccount-orders">
-                      {loading && <p>Đang tải...</p>}
+                      {loading && <CircularProgress color="success" />}
                       {error && <p className="error">{error}</p>}
                       <div className="table-responsive">
                         <table className="table table-bordered mb-0">

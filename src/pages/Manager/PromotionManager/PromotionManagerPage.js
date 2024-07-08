@@ -136,7 +136,7 @@ function PromotionManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Promotion List
+                Danh Sách Mã Giảm Giá
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}

@@ -38,7 +38,7 @@ function UpdatePromotionForm({ promotion }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>Promotion Code</Form.Label>
+        <Form.Label>Mã giảm giá</Form.Label>
         <Form.Control
           type="text"
           name="promotionCode"
@@ -47,7 +47,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Start Date</Form.Label>
+        <Form.Label>Ngày bắt đầu</Form.Label>
         <Form.Control
           type="date"
           name="startDate"
@@ -56,7 +56,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Start Time</Form.Label>
+        <Form.Label>Thời gian bắt đầu</Form.Label>
         <Form.Control
           type="time"
           name="startTime"
@@ -65,7 +65,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>End Date</Form.Label>
+        <Form.Label>Ngày kết thúc</Form.Label>
         <Form.Control
           type="date"
           name="endDate"
@@ -74,7 +74,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>End Time</Form.Label>
+        <Form.Label>Thời gian kết thúc</Form.Label>
         <Form.Control
           type="time"
           name="endTime"
@@ -83,7 +83,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Discount Amount</Form.Label>
+        <Form.Label>Số tiền chiết khấu</Form.Label>
         <Form.Control
           type="number"
           name="discountAmount"
@@ -92,7 +92,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Description</Form.Label>
+        <Form.Label>Mô tả</Form.Label>
         <Form.Control
           type="text"
           name="description"
