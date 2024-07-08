@@ -153,7 +153,7 @@ function CertificateManagerPage() {
           <Card>
             <Card.Header>
               <Card.Title as="h4">
-                Certificate List
+                Danh Sách Chứng Chỉ
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
