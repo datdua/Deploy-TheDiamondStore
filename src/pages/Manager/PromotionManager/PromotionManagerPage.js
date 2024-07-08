@@ -178,7 +178,6 @@ function PromotionManagerPage() {
                           }
                         />
                       </th>
-                      <th>Mã Khuyến Mãi</th>
                       <th>Mã Code Khuyến Mãi</th>
                       <th>Ngày Bắt Đầu</th>
                       <th>Ngày Kết Thúc</th>
@@ -204,7 +203,6 @@ function PromotionManagerPage() {
                               onChange={(event) => handleCheckboxChange(event, promotion.promotionID)}
                             />
                           </td>
-                          <td>{promotion.promotionID}</td>
                           <td>{promotion.promotionCode}</td>
                           <td>{promotion.startDate}</td>
                           <td>{promotion.endDate}</td>
