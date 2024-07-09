@@ -150,7 +150,7 @@ function JewelryPage() {
                 <div className="col-lg-9 col-12">
                   <form className="tm-shop-header" onSubmit={handleSearch}>
                     <div className="tm-shop-productview">
-                      <span>View:</span>
+                      <span>Bố cục:</span>
                       <button
                         data-view="grid"
                         className="active"
