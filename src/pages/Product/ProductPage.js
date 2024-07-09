@@ -175,7 +175,7 @@ function ProductPage() {
                   {/* Sidebar Widgets */}
                   <div className="widgets">
                     <div className="single-widget widget-categories">
-                      <h6 className="widget-title">Categories</h6>
+                      <h6 className="widget-title">Danh Mục</h6>
                       <ul>
                         <li>
                           <Link to="/trangsuc">Trang Sức</Link>

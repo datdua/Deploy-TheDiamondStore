@@ -323,7 +323,7 @@ function JewelryPage() {
                           />
                         </div>
                       </div>
-                      <button type="submit">Lọc</button>
+                      <button style={{marginTop: '10px', color: '#f2ba59'}} type="submit">Lọc</button>
                     </form>
                   </div>
                 </div>

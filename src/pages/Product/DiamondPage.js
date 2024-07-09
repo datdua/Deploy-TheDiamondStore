@@ -478,7 +478,7 @@ function DiamondPage() {
                                         <div className="col-lg-3">
                                             <div className="widgets">
                                                 <div className="single-widget widget-categories">
-                                                    <h6 className="widget-title">Categories</h6>
+                                                    <h6 className="widget-title">Danh Mục</h6>
                                                     <ul>
                                                         <li><Link to="/trangsuc">Trang Sức</Link></li>
                                                         <li><Link to="/kimcuong">Kim Cương</Link></li>
