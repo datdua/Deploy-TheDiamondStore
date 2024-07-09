@@ -84,7 +84,7 @@ function Footer() {
                                 {isLoggedIn ? (
                                     <ul>
                                         <li><Link onClick={handleCartClick}>Giỏ Hàng</Link></li>
-                                        <li><Link onClick={handleAccountClick}>Thanh Toán</Link></li>
+                                        <li><Link onClick={handleAccountClick}>Tài Khoản</Link></li>
                                         <li><Link onClick={onLogout}>Đăng Xuất</Link></li>
                                     </ul>
                                 ) : (

@@ -26,6 +26,10 @@ function AddJewelryForm() {
     jewelryEntryPrice: "Giá nhập",
   };
 
+  const options = {
+    gender: ["Nam", "Nữ"],
+  }
+
   const handleChange = (event) => {
     setJewelry({ ...jewelry, [event.target.name]: event.target.value });
   };

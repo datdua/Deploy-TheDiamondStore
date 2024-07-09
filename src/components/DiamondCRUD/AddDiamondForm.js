@@ -3,7 +3,7 @@ import { createDiamond } from "../../api/DiamondAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
 
 function AddDiamondForm() {
   const [diamond, setDiamond] = useState({
@@ -13,10 +13,9 @@ function AddDiamondForm() {
     diamondName: "",
     diamondEntryPrice: "",
     diamondImage: "",
-    weight: "",
     caratSize: "",
     color: "",
-    cut: "",
+    cut: "Excellent",
     clarity: "",
     shape: "",
     origin: "",
@@ -40,6 +39,13 @@ function AddDiamondForm() {
     origin: "Xuất xứ",
   };
 
+  const options = {
+    caratSize: [3.6, 3.9, 4.1, 4.5],
+    color: ["F", "E", "J", "D"],
+    clarity: ["VS1", "VS2", "VVS1", "VVS2"],
+    shape: ["Round", "Pear", "Radiant"],
+  };
+
   const handleChange = (event) => {
     setDiamond({ ...diamond, [event.target.name]: event.target.value });
   };
@@ -49,10 +55,15 @@ function AddDiamondForm() {
     try {
       const response = await createDiamond(diamond);
       console.log(response);
-      setMessage("Tạo mới Kim Cương thành công");
+      setMessage(response.message || "Tạo mới Kim Cương thành công");
     } catch (error) {
-      console.error(error);
-      setMessage("Tạo mới Kim Cương thất bại");
+      let errorMessage = "Tạo mới Kim Cương thất bại";
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      setMessage(errorMessage);
     }
   };
 
@@ -68,15 +79,48 @@ function AddDiamondForm() {
         onSubmit={handleSubmit}
       >
         {Object.keys(diamond).map((key) => (
-          <TextField
-            key={key}
-            id="outlined-basic"
-            label={labels[key]}
-            variant="outlined"
-            name={key}
-            value={diamond[key]}
-            onChange={handleChange}
-          />
+          options[key] ? (
+            <TextField
+              key={key}
+              id={`select-${key}`}
+              select
+              label={labels[key]}
+              value={diamond[key]}
+              onChange={handleChange}
+              name={key}
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            >
+              {options[key].map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : key === "cut" ? (
+            <TextField
+              key={key}
+              id="outlined-read-only-input"
+              label={labels[key]}
+              defaultValue="Excellent"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          ) : (
+            <TextField
+              key={key}
+              id="outlined-basic"
+              label={labels[key]}
+              variant="outlined"
+              name={key}
+              value={diamond[key]}
+              onChange={handleChange}
+            />
+          )
         ))}
         <Button type="submit" variant="contained" color="success">Hoàn thành</Button>
         {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}

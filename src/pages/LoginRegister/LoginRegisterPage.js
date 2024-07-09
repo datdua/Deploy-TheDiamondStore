@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginRegisterPage.css";
-import { jwtDecode } from 'jwt-decode'; // Correct import statement for jwtDecode
+import { jwtDecode } from 'jwt-decode';// Correct import statement for jwtDecode
 import ForgetPasswordModal from "../../components/ForgetPasswordModal/ForgetPasswordModal";
-
+import { regenerateOTP } from "../../api/accountCrud";
 
 function LoginRegisterPage() {
   const [loginEmail, setLoginEmail] = useState("");
@@ -20,14 +20,14 @@ function LoginRegisterPage() {
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const accountId = useParams();
+  const [countdown, setCountdown] = useState(60);
+  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      
       const response = await axios.post(
         "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/guest/login",
         {
@@ -62,8 +62,7 @@ function LoginRegisterPage() {
           navigate("/manager/profile");
         } else if (decodedToken.role === "ROLE_SALE-STAFF") {
           navigate("/sale-staff/profile");
-        }
-        else {
+        } else {
           navigate("/trangchu");
           window.location.reload();
           window.scrollTo(0, 0);
@@ -114,6 +113,7 @@ function LoginRegisterPage() {
         const data = response.data;
         console.log("Đăng ký thành công:", data.message);
         toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác thực");
+        setRegistrationSuccessful(true);
       } else {
         console.error("Đăng ký thất bại:", response);
         toast.error("Đăng ký thất bại!");
@@ -124,6 +124,31 @@ function LoginRegisterPage() {
       toast.error("Lỗi khi đăng ký!");
     }
   };
+
+  const handleRegenerateOTP = async () => {
+    try {
+      await regenerateOTP(registerEmail); // Call the regenerateOTP function with the registered email
+      toast.success('Mã OTP đã được tạo lại');
+    } catch (error) {
+      toast.error('Mã OTP tạo lại thất bại');
+    }
+  };
+
+  const handleRegenerateButtonClick = () => {
+    setCountdown(300); // Reset countdown timer
+    handleRegenerateOTP(); // Start OTP regeneration process immediately
+  };
+
+  useEffect(() => {
+    let timer = null;
+    if (countdown > 0) {
+      timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timer); // Cleanup timer on component unmount or re-render
+  }, [countdown]); // Effect runs when countdown changes
 
   return (
     <div>
@@ -275,9 +300,21 @@ function LoginRegisterPage() {
                         </div>
                       </div>
                       <div className="tm-form-field">
-                        <button type="submit" className="tm-button">
-                          Đăng ký
-                        </button>
+                        <div className="buttons-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <button type="submit" className="tm-button">
+                            Đăng ký
+                          </button>
+                          {registrationSuccessful && (
+                            <button
+                            className="btn w-100 btn-link my-2 text-black underline-button"
+                            onClick={handleRegenerateButtonClick} // Handle regeneration on button click
+                            disabled={countdown > 0} // Disable while countdown is running
+                            style={{ flexShrink: 0, fontWeight:'bold' }} // Remove inline textDecoration
+                          >
+                            {countdown > 0 ? `Chưa nhận được OTP ? Vui lòng chờ ${countdown}s` : 'Gửi lại mã OTP'}
+                          </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </form>

@@ -1,9 +1,39 @@
 import axios from 'axios';
 
+const apiClient = axios.create({
+  baseURL: "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api",
+});
+
+apiClient.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      // Modify the error message
+      return Promise.reject(new Error("Bạn không có thẩm quyền thực hiện"));
+    }
+    // Return any other error untouched
+    return Promise.reject(error);
+  }
+);
+
 // Diamond API functions
 export async function getAllDiamond() {
   const response = await axios.get(
     "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/guest"
+  );
+  if (response.status !== 200) {
+    throw new Error("Failed to fetch diamond data");
+  }
+  return response.data;
+}
+
+export async function getAllDiamond_Manager() {
+  const token = localStorage.getItem('jwt');
+  const response = await axios.get(
+    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/get-all",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch diamond data");
@@ -36,7 +66,7 @@ export async function getPage(page = 1, size = 9) {
 export async function createDiamond(diamond) {
   try {
     const token = localStorage.getItem('jwt');
-    const response = await axios.post(
+    const response = await apiClient.post(
       "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/manager/create",
       diamond,
       {
@@ -45,14 +75,14 @@ export async function createDiamond(diamond) {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Failed to create jewelry");
+    throw error;
   }
 }
 
 export async function updateDiamond(diamondID, diamond) {
   try {
     const token = localStorage.getItem('jwt');
-    const response = await axios.put(
+    const response = await apiClient.put(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/manager/update/${diamondID}`,
       diamond,
       {
@@ -61,14 +91,14 @@ export async function updateDiamond(diamondID, diamond) {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Failed to update Diamond");
+    throw error;
   }
 }
 
 export async function deleteDiamond(diamondIDs) {
   try {
     const token = localStorage.getItem('jwt');
-    const response = await axios.delete(
+    const response = await apiClient.delete(
       "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/diamonds/manager/delete",
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +107,7 @@ export async function deleteDiamond(diamondIDs) {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Failed to delete diamond");
+    throw error;
   }
 }
 

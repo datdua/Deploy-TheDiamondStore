@@ -3,9 +3,9 @@ import { createDiamondPrice } from "../../api/DiamondPriceAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
 
-function AddCertificateForm() {
+function AddDiamondPriceForm() {
   const [diamondPrice, setDiamondPrice] = useState({
     diamondEntryPrice: "",
     clarity: "",
@@ -22,6 +22,12 @@ function AddCertificateForm() {
     caratSize: "Kích thước",
   };
 
+  const options = {
+    caratSize: [3.6, 3.9, 4.1, 4.5],
+    color: ["F", "E", "J", "D"],
+    clarity: ["VS1", "VS2", "VVS1", "VVS2"],
+  };
+
   const handleChange = (event) => {
     setDiamondPrice({ ...diamondPrice, [event.target.name]: event.target.value });
   };
@@ -30,10 +36,18 @@ function AddCertificateForm() {
     event.preventDefault();
     try {
       const response = await createDiamondPrice(diamondPrice);
-      console.log(response);
-      setMessage("Tạo mới Giá Kim Cương thành công");
+      if (response.status === 200) {
+        console.log(response);
+        setMessage("Tạo mới Giá Kim Cương thành công");
+      } else {
+        // Handle non-200 responses, assuming the API returns a meaningful message
+        console.error(response);
+        const errorMessage = response.data?.message || "Có lỗi xảy ra khi tạo mới Giá Kim Cương";
+        setMessage(errorMessage);
+      }
     } catch (error) {
       console.error(error);
+      // Handle network errors or other issues not caught by response status
       setMessage("Tạo mới Giá Kim Cương thất bại");
     }
   };
@@ -50,16 +64,35 @@ function AddCertificateForm() {
         onSubmit={handleSubmit}
       >
         {Object.keys(diamondPrice).map((key) => (
-          <TextField
-            key={key}
-            id="outlined-basic"
-            label={labels[key]}
-            variant="outlined"
-            name={key}
-            value={diamondPrice[key]}
-            onChange={handleChange}
-            type="text"
-          />
+          options[key] ? (
+            <TextField
+              key={key}
+              id={`select-${key}`}
+              select
+              label={labels[key]}
+              value={diamondPrice[key]}
+              onChange={handleChange}
+              name={key}
+              variant="outlined"
+            >
+              {options[key].map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : (
+            <TextField
+              key={key}
+              id="outlined-basic"
+              label={labels[key]}
+              variant="outlined"
+              name={key}
+              value={diamondPrice[key]}
+              onChange={handleChange}
+              type="text"
+            />
+          )
         ))}
         <Button type="submit" variant="contained" color="success">Thêm giá</Button>
         {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
@@ -68,4 +101,4 @@ function AddCertificateForm() {
   );
 }
 
-export default AddCertificateForm;
+export default AddDiamondPriceForm;

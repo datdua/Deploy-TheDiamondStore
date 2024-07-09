@@ -29,9 +29,11 @@ export const getPromotionById = async (promotionID) => {
 
 export const createPromotion = async (promotion) => {
   try {
+    const token = localStorage.getItem('jwt');
     const response = await axios.post(
       "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/create",
-      promotion
+      promotion,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
   } catch (error) {
@@ -42,9 +44,11 @@ export const createPromotion = async (promotion) => {
 
 export const updatePromotion = async (promotionID, promotion) => {
   try {
+    const token = localStorage.getItem('jwt');
     const response = await axios.put(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/update/${promotionID}`,
-      promotion
+      promotion,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
   } catch (error) {
@@ -55,11 +59,13 @@ export const updatePromotion = async (promotionID, promotion) => {
 
 export const deletePromotion = async (promotionIDs) => {
   try {
-    const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/delete`
-      , { data: promotionIDs }
+    const token = localStorage.getItem('jwt');
+    await axios.delete(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/promotion/manager/delete`
+      , { 
+        headers: { Authorization: `Bearer ${token}` },
+        data: promotionIDs }
     );
-    return response.data;
   } catch (error) {
     console.error("Error deleting promotion:", error);
     throw error;

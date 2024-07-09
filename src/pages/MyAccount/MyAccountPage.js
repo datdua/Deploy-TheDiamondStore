@@ -7,8 +7,9 @@ import { AuthContext } from "../../components/Auth/AuthContext";
 import OrderSidebar from "../../components/OrderSidebar/OrderSidebar";
 import { toast } from "react-toastify";
 import { PointsContext } from "../../components/PointsContext/PointsContext";
-import CircularProgress from '@mui/material/CircularProgress';
-
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { CircularProgress } from "@mui/material";
 function MyAccountPage() {
   const { accountName } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
@@ -84,11 +85,11 @@ function MyAccountPage() {
     e.preventDefault();
     try {
       await updateAccount(accountId, accountDetails);
-      toast.success("Account details updated successfully");
+      toast.success("Cập nhật thông tin thành công");
       await getAccountDetails();
     } catch (error) {
       console.error('Failed to update account details:', error);
-      toast.error("Failed to update account details");
+      toast.error("Cập nhật thông tin thất bại");
     }
   };
 
@@ -104,8 +105,8 @@ function MyAccountPage() {
 
     return (
       orderStatus !== "Đã thanh toán" && (
-        <button onClick={handlePayment} className="tm-button tm-button-small">
-          Pay
+        <button onClick={handlePayment} className="tm-button tm-button-small" style={{backgroundColor:'#005aaa'}}>
+          <AccountBalanceIcon/>
         </button>
       )
     );
@@ -168,18 +169,10 @@ function MyAccountPage() {
                   </li>
                 </ul>
                 <div className="tab-content" id="account-content">
-                  <div className="tab-pane fade" id="account-dashboard" role="tabpanel"
-                    aria-labelledby="account-dashboard-tab">
-                    <div className="tm-myaccount-dashboard">
-                      <p>Hello <b>{accountName}</b></p>
-                      <p>From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.</p>
-                    </div>
-                  </div>
                   <div className="tab-pane fade" id="account-orders" role="tabpanel"
                     aria-labelledby="account-orders-tab">
                     <div className="tm-myaccount-orders">
                       {loading && <CircularProgress color="success" />}
-                      {error && <p className="error">{error}</p>}
                       <div className="table-responsive">
                         <table className="table table-bordered mb-0">
                           <thead>
@@ -199,17 +192,17 @@ function MyAccountPage() {
                                   <td>{order.orderID}</td>
                                   <td>{order.deliveryDate}</td>
                                   <td>{order.orderStatus}</td>
-                                  <td>{order.totalOrder !== undefined && order.totalOrder !== null ? order.totalOrder.toLocaleString() : 'N/A'}</td>
-                                  <td><button onClick={() => handleViewOrder(order.orderID)} className="tm-button tm-button-small">View</button></td>
+                                  <td>{order.totalOrder !== undefined && order.totalOrder !== null ? order.totalOrder.toLocaleString() : 'N/A'}</td>                                   
+                                  <td><button onClick={() => handleViewOrder(order.orderID)} className="tm-button tm-button-small"><i className="ion-eye"></i></button></td>
                                   <td>
                                     <PaymentButton orderID={order.orderID} orderStatus={order.orderStatus} />
-                                    {order.orderStatus === "Đang xử lý" && <button onClick={() => handleDeleteOrder(order.orderID)} className="tm-button tm-button-small">Delete</button>}
+                                    {order.orderStatus === "Đang xử lý" && <button onClick={() => handleDeleteOrder(order.orderID)} className="tm-button tm-button-small" style={{backgroundColor:'red', marginLeft:'10px'}}><DeleteIcon/></button>}
                                   </td>
                                 </tr>
                               ))
                             ) : (
                               <tr>
-                                <td colSpan="6">No orders found.</td>
+                                <td colSpan="6">Không có đơn hàng.</td>
                               </tr>
                             )}
                           </tbody>
@@ -223,7 +216,7 @@ function MyAccountPage() {
                       <form onSubmit={handleSubmit}>
                         <div className="tm-form-inner">
                           <div className="tm-form-field">
-                            <label htmlFor="accountName">Account Name</label>
+                            <label htmlFor="accountName">Tên tài khoản</label>
                             <input
                               type="text"
                               id="accountName"
@@ -232,7 +225,7 @@ function MyAccountPage() {
                             />
                           </div>
                           <div className="tm-form-field">
-                            <label htmlFor="addressAccount">Address</label>
+                            <label htmlFor="addressAccount">Địa chỉ</label>
                             <input
                               type="text"
                               id="addressAccount"
@@ -241,7 +234,7 @@ function MyAccountPage() {
                             />
                           </div>
                           <div className="tm-form-field">
-                            <label htmlFor="email">Email address</label>
+                            <label htmlFor="email">Email</label>
                             <input
                               type="email"
                               id="email"
@@ -251,12 +244,21 @@ function MyAccountPage() {
                             />
                           </div>
                           <div className="tm-form-field">
-                            <label htmlFor="phoneNumber">Phone</label>
+                            <label htmlFor="phoneNumber">Số điện thoại</label>
                             <input
                               type="tel"
                               id="phoneNumber"
                               value={accountDetails.phoneNumber}
                               onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="tm-form-field">
+                            <label htmlFor="point">Điểm tích luỹ</label>
+                            <input
+                              type="number"
+                              id="point"
+                              value={accountDetails.point} // Display points here 
+                              disabled
                             />
                           </div>
                           <div className="tm-form-field">
@@ -268,18 +270,9 @@ function MyAccountPage() {
                               disabled
                               hidden
                             />
-                          </div>
+                          </div>                        
                           <div className="tm-form-field">
-                            <label htmlFor="point">Point</label>
-                            <input
-                              type="number"
-                              id="point"
-                              value={accountDetails.point} // Display points here 
-                              disabled
-                            />
-                          </div>
-                          <div className="tm-form-field">
-                            <button type="submit" className="tm-button">Update</button>
+                            <button type="submit" className="tm-button">Cập nhật</button>
                           </div>
                         </div>
                       </form>

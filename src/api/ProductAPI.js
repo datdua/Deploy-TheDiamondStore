@@ -6,14 +6,10 @@ export const getAuthToken = () => {
 };
 
 export async function getAllProduct() {
-  const token = getAuthToken();
     try {
 // Logging token for debugging
         const response = await axios.get(
-          "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/customer/all",{
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/guest/all",{
           },
         );
         console.log('Response:', response); // Logging entire response object for inspection

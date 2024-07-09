@@ -107,31 +107,31 @@ function DiamondDetailPage() {
                               <span className="tm-prodetails-price">{diamond.diamondEntryPrice.toLocaleString()} VND</span>
                               <div className="tm-prodetails-infos" >
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }} >
-                                  <b>Carat Size : </b>
+                                  <b>Kích Thước: </b>
                                   {diamond.caratSize}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Carat Weight : </b>
+                                  <b>Trọng Lượng: </b>
                                   {diamond.weight}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Color : </b>
+                                  <b>Màu: </b>
                                   {diamond.color}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Clarity : </b>
+                                  <b>Độ Tinh Khiết: </b>
                                   {diamond.clarity}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Cut : </b>
+                                  <b>Vết Cắt: </b>
                                   {diamond.cut}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Shape : </b>
+                                  <b>Hình Dạng: </b>
                                   {diamond.shape}
                                 </div>
                                 <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
-                                  <b>Origin : </b>
+                                  <b>Nguồn Gốc: </b>
                                   {diamond.origin}
                                 </div>
                               </div>
@@ -140,7 +140,7 @@ function DiamondDetailPage() {
                                   <button className="decrease-button" onClick={decreaseQuantity}>-</button>
                                   <input type="text" value={quantity} readOnly style={{ maxWidth: "50px", textAlign: "center" }} />
                                   <button className="increase-button" onClick={increaseQuantity}>+</button>
-                                  <Button onClick={() => handleAddToCart(diamond)} style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px' }}>Add to cart</Button>
+                                  <Button onClick={() => handleAddToCart(diamond)} style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px' }}>Thêm vào giỏ hàng</Button>
                                 </div>
                               </div>
                             </div>

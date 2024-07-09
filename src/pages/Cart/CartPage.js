@@ -171,7 +171,7 @@ function CartPage() {
                                                 </div>
                                                 <div className="col-lg-3 col-md-4">
                                                     <Tooltip title="Để sử dụng thông tin cá nhân (bao gồm: địa chỉ, số điện thoại) áp dụng cho các đơn hàng sau, vui lòng nhấp vào đây để tiến hành cập nhật." arrow>
-                                                    <Link to={`/account/${accountId}`} style={{ marginTop: '10px' }} className="tm-button">Thông tin</Link>
+                                                    <Link to={`/account/${accountId}`} style={{ marginTop: '10px',  }} className="tm-button " >ⓘ</Link>
                                                     </Tooltip>
                                                 </div>
                                             </div>

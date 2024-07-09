@@ -83,7 +83,7 @@ function UpdatePromotionForm({ promotion }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Số tiền chiết khấu</Form.Label>
+        <Form.Label>Số tiền giảm giá</Form.Label>
         <Form.Control
           type="number"
           name="discountAmount"

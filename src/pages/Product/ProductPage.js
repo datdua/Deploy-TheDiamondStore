@@ -131,7 +131,7 @@ function ProductPage() {
                                 </div>
                                 <ul className="tm-product-actions">
                                   <li><button onClick={() => openModal(item)} aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
-                                  <li><a href="#"><i className="ion-heart"></i></a></li>
+                                  <li><a><i className="ion-heart" style={{color:'white'}}></i></a></li>
                                 </ul>
                                 <div className="tm-product-badges">
                                   <span className="tm-product-badges-new">New</span>

@@ -1,3 +1,11 @@
 .add-back li{
     background-color: black;
 }
+.underline-button {
+    text-decoration: underline;
+  }
+  
+  .underline-button:disabled {
+    text-decoration: underline;
+    color: grey; /* Adjust the color if needed */
+  }

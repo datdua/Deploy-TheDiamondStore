@@ -5,6 +5,10 @@ import { updateDiamond } from "../../api/DiamondAPI.js"; // Adjust this import t
 function UpdateDiamondForm({ diamond }) {
   const [updatedDiamond, setUpdatedDiamond] = useState(diamond);
 
+  const caratSizeOptions = [3.6, 3.9, 4.1, 4.5];
+  const colorOptions = ["F", "E", "J", "D"];
+  const clarityOptions = ["VS1", "VS2", "VVS1", "VVS2"];
+
   const handleChange = (event) => {
     setUpdatedDiamond({
       ...updatedDiamond,
@@ -81,20 +85,32 @@ function UpdateDiamondForm({ diamond }) {
       <Form.Group>
         <Form.Label>Kích cỡ</Form.Label>
         <Form.Control
-          type="text"
+          as="select"
           name="caratSize"
           value={updatedDiamond.caratSize}
           onChange={handleChange}
-        />
+        >
+          {caratSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
+          ))}
+        </Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label>Màu</Form.Label>
         <Form.Control
-          type="text"
+          as="select"
           name="color"
           value={updatedDiamond.color}
           onChange={handleChange}
-        />
+        >
+          {colorOptions.map((color) => (
+            <option key={color} value={color}>
+              {color}
+            </option>
+          ))}
+        </Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label>Vết cắt</Form.Label>
@@ -103,16 +119,23 @@ function UpdateDiamondForm({ diamond }) {
           name="cut"
           value={updatedDiamond.cut}
           onChange={handleChange}
+          readOnly
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Độ tinh khiết</Form.Label>
         <Form.Control
-          type="text"
+          as="select"
           name="clarity"
           value={updatedDiamond.clarity}
           onChange={handleChange}
-        />
+        >
+          {clarityOptions.map((clarity) => (
+            <option key={clarity} value={clarity}>
+              {clarity}
+            </option>
+          ))}
+        </Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label>Hình dạng</Form.Label>
@@ -132,7 +155,7 @@ function UpdateDiamondForm({ diamond }) {
           onChange={handleChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+      <Button variant="primary" type="submit" style={{ marginTop: '10px' }}>
         Cập nhật
       </Button>
     </Form>

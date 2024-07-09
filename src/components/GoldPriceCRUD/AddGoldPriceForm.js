@@ -3,7 +3,7 @@ import { createGoldPrice } from "../../api/GoldPriceAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
 
 function AddGoldPriceForm() {
   const [goldPrice, setGoldPrice] = useState({
@@ -20,6 +20,10 @@ function AddGoldPriceForm() {
     goldAge: "Tuổi vàng",
   };
 
+  const options = {
+    goldAge: [22, 18, 14, 10],
+  };
+
   const handleChange = (event) => {
     setGoldPrice({ ...goldPrice, [event.target.name]: event.target.value });
   };
@@ -29,20 +33,10 @@ function AddGoldPriceForm() {
     try {
       const response = await createGoldPrice(goldPrice);
       console.log(response);
-      alert("Tạo mới Giá Vàng cho Trang Sức thành công"); // Set the message on success
-      setMessage("Tạo mới Giá Vàng cho Trang Sức thành công");
+      setMessage("Tạo mới Giá Vàng thành công");
     } catch (error) {
       console.error(error);
-      if (
-        error.response &&
-        error.response.data.message === "Giá vàng cho trang sức này đã tồn tại"
-      ) {
-        alert("Giá vàng cho trang sức này đã tồn tại"); // Set the message if gold price already exists
-        setMessage("Giá vàng cho trang sức này đã tồn tại");
-      } else {
-        alert("Tạo mới Giá Vàng cho Trang Sức thất bại"); // Set the message on failure
-        setMessage("Tạo mới Giá Vàng cho Trang Sức thất bại");
-      }
+      setMessage("Tạo mới Giá Vàng thất bại");
     }
   };
 
@@ -58,16 +52,34 @@ function AddGoldPriceForm() {
         onSubmit={handleSubmit}
       >
         {Object.keys(goldPrice).map((key) => (
-          <TextField
-            key={key}
-            id="outlined-basic"
-            label={labels[key]}
-            variant="outlined"
-            name={key}
-            value={goldPrice[key]}
-            onChange={handleChange}
-            type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
-          />
+          options[key] ? (
+            <TextField
+              key={key}
+              id={`select-${key}`}
+              select
+              label={labels[key]}
+              value={goldPrice[key]}
+              onChange={handleChange}
+              name={key}
+              variant="outlined"
+            >
+              {options[key].map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : (
+            <TextField
+              key={key}
+              id="outlined-basic"
+              label={labels[key]}
+              variant="outlined"
+              name={key}
+              value={goldPrice[key]}
+              onChange={handleChange}
+            />
+          )
         ))}
         <Button type="submit" variant="contained" color="success">Hoàn thành</Button>
         {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}

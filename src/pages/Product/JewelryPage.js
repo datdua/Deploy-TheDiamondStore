@@ -198,14 +198,14 @@ function JewelryPage() {
                                 <ul className="tm-product-actions">
                                   {isLoggedIn ? null : (
                                     <p>
-                                      Please log in to add items to the cart.
+                                      Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.
                                     </p>
                                   )}
                                   <li>
                                     <Link
                                       to={`/product-detail/jewelry/${item.jewelryID}`}
                                     >
-                                      <i className="ion-android-cart"></i> Add to cart
+                                      <i className="ion-android-cart"></i> Thêm giỏ hàng
                                       </Link>
                                   </li>
                                   <li>

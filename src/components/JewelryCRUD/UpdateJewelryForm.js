@@ -35,12 +35,10 @@ function UpdateJewelryForm({ jewelry }) {
       </Form.Group>
       <Form.Group>
         <Form.Label>Giới tính</Form.Label>
-        <Form.Control
-          type="text"
-          name="gender"
-          value={updatedJewelry.gender}
-          onChange={handleChange}
-        />
+        <Form.Control as="select" name="gender" value={updatedJewelry.gender} onChange={handleChange}>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label>Giá nhập</Form.Label>

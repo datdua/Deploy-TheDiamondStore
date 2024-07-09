@@ -111,7 +111,7 @@ export const updateCart = async (cartId, accountId, diamondId, jewelryId, quanti
           url += `&sizeJewelry=${sizeJewelry}`;
       }
 
-      const response = await axios.put(url,{
+      const response = await axios.put(url, {} , {
         headers: {
           Authorization: `Bearer ${token}`
           }

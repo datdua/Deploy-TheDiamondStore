@@ -48,7 +48,7 @@ const DiamondPriceTable = () => {
                 Bảng Giá Kim Cương
             </Typography>
             <Typography variant="body1" component="div" className="description">
-                Chào mừng quý khách đến với bảng giá kim cương của chúng tôi. Dưới đây là thông tin chi tiết về giá kim cương theo từng kích thước carat, màu sắc và độ trong. Chúng tôi hy vọng quý khách sẽ tìm thấy những viên kim cương ưng ý.
+                Chào mừng quý khách đến với bảng giá kim cương của chúng tôi. Dưới đây là thông tin chi tiết về giá kim cương theo từng kích thước, màu sắc và độ trong suốt. Chúng tôi hy vọng quý khách sẽ tìm thấy những viên kim cương ưng ý.
             </Typography>
             {caratSizes.map(caratSize => (
                 <TableContainer component={Paper} className="tablePriceContainer" key={caratSize}>

@@ -9,7 +9,7 @@ import {
   Col,
 } from "react-bootstrap";
 import {
-  getAllDiamond,
+  getAllDiamond_Manager,
   getCertificateImage,
   getWarrantityImage,
   deleteDiamond
@@ -168,13 +168,13 @@ function DiamondManagerPage() {
   };
 
   const refreshTable = () => {
-    getAllDiamond().then((data) => {
+    getAllDiamond_Manager().then((data) => {
       setDiamondData(data);
     });
   };
 
   useEffect(() => {
-    getAllDiamond()
+    getAllDiamond_Manager()
       .then((data) => setDiamondData(data))
       .catch((error) => console.error(error));
   }, []);

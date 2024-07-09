@@ -45,8 +45,8 @@ function CalculatorForm() {
       </Form>
       {diamondPriceUSD !== null && (
         <div style={{ marginTop: '10px' }}>
-          <p>Giá Kim Cương (USD): <b>{diamondPriceUSD.toLocaleString()} USD</b></p>
-          <p>Giá Kim Cương (VND): <b>{diamondPriceVND.toLocaleString()} VND</b></p>
+          <p>Giá Kim Cương (USD): <b>{diamondPriceUSD} USD</b></p>
+          <p>Giá Kim Cương (VND): <b>{diamondPriceVND} VND</b></p>
         </div>
       )}
     </div>

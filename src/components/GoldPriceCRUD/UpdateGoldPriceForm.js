@@ -41,7 +41,7 @@ function UpdateGoldPriceForm({ goldPrice }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Gold Price</Form.Label>
+        <Form.Label>Giá vàng</Form.Label>
         <Form.Control
           type="text"
           name="goldPrice"
@@ -50,13 +50,18 @@ function UpdateGoldPriceForm({ goldPrice }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Gold Age</Form.Label>
+        <Form.Label>Lượng</Form.Label>
         <Form.Control
-          type="integer"
+          as="select"
           name="goldAge"
           value={updatedGoldPrice.goldAge}
           onChange={handleChange}
-        />
+        >
+          <option value="24">24</option>
+          <option value="18">18</option>
+          <option value="14">14</option>
+          <option value="10">10</option>
+        </Form.Control>
       </Form.Group>
       <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
         Cập nhật
