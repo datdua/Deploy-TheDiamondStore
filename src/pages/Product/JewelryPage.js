@@ -267,7 +267,7 @@ function JewelryPage() {
                 <div className="col-lg-3 col-12">
                   <div className="widgets">
                     <div className="single-widget widget-categories">
-                      <h6 className="widget-title">Categories</h6>
+                      <h6 className="widget-title">Danh Mục</h6>
                       <ul>
                         <li>
                           <Link to="/trangsuc">Trang Sức</Link>
@@ -279,7 +279,7 @@ function JewelryPage() {
                     </div>
                     <form onSubmit={handleSearch}>
                       <div className="single-widget widget-colorfilter">
-                        <h6 className="widget-title">Filter by Gender</h6>
+                        <h6 className="widget-title">Lọc Theo Giới Tínhr</h6>
                         <select
                           id="colorSearch"
                           value={filters.gender || "All"}
@@ -295,9 +295,9 @@ function JewelryPage() {
                         </select>
                       </div>
                       <div className="single-widget widget-pricefilter">
-                        <h6 className="widget-title">Filter by Price</h6>
+                        <h6 className="widget-title">Lọc Theo Giá</h6>
                         <div>
-                          <label>Min Jewelry Price:</label>
+                          <label>Giá tối thiểu: </label>
                           <input
                             type="number"
                             value={filters.minjewelryEntryPrice || ""}
@@ -310,7 +310,7 @@ function JewelryPage() {
                           />
                         </div>
                         <div>
-                          <label>Max Jewelry Price:</label>
+                          <label>Giá tối đa: </label>
                           <input
                             type="number"
                             value={filters.maxjewelryEntryPrice || ""}
@@ -323,7 +323,7 @@ function JewelryPage() {
                           />
                         </div>
                       </div>
-                      <button type="submit">Search</button>
+                      <button type="submit">Lọc</button>
                     </form>
                   </div>
                 </div>

@@ -50,11 +50,11 @@ function DiamondPage() {
     const location = useLocation();
     const [searchResults, setSearchResults] = useState([]);
     const [filterApplied, setFilterApplied] = useState(false);
-    const colors = ['All', 'E', 'J', 'F', 'D'];
-    const cuts = ['All', 'Excellent'];
-    const clarities = ['All', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
-    const shapes = ['All', 'Radiant', 'Around', 'Pear'];
-    const origins = ['All', 'GIA']
+    const colors = ['Tất cả', 'E', 'J', 'F', 'D'];
+    const cuts = ['Tất cả', 'Excellent'];
+    const clarities = ['Tất cả', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
+    const shapes = ['Tất cả', 'Radiant', 'Around', 'Pear'];
+    const origins = ['Tất cả', 'GIA']
 
     useEffect(() => {
         fetchDiamonds(currentPage);
@@ -311,7 +311,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="minPrice"
-                                                                                            placeholder="Min Price"
                                                                                             value={filters.minDiamondPrice}
                                                                                             onChange={(e) => setFilters({ ...filters, minDiamondPrice: e.target.value })}
                                                                                         />
@@ -322,7 +321,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="maxPrice"
-                                                                                            placeholder="Max Price"
                                                                                             value={filters.maxDiamondPrice}
                                                                                             onChange={(e) => setFilters({ ...filters, maxDiamondPrice: e.target.value })}
                                                                                         />
@@ -344,7 +342,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="minCaratSize"
-                                                                                            placeholder="Min Carat Size"
                                                                                             value={filters.minCaratSize}
                                                                                             onChange={(e) => setFilters({ ...filters, minCaratSize: e.target.value })}
                                                                                         />
@@ -355,7 +352,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="maxCaratSize"
-                                                                                            placeholder="Max Carat Size"
                                                                                             value={filters.maxCaratSize}
                                                                                             onChange={(e) => setFilters({ ...filters, maxCaratSize: e.target.value })}
                                                                                         />
@@ -377,7 +373,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="minCaratWeight"
-                                                                                            placeholder="Min Carat Weight"
                                                                                             value={filters.minCaratWeight}
                                                                                             onChange={(e) => setFilters({ ...filters, minCaratWeight: e.target.value })}
                                                                                         />
@@ -388,7 +383,6 @@ function DiamondPage() {
                                                                                             type="number"
                                                                                             className="form-control"
                                                                                             id="maxCaratWeight"
-                                                                                            placeholder="Max Carat Weight"
                                                                                             value={filters.maxCaratWeight}
                                                                                             onChange={(e) => setFilters({ ...filters, maxCaratWeight: e.target.value })}
                                                                                         />
@@ -439,7 +433,9 @@ function DiamondPage() {
                                                                             {showNotification && <p>Please log in to add items to the cart.</p>}
                                                                             <li><Link to={`/product-detail/diamond/${item.diamondID}`}><i className="ion-android-cart"></i>Thêm giỏ hàng</Link></li>
                                                                             <li>
-                                                                                <i className="ion-eye" onClick={(e) => e.preventDefault()}></i>
+                                                                                <button disabled>
+                                                                                    <i className="ion-eye"></i>
+                                                                                </button>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#" onClick={(e) => e.preventDefault()}>
