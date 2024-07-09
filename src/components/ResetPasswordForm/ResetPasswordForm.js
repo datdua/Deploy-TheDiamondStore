@@ -47,7 +47,7 @@ function ResetPasswordForm() {
           <div className="horizontal-container">
             <div className="horizontal-form-box">
               <div className="horizontal-info-container text-center">
-                <p style={{fontSize:'30px', fontWeight:'bold', marginTop:'20px'}} className="horizontal-heading">Đổi Mật Khẩu Mới</p>
+                <p style={{fontSize:'30px', fontWeight:'bold', marginTop:'30px'}} className="horizontal-heading">Đổi Mật Khẩu Mới</p>
               </div>
               <form className="horizontal-form" onSubmit={handleSubmit}>
                 <div className="o3-form-group">

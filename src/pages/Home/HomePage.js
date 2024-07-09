@@ -153,8 +153,8 @@ function HomePage() {
                                                         </li>
                                                     </ul>
                                                     <div className="tm-product-badges">
-                                                        <span className="tm-product-badges-new">New</span>
-                                                        <span className="tm-product-badges-sale">Sale</span>
+                                                        <span className="tm-product-badges-new">Mới</span>
+                                                        <span className="tm-product-badges-sale">Giảm giá</span>
                                                     </div>
                                                 </div>
                                                 <div className="tm-product-bottomside">

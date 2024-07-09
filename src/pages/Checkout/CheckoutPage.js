@@ -115,7 +115,7 @@ function CheckoutPage() {
             let pointsToUse = usePoints ? pointsToRedeem : 0;
             let finalTotal = totalCart - discountAmount - (pointsToUse * 10000);
 
-            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, pointsToUse, promotionCode);
+            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, totalAccumulatedPoints, promotionCode);
 
             toast.success("Đặt hàng thành công");
             navigate(`/account/${accountId}`);
