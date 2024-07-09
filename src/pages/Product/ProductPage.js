@@ -109,7 +109,7 @@ function ProductPage() {
                 <div className="col-lg-9 col-12">
                   <form action="#" className="tm-shop-header">
                     <p className="tm-shop-countview">
-                      Showing {((currentPage - 1) * itemsPerPage * 2) + 1} to {((currentPage * 2) * (itemsPerPage))} of {products.length} products
+                      Hiển thị {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} của {products.length} sản phẩm
                     </p>
                   </form>
 

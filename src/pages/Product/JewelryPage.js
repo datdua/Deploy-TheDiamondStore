@@ -163,7 +163,7 @@ function JewelryPage() {
                       </button>
                     </div>
                     <p className="tm-shop-countview">
-                      Showing 1 to {resultsPerPage} of {jewelry.length}{" "}
+                      Hiển thị 1 đến {resultsPerPage} của {jewelry.length}{" "}
                     </p>
                   </form>
 

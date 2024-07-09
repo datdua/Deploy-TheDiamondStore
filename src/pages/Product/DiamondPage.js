@@ -410,7 +410,7 @@ function DiamondPage() {
                                         </form>
                                     </div>
                                 </Modal>
-                                <p className="tm-shop-countview">Showing 1 to {diamonds.length} of {diamonds.length}</p>
+                                <p className="tm-shop-countview">Hiển thị 1 đến {diamonds.length} của {diamonds.length}</p>
                                 <div className="col-12">
                                     <div className="row">
                                         <div className="col-lg-9">
