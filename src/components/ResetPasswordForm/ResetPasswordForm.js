@@ -48,7 +48,7 @@ function ResetPasswordForm() {
             <div className="horizontal-form-box">
               <div className="horizontal-info-container text-center">
                 <img src="https://static.stayjapan.com/assets/top/icon/values-7dd5c8966d7a6bf57dc4bcd11b2156e82a4fd0da94a26aecb560b6949efad2be.svg" alt="Reset Password" />
-                <p className="horizontal-heading">Đổi lại mật khẩu</p>
+                <p style={{fontSize:'30px', fontWeight:'bold'}} className="horizontal-heading">Đổi lại mật khẩu</p>
               </div>
               <form className="horizontal-form" onSubmit={handleSubmit}>
                 <div className="o3-form-group">
@@ -86,7 +86,7 @@ function ResetPasswordForm() {
                   />
                 </div>
                 <div className="o3-form-group">
-                  <Button type="submit" className="o3-btn o3-btn-primary o3-btn-block">Đặt mật khẩu mới</Button>
+                  <Button style={{margin: '10px 0px'}} type="submit" className="tm-button">Đặt mật khẩu mới</Button>
                 </div>
               </form>
               {message && <p>{message}</p>}
