@@ -134,8 +134,8 @@ function ProductPage() {
                                   <li><a><i className="ion-heart" style={{color:'white'}}></i></a></li>
                                 </ul>
                                 <div className="tm-product-badges">
-                                  <span className="tm-product-badges-new">New</span>
-                                  <span className="tm-product-badges-sale">Sale</span>
+                                  <span className="tm-product-badges-new">Mới</span>
+                                  <span className="tm-product-badges-sale">Hot</span>
                                 </div>
                               </div>
                               <div className="tm-product-bottomside">

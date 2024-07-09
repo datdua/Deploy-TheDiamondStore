@@ -165,14 +165,6 @@ function JewelryPage() {
                     <p className="tm-shop-countview">
                       Showing 1 to {resultsPerPage} of {jewelry.length}{" "}
                     </p>
-                    <label htmlFor="mySelect">My Select:</label>
-                    <select id="mySelect">
-                      <option value="default">Default Sorting</option>
-                      <option value="name">Name A-Z</option>
-                      <option value="date">Date</option>
-                      <option value="best">Best Sellers</option>
-                      <option value="trending">Trending</option>
-                    </select>
                   </form>
 
                   <div className="tm-shop-products">
@@ -206,28 +198,26 @@ function JewelryPage() {
                                       to={`/product-detail/jewelry/${item.jewelryID}`}
                                     >
                                       <i className="ion-android-cart"></i> Thêm giỏ hàng
-                                      </Link>
+                                    </Link>
                                   </li>
                                   <li>
-                                    <button
-                                      onClick={() => openModal(item)}
-                                      aria-label="Product Quickview"
-                                    >
+                                    <button disabled>
                                       <i className="ion-eye"></i>
                                     </button>
                                   </li>
                                   <li>
-                                    <a href="#">
+                                    <a href="#" onClick={(e) => e.preventDefault()}>
                                       <i className="ion-heart"></i>
                                     </a>
                                   </li>
+
                                 </ul>
                                 <div className="tm-product-badges">
                                   <span className="tm-product-badges-new">
-                                    New
+                                    Mới
                                   </span>
                                   <span className="tm-product-badges-sale">
-                                    Sale
+                                    Hot
                                   </span>
                                 </div>
                               </div>
