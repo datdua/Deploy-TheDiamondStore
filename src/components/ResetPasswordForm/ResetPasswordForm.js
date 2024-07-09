@@ -47,7 +47,6 @@ function ResetPasswordForm() {
           <div className="horizontal-container">
             <div className="horizontal-form-box">
               <div className="horizontal-info-container text-center">
-                <img src="https://static.stayjapan.com/assets/top/icon/values-7dd5c8966d7a6bf57dc4bcd11b2156e82a4fd0da94a26aecb560b6949efad2be.svg" alt="Reset Password" />
                 <p style={{fontSize:'30px', fontWeight:'bold'}} className="horizontal-heading">Đổi lại mật khẩu</p>
               </div>
               <form className="horizontal-form" onSubmit={handleSubmit}>
