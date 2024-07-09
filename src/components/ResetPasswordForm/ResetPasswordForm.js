@@ -26,13 +26,13 @@ function ResetPasswordForm() {
     event.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      setMessage('Passwords do not match');
+      setMessage('Mật khẩu không trùng khớp');
       return;
     }
 
     try {
       await setPassword(email, newPassword);
-      setMessage('Password set successfully');
+      setMessage('Mật khẩu đã được thay đổi');
       toast.success('Mật khẩu đã được đổi thành công')
       
     } catch (error) {
@@ -47,7 +47,7 @@ function ResetPasswordForm() {
           <div className="horizontal-container">
             <div className="horizontal-form-box">
               <div className="horizontal-info-container text-center">
-                <p style={{fontSize:'30px', fontWeight:'bold'}} className="horizontal-heading">Đổi Mật Khẩu Mới</p>
+                <p style={{fontSize:'30px', fontWeight:'bold', marginTop:'20px'}} className="horizontal-heading">Đổi Mật Khẩu Mới</p>
               </div>
               <form className="horizontal-form" onSubmit={handleSubmit}>
                 <div className="o3-form-group">
