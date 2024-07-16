@@ -3,7 +3,6 @@ import { createWarranty } from "../../api/WarrantyAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 
 function AddWarrantyDiamondForm() {
   const [warranty, setWarranty] = useState({
@@ -65,6 +64,8 @@ function AddWarrantyDiamondForm() {
             InputLabelProps={{
               shrink: true,
             }}
+            value={warranty[key]}
+            onChange={handleChange}
           />
         ))}
         <Button type="submit" variant="contained" color="success">Hoàn thành</Button>

@@ -133,18 +133,13 @@ function CartPage() {
                                                 </td>
                                                 <td>
                                                     <div className="tm-sizebox">
-                                                        <select
+                                                        <input
+                                                            type="number"
                                                             value={item.sizeJewelry}
                                                             onChange={(e) => handleUpdateCartItem(item.cartID, item.quantity, parseInt(e.target.value, 10), item.diamondID, item.jewelryID)}
                                                             className="w-12 text-center"
                                                             disabled={!isEditing || !!item.diamondID}
-                                                        >
-                                                            {Array.from({ length: 15 }, (_, i) => i + 6).map((size) => (
-                                                                <option key={size} value={size}>
-                                                                    {size}
-                                                                </option>
-                                                            ))}
-                                                        </select>
+                                                        />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -176,7 +171,7 @@ function CartPage() {
                                                 </div>
                                                 <div className="col-lg-3 col-md-4">
                                                     <Tooltip title="Để sử dụng thông tin cá nhân (bao gồm: địa chỉ, số điện thoại) áp dụng cho các đơn hàng sau, vui lòng nhấp vào đây để tiến hành cập nhật." arrow>
-                                                        <Link to={`/account/${accountId}`} style={{ marginTop: '10px', }} className="tm-button " >ⓘ</Link>
+                                                    <Link to={`/account/${accountId}`} style={{ marginTop: '10px',  }} className="tm-button " >ⓘ</Link>
                                                     </Tooltip>
                                                 </div>
                                             </div>

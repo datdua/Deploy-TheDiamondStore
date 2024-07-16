@@ -13,10 +13,9 @@ function AddDiamondForm() {
     diamondName: "",
     diamondEntryPrice: "",
     diamondImage: "",
-    weight: "",
     caratSize: "",
     color: "",
-    cut: "",
+    cut: "Excellent",
     clarity: "",
     shape: "",
     origin: "",
@@ -44,6 +43,7 @@ function AddDiamondForm() {
     caratSize: [3.6, 3.9, 4.1, 4.5],
     color: ["F", "E", "J", "D"],
     clarity: ["VS1", "VS2", "VVS1", "VVS2"],
+    shape: ["Round", "Pear", "Radiant"],
   };
 
   const handleChange = (event) => {
@@ -55,10 +55,15 @@ function AddDiamondForm() {
     try {
       const response = await createDiamond(diamond);
       console.log(response);
-      setMessage("Tạo mới Kim Cương thành công");
+      setMessage(response.message || "Tạo mới Kim Cương thành công");
     } catch (error) {
-      console.error(error);
-      setMessage("Tạo mới Kim Cương thất bại");
+      let errorMessage = "Tạo mới Kim Cương thất bại";
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      setMessage(errorMessage);
     }
   };
 
@@ -84,6 +89,9 @@ function AddDiamondForm() {
               onChange={handleChange}
               name={key}
               variant="outlined"
+              InputLabelProps={{
+                shrink: true,
+              }}
             >
               {options[key].map((option) => (
                 <MenuItem key={option} value={option}>
@@ -91,6 +99,17 @@ function AddDiamondForm() {
                 </MenuItem>
               ))}
             </TextField>
+          ) : key === "cut" ? (
+            <TextField
+              key={key}
+              id="outlined-read-only-input"
+              label={labels[key]}
+              defaultValue="Excellent"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
           ) : (
             <TextField
               key={key}

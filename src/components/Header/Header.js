@@ -65,7 +65,7 @@ function Header() {
             <div className="row justify-between items-center">
               <div className="col-lg-6 col-12">
                 <ul className="tm-header-info">
-                  <li><a href="tel:18883456789"><i className="ion-ios-telephone"></i>0912051433</a></li>
+                  <li><a href="tel:0905558630"><i className="ion-ios-telephone"></i>0905558630</a></li>
                   <li><a href="mailto:thediamondstore.info24@gmail.com"><i className="ion-android-mail"></i>thediamondstore.info24@gmail.com</a></li>
                   {accountName && <li>Welcome, {accountName}!</li>}
                 </ul>

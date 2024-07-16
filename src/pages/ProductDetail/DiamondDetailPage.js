@@ -7,22 +7,35 @@ import "react-toastify/dist/ReactToastify.css";
 import { getDiamondById } from "../../api/DiamondAPI";
 import { getAccountIDByEmail } from "../../api/accountCrud";
 import Button from "react-bootstrap/esm/Button";
-import CircularProgress from '@mui/material/CircularProgress';
+import ImageLoading from "../../components/LoadingImg/ImageLoading"
 
 function DiamondDetailPage() {
   const navigate = useNavigate();
-  const [diamond, setDiamond] = useState(null);
   const { diamondId } = useParams();
+  const [diamond, setDiamond] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDiamond = async () => {
       try {
-        const diamondData = await getDiamondById(diamondId);
+        const diamondData = await new Promise((resolve, reject) => {
+          setTimeout(async () => {
+            try {
+              const data = await getDiamondById(diamondId);
+              resolve(data);
+            } catch (error) {
+              reject(error);
+            }
+          }, 50); 
+        });
+
         setDiamond(diamondData);
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching diamond details:", error);
+        setLoading(false); 
       }
     };
     fetchDiamond();
@@ -43,7 +56,6 @@ function DiamondDetailPage() {
       const jwt = localStorage.getItem("jwt");
       setIsLoggedIn(!!jwt);
     };
-
     checkLoginStatus();
   }, []);
 
@@ -79,7 +91,7 @@ function DiamondDetailPage() {
                 <ul className="add-back">
                   <li><Link to="/trangchu">Trang chủ</Link></li>
                   <li><Link to="/sanpham">Sản phẩm</Link></li>
-                  <li>{diamond ? diamond.diamondName : <CircularProgress color="success" />}</li>
+                  <li>{diamond ? diamond.diamondName : <ImageLoading />}</li>
                 </ul>
               </div>
             </div>

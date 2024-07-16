@@ -3,7 +3,6 @@ import { createCertificate } from "../../api/CertificateAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 
 function AddCertificateForm() {
   const [certificate, setCertificate] = useState({
