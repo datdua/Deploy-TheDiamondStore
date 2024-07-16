@@ -53,8 +53,8 @@ const DiamondPriceTable = () => {
 
     return (
         <div className="tablePriceWrapper">
-            <Typography variant="h4" component="div" className="mainTitle">
-                Bảng Giá Kim Cương
+            <Typography variant="h4" className="mainTitle">
+                <b>Bảng Giá Kim Cương</b>
             </Typography>
             <Typography variant="body1" component="div" className="description">
                 Chào mừng quý khách đến với bảng giá kim cương của chúng tôi. Dưới đây là thông tin chi tiết về giá kim cương theo từng kích thước, màu sắc và độ trong suốt. Chúng tôi hy vọng quý khách sẽ tìm thấy những viên kim cương ưng ý.
@@ -76,7 +76,7 @@ const DiamondPriceTable = () => {
                         <TableBody>
                             {colours.map(color => (
                                 <TableRow key={color}>
-                                    <TableCell component="th" scope="row" align="center" className="bodyPriceCell">{color}</TableCell>
+                                    <TableCell component="th" scope="row" align="center">{color}</TableCell>
                                     {clarityLevels.map(clarity => (
                                         <TableCell key={clarity} align="center" className="bodyPriceCell">
                                             {diamondPrices[caratSize] && diamondPrices[caratSize][color] && diamondPrices[caratSize][color][clarity]

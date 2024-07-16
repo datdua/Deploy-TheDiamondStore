@@ -9,12 +9,12 @@
 .tablePriceContainer {
     max-width: 80%;
     overflow-x: auto;
-    border: 2px solid #bd9a7a;
+    border: 2px solid  #f2ba59;
     width: auto;
 }
 
 .headerPriceCell {
-    background-color: #bd9a7a;
+    background-color:  #f2ba59;
     color: white;
     font-weight: bold;
     width: 120px;
@@ -33,19 +33,19 @@
 
 .tablePriceTypography {
     padding: 16px;
-    color: #bd9a7a;
+    color:  black;
     
 }
 
 .mainTitle {
-    color: #bd9a7a;
+    color:  black;
     margin-bottom: 16px;
     text-align: center;
     padding-top: 60px;
 }
 
 .description {
-    max-width: 80%;
+    max-width: 50%;
     text-align: center;
     margin-bottom: 32px;
 }
