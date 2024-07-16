@@ -4,7 +4,7 @@ export const getAllGoldPrice = async () => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      "http://localhost:8080/api/goldPrices/get-all",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/get-all",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -18,7 +18,7 @@ export const getAllGoldPrice = async () => {
 export const getGoldPriceById = async (goldPriceID) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/api/goldPrices/${goldPriceID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/${goldPriceID}`
     );
     return response.data;
   } catch (error) {
@@ -30,7 +30,7 @@ export const createGoldPrice = async (goldPrice) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.post(
-      "http://localhost:8080/api/goldPrices/manager/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/manager/create",
       goldPrice,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -46,7 +46,7 @@ export const updateGoldPrice = async (goldPriceID, goldPrice) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.put(
-      `http://localhost:8080/api/goldPrices/manager/${goldPriceID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/manager/${goldPriceID}`,
       goldPrice,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -62,7 +62,7 @@ export const deleteGoldPrice = async (goldPriceIDs) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.delete(
-      `http://localhost:8080/api/goldPrices/manager/delete`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/goldPrices/manager/delete`
       , { 
         headers: { Authorization: `Bearer ${token}` },
         data: goldPriceIDs }
