@@ -5,7 +5,8 @@ import { getAllDiamond, getPage, searchDiamond } from "../../api/DiamondAPI";
 import { Pagination } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import CircularProgress from '@mui/material/CircularProgress';
+import ImageLoading from "../../components/LoadingImg/ImageLoading"
+
 Modal.setAppElement('#root');
 
 const customModalStyles = {
@@ -25,9 +26,9 @@ const customModalStyles = {
     },
 };
 
-function DiamondPage() {
+const DiamondPage = () => {
     const [diamonds, setDiamonds] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showNotification, setShowNotification] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -54,7 +55,9 @@ function DiamondPage() {
     const cuts = ['Tất cả', 'Excellent'];
     const clarities = ['Tất cả', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
     const shapes = ['Tất cả', 'Radiant', 'Around', 'Pear'];
-    const origins = ['Tất cả', 'GIA']
+    const origins = ['Tất cả', 'GIA'];
+    
+    const resultsPerPage = 9;
 
     useEffect(() => {
         fetchDiamonds(currentPage);
@@ -70,7 +73,6 @@ function DiamondPage() {
         }
     }, [location]);
 
-    const resultsPerPage = 9;
     const fetchDiamonds = async (page) => {
         setLoading(true);
         try {
@@ -80,30 +82,34 @@ function DiamondPage() {
             };
 
             if (filterApplied) {
-                // Only include non-empty and non-'All' filters
+                // Only include non-empty and non-'Tất cả' filters
                 Object.entries(filters).forEach(([key, value]) => {
-                    if (value !== '' && value !== 'All') {
+                    if (value !== '' && value !== 'Tất cả') {
                         apiParams[key] = value;
                     }
                 });
 
                 const { content, totalPages } = await searchDiamond(apiParams);
-                setDiamonds(content);
-                setTotalPages(totalPages);
+                setTimeout(() => {
+                    setDiamonds(content);
+                    setTotalPages(totalPages);
+                    setLoading(false);
+                    window.scrollTo(0, 0);
+                }, 50); 
             } else {
                 const data = await getPage(page, resultsPerPage);
-                setDiamonds(data.content);
-                setTotalPages(data.totalPages);
+                setTimeout(() => {
+                    setDiamonds(data.content);
+                    setTotalPages(data.totalPages);
+                    setLoading(false);
+                    window.scrollTo(0, 0);
+                }, 50); 
             }
-            setLoading(false);
-            window.scrollTo(0, 0);
         } catch (error) {
             setError(error.message);
             setLoading(false);
         }
     };
-
-
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -114,9 +120,9 @@ function DiamondPage() {
                 size: resultsPerPage
             };
 
-            // Include only non-empty and non-'All' filters
+            // Include only non-empty and non-'Tất cả' filters
             Object.entries(filters).forEach(([key, value]) => {
-                if (value !== '' && value !== 'All') {
+                if (value !== '' && value !== 'Tất cả') {
                     filtersToUse[key] = value;
                 }
             });
@@ -135,7 +141,6 @@ function DiamondPage() {
         }
     };
 
-
     const handlePageChange = async (page) => {
         setCurrentPage(page); // Update currentPage state
     };
@@ -150,6 +155,9 @@ function DiamondPage() {
         setSelectedItem(null);
     }
 
+    if (loading) {
+        return <ImageLoading />;
+    }
     return (
         <div>
             <div id="wrapper" className="wrapper">
@@ -418,7 +426,7 @@ function DiamondPage() {
 
                                                 <div className="row mt-30-reverse">
                                                     {loading ? (
-                                                        <CircularProgress color="success" />
+                                                        <ImageLoading />
                                                     ) : error ? (
                                                         <div>Error: {error}</div>
                                                     ) : (

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
+import ImageLoading from "../../components/LoadingImg/ImageLoading"
 import { getAllProduct, getProductPage } from "../../api/ProductAPI"; // Ensure this API call is correct
 import { Pagination } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
 
-Modal.setAppElement("#root"); // Ensure this matches your app's root element
+Modal.setAppElement("#root");
 
 const customModalStyles = {
   content: {
@@ -37,8 +37,19 @@ function ProductPage() {
   useEffect(() => {
     const fetchProductPage = async () => {
       try {
-        const response = await getProductPage(currentPage, itemsPerPage);
-        console.log('API Response:', response);  // Log the entire response object
+        setLoading(true);
+        const response = await new Promise((resolve, reject) => {
+          setTimeout(async () => {
+            try {
+              const data = await getProductPage(currentPage, itemsPerPage);
+              resolve(data);
+            } catch (error) {
+              reject(error);
+            }
+          }, 400);
+        });
+
+        console.log('API Response:', response); 
 
         if (!response || (!response.diamonds && !response.jewelry)) {
           throw new Error("Invalid API response: Missing or invalid data");
@@ -82,9 +93,8 @@ function ProductPage() {
     setSelectedItem(null);
   }
 
-
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);  // Update the currentPage state variable
+    setCurrentPage(value);  // Cập nhật biến trạng thái currentPage
   };
 
 
@@ -116,7 +126,7 @@ function ProductPage() {
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <CircularProgress color="success" />
+                        <ImageLoading />
                       ) : error ? (
                         <div>Error: {error}</div>
                       ) : products.length === 0 ? (

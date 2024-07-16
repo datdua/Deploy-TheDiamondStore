@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import { PointsContext } from "../../components/PointsContext/PointsContext";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CircularProgress } from "@mui/material";
+import ImageLoading from "../../components/LoadingImg/ImageLoading"
+
 function MyAccountPage() {
   const { accountName } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
@@ -172,7 +173,7 @@ function MyAccountPage() {
                   <div className="tab-pane fade" id="account-orders" role="tabpanel"
                     aria-labelledby="account-orders-tab">
                     <div className="tm-myaccount-orders">
-                      {loading && <CircularProgress color="success" />}
+                      {loading && <ImageLoading />}
                       <div className="table-responsive">
                         <table className="table table-bordered mb-0">
                           <thead>

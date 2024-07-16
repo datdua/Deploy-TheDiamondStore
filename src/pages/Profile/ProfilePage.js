@@ -11,7 +11,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
+import ImageLoading from "../../components/LoadingImg/ImageLoading"
 import { getAccountByID_AdminManager, updateProfile } from "../../api/accountCrud";
 
 const ProfilePage = () => {
@@ -19,6 +19,7 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loading, setLoading] = useState(true);
   const accountID = localStorage.getItem("accountID");
 
   useEffect(() => {
@@ -30,7 +31,10 @@ const ProfilePage = () => {
     const fetchAccount = async () => {
       try {
         const accountData = await getAccountByID_AdminManager(accountID);
-        setAccount(accountData);
+        setTimeout(() => {
+          setAccount(accountData);
+          setLoading(false);
+        }, 50); // Thời gian chờ 400ms trước khi hiển thị thông tin tài khoản
       } catch (error) {
         setError("Failed to fetch account");
         console.error("Failed to fetch account", error);
@@ -68,7 +72,7 @@ const ProfilePage = () => {
   }
 
   if (!account) {
-    return <CircularProgress color="success" />;
+    return <ImageLoading />;
   }
 
   return (

@@ -21,13 +21,14 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip, Pagination, Checkbox, FormControlLabel } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
+import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
 import "../ProductManager.css";
 
-function DiamondManagerPage() {
+const DiamondManagerPage = () => {
   const [diamondData, setDiamondData] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading status
   const [showModal, setShowModal] = useState(false);
-  const [selectedDiamond, setSelectedDiamond] = useState([]);
+  const [selectedDiamond, setSelectedDiamond] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [certificateImage, setCertificateImage] = useState(null);
   const [showCertificateModal, setShowCertificateModal] = useState(false);
@@ -45,6 +46,25 @@ function DiamondManagerPage() {
 
   // Slice the array to get only the items for the current page
   const currentPageData = diamondData.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllDiamond_Manager();
+        setDiamondData(data);
+
+        // Set loading to false after a delay
+        setTimeout(() => {
+          setLoading(false);
+        }, 50); 
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleClose = () => {
     setShowModal(false);
@@ -76,7 +96,6 @@ function DiamondManagerPage() {
     setShowImageModal(false);
     setSelectedImage("");
   };
-
 
   const handleShowCertificate = async (certificationID) => {
     try {
@@ -172,12 +191,6 @@ function DiamondManagerPage() {
       setDiamondData(data);
     });
   };
-
-  useEffect(() => {
-    getAllDiamond_Manager()
-      .then((data) => setDiamondData(data))
-      .catch((error) => console.error(error));
-  }, []);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -380,7 +393,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <CircularProgress color="success" />
+            <ImageLoading />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -401,7 +414,7 @@ function DiamondManagerPage() {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <CircularProgress color="success" />
+            <ImageLoading />
           )}
         </Modal.Body>
         <Modal.Footer>

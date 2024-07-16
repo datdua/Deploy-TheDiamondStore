@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import { getAllClarity, getAllColor, getAllCaratSize, getDiamondPriceByCaratSize } from '../../api/DiamondPriceAPI';
-import CircularProgress from '@mui/material/CircularProgress';
+import ImageLoading from "../LoadingImg/ImageLoading"
 import './TablePrice.css';
 
 const DiamondPriceTable = () => {
@@ -9,6 +9,7 @@ const DiamondPriceTable = () => {
     const [caratSizes, setCaratSizes] = useState([]);
     const [clarityLevels, setClarityLevels] = useState([]);
     const [colours, setColours] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStaticData = async () => {
@@ -38,8 +39,16 @@ const DiamondPriceTable = () => {
         }
     }, [caratSizes]);
 
-    if (Object.keys(diamondPrices).length === 0 || caratSizes.length === 0 || clarityLevels.length === 0 || colours.length === 0) {
-        return <CircularProgress color="success" />;
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 50); 
+
+        return () => clearTimeout(timer); 
+    }, [diamondPrices, caratSizes, clarityLevels, colours]);
+
+    if (loading || Object.keys(diamondPrices).length === 0 || caratSizes.length === 0 || clarityLevels.length === 0 || colours.length === 0) {
+        return <ImageLoading />;
     }
 
     return (
