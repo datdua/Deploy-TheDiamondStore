@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
     CSidebar,
     CSidebarBrand,
@@ -7,24 +7,25 @@ import {
     CNavTitle,
     CNavGroup,
     CSidebarToggler,
+    CNavLink,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
+    cilSpeedometer,
     cilPuzzle,
     cilUser,
     cilBank,
+    cilCart,
     cilInbox,
     cilPeople,
     cilTextStrike,
     cilDiamond,
     cilWatch
 } from "@coreui/icons";
-import { AuthContext } from "../Auth/AuthContext";
 import "../../components/Sidebar/SidebarAdmin.css";
 
 function SideBarAdmin() {
-    const { onLogout } = useContext(AuthContext);
     return (
         <div className="sidebar-admin" style={{ display: "flex" }}>
             <CSidebar className="sidebar-full-height border-end" colorScheme="dark">
@@ -141,10 +142,10 @@ function SideBarAdmin() {
                         </NavLink>
                     </CNavGroup>
                 </CSidebarNav>
-                <CSidebarHeader onClick={onLogout} className="border-top" style={{ height: "50px" }}>
-                    <div className="sidebar-nav-item">
+                <CSidebarHeader className="border-top" style={{ height: "50px" }}>
+                    <NavLink to="/" className="sidebar-nav-item" activeClassName="active">
                         <CSidebarToggler style={{ marginRight: "10px" }} /> Đăng xuất
-                    </div>
+                    </NavLink>
                 </CSidebarHeader>
             </CSidebar>
             <div

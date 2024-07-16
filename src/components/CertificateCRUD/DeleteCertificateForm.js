@@ -6,7 +6,7 @@ import { Tooltip } from "@mui/material";
 
 function DeleteCertificateForm({ certificateID, onDelete }) {
   const handleDelete = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA chứng chỉ này ?")) {
+    if (window.confirm("Bạn có chắc muốn XÓA certificate này ?")) {
       try {
         await deleteCertificate(certificateID);
         onDelete(certificateID);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
-import ImageLoading from "../../components/LoadingImg/ImageLoading"
 import { getAllProduct, getProductPage } from "../../api/ProductAPI"; // Ensure this API call is correct
 import { Pagination } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 
-Modal.setAppElement("#root");
+Modal.setAppElement("#root"); // Ensure this matches your app's root element
 
 const customModalStyles = {
   content: {
@@ -37,19 +37,8 @@ function ProductPage() {
   useEffect(() => {
     const fetchProductPage = async () => {
       try {
-        setLoading(true);
-        const response = await new Promise((resolve, reject) => {
-          setTimeout(async () => {
-            try {
-              const data = await getProductPage(currentPage, itemsPerPage);
-              resolve(data);
-            } catch (error) {
-              reject(error);
-            }
-          }, 400);
-        });
-
-        console.log('API Response:', response); 
+        const response = await getProductPage(currentPage, itemsPerPage);
+        console.log('API Response:', response);  // Log the entire response object
 
         if (!response || (!response.diamonds && !response.jewelry)) {
           throw new Error("Invalid API response: Missing or invalid data");
@@ -93,8 +82,9 @@ function ProductPage() {
     setSelectedItem(null);
   }
 
+
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);  // Cập nhật biến trạng thái currentPage
+    setCurrentPage(value);  // Update the currentPage state variable
   };
 
 
@@ -119,18 +109,17 @@ function ProductPage() {
                 <div className="col-lg-9 col-12">
                   <form action="#" className="tm-shop-header">
                     <p className="tm-shop-countview">
-                      Hiển thị {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} của {products.length} sản phẩm
+                      Hiển thị sản phẩm {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} trong {products.length} sản phẩm
                     </p>
                   </form>
-
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <ImageLoading />
+                        <CircularProgress color="success" />
                       ) : error ? (
-                        <div>Error: {error}</div>
+                        <div>Lỗi: {error}</div>
                       ) : products.length === 0 ? (
-                        <div>No products available</div>
+                        <div>Không có sản phẩm</div>
                       ) : (
                         products.map((item) => (
                           <div className="col-lg-4 col-md-6 col-12" key={item.id}>
@@ -144,8 +133,8 @@ function ProductPage() {
                                   <li><a><i className="ion-heart" style={{color:'white'}}></i></a></li>
                                 </ul>
                                 <div className="tm-product-badges">
-                                  <span className="tm-product-badges-new">Mới</span>
-                                  <span className="tm-product-badges-sale">Hot</span>
+                                  <span className="tm-product-badges-new">New</span>
+                                  <span className="tm-product-badges-sale">Sale</span>
                                 </div>
                               </div>
                               <div className="tm-product-bottomside">
@@ -185,7 +174,7 @@ function ProductPage() {
                   {/* Sidebar Widgets */}
                   <div className="widgets">
                     <div className="single-widget widget-categories">
-                      <h6 className="widget-title">Danh Mục</h6>
+                      <h6 className="widget-title">Danh mục</h6>
                       <ul>
                         <li>
                           <Link to="/trangsuc">Trang Sức</Link>
@@ -200,9 +189,7 @@ function ProductPage() {
               </div>
             </div>
           </div>
-        </main>
-        {/* Modal for Product Quickview */}
-        
+        </main>        
       </div>
     </div>
   );

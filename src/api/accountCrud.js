@@ -3,7 +3,7 @@ import { getAuthToken } from "./OrderAPI";
 
 export async function getAllAccount() {
   const response = await axios.get(
-    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/accounts"
+    "http://localhost:8080/api/accounts/accounts"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch account data");
@@ -15,7 +15,7 @@ export async function getAccountByID_AdminManager(accountID) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/get/${accountID}`,
+      `http://localhost:8080/api/accounts/get/${accountID}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -31,7 +31,7 @@ export async function getAccountByID(accountID) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/customer/${accountID}`,{
+      `http://localhost:8080/api/customers/customer/${accountID}`,{
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -47,7 +47,7 @@ export async function getAccountHaveNotRoleCustomer() {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/all-except-customer`,
+      `http://localhost:8080/api/accounts/all-except-customer`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -63,7 +63,7 @@ export async function getAccountByRoleCustomer() {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/getByRole/ROLE_CUSTOMER`,
+      `http://localhost:8080/api/accounts/getByRole/ROLE_CUSTOMER`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -78,7 +78,7 @@ export async function updateAccount(accountID, accountDetails) {
   const token = getAuthToken();
   try {
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/customer/update/${accountID}`,
+      `http://localhost:8080/api/accounts/customer/update/${accountID}`,
       accountDetails,
       {
         headers: {
@@ -97,7 +97,7 @@ export async function updateProfile(accountID, accountDetails) {
   const token = getAuthToken();
   try {
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/customer/update/${accountID}`,
+      `http://localhost:8080/api/customers/customer/update/${accountID}`,
       accountDetails,
       {
         headers: {
@@ -115,7 +115,7 @@ export async function updateProfile(accountID, accountDetails) {
 export async function deleteAccounts(accountIDs) {
   try {
     const token = localStorage.getItem("jwt");
-    const response = await axios.delete("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/admin/delete", {
+    const response = await axios.delete("http://localhost:8080/api/accounts/admin/delete", {
       headers : { Authorization: `Bearer ${token}` },
       data: accountIDs,
     });
@@ -130,7 +130,7 @@ export async function deleteAccounts(accountIDs) {
 export async function createAccount(account) {
   try {
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/create",
+      "http://localhost:8080/api/accounts/create",
       account
     );
     return response.data;
@@ -141,7 +141,7 @@ export async function createAccount(account) {
 export const getContactInfo = async (accountId) => {
   const token = localStorage.getItem('jwt')
   try {
-    const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/customer/contactInfo/${accountId}`,{
+    const response = await axios.get(`http://localhost:8080/api/accounts/customer/contactInfo/${accountId}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -156,7 +156,7 @@ export const getAccountIDByEmail = async (email) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/customer/getByEmail/${email}`,
+      `http://localhost:8080/api/accounts/customer/getByEmail/${email}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ export const getAccountIDByEmail = async (email) => {
 export const getCustomerPoints = async (accountId) => {
   const token = localStorage.getItem('jwt')
   try {
-    const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/customer/${accountId}`,{
+    const response = await axios.get(`http://localhost:8080/api/customers/customer/${accountId}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -190,7 +190,7 @@ export const getCustomerPoints = async (accountId) => {
 
 export const resetPassword = async (email) => {
   try {
-    const response = await axios.post(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/guest/forget-password?email=${email}`,
+    const response = await axios.post(`http://localhost:8080/api/accounts/guest/forget-password?email=${email}`,
     );
     return response.data;
   } catch (error) {
@@ -203,7 +203,7 @@ export const resetPassword = async (email) => {
 
 export const setPassword = async (email, newPassword) => {
   try {
-    const response = await axios.put(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/guest/set-password?email=${encodeURIComponent(email)}`, {}, {
+    const response = await axios.put(`http://localhost:8080/api/accounts/guest/set-password?email=${encodeURIComponent(email)}`, {}, {
       headers: {
         'Content-Type': 'application/json',
         'newPassword': newPassword, // Add newPassword to the headers
@@ -223,7 +223,7 @@ export const setPassword = async (email, newPassword) => {
 
 export const countCustomer = async () => {
   try {
-    const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/total`,
+    const response = await axios.get(`http://localhost:8080/api/customers/total`,
     );
     return response.data;
   } catch (error) {
@@ -234,7 +234,7 @@ export const countCustomer = async () => {
 
 export const countRevenue = async () => {
   try {
-    const response = await axios.get(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orders/totalOrderPaid`,
+    const response = await axios.get(`http://localhost:8080/api/orders/totalOrderPaid`,
     );
     return response.data;
   } catch (error) {
@@ -247,7 +247,7 @@ export const regenerateOTP = async (email) => {
   try {
     // Make GET request to the API endpoint with email as a query parameter
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/guest/regenerate-otp`,
+      `http://localhost:8080/api/accounts/guest/regenerate-otp`,
       null, // Pass null as the data parameter for PUT request
       {
         params: {

@@ -41,7 +41,7 @@ function UpdateGoldPriceForm({ goldPrice }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Giá vàng</Form.Label>
+        <Form.Label>Gold Price</Form.Label>
         <Form.Control
           type="text"
           name="goldPrice"
@@ -50,7 +50,7 @@ function UpdateGoldPriceForm({ goldPrice }) {
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Lượng</Form.Label>
+        <Form.Label>Gold Age</Form.Label>
         <Form.Control
           as="select"
           name="goldAge"

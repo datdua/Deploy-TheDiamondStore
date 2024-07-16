@@ -254,7 +254,7 @@ function GoldPriceManager() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Cập Nhật Giá Vàng" : "Thêm Giá Vàng"}
+            {isUpdating ? "Update Gold Price" : "Add Gold Price"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

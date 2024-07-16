@@ -9,7 +9,7 @@ import {
   Col,
 } from "react-bootstrap";
 import {
-  getAllDiamond_Manager,
+  getAllDiamond,
   getCertificateImage,
   getWarrantityImage,
   deleteDiamond
@@ -21,14 +21,13 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip, Pagination, Checkbox, FormControlLabel } from "@mui/material";
-import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
+import CircularProgress from '@mui/material/CircularProgress';
 import "../ProductManager.css";
 
-const DiamondManagerPage = () => {
+function DiamondManagerPage() {
   const [diamondData, setDiamondData] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading status
   const [showModal, setShowModal] = useState(false);
-  const [selectedDiamond, setSelectedDiamond] = useState(null);
+  const [selectedDiamond, setSelectedDiamond] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [certificateImage, setCertificateImage] = useState(null);
   const [showCertificateModal, setShowCertificateModal] = useState(false);
@@ -46,25 +45,6 @@ const DiamondManagerPage = () => {
 
   // Slice the array to get only the items for the current page
   const currentPageData = diamondData.slice(startIndex, endIndex);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllDiamond_Manager();
-        setDiamondData(data);
-
-        // Set loading to false after a delay
-        setTimeout(() => {
-          setLoading(false);
-        }, 50); 
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleClose = () => {
     setShowModal(false);
@@ -96,6 +76,7 @@ const DiamondManagerPage = () => {
     setShowImageModal(false);
     setSelectedImage("");
   };
+
 
   const handleShowCertificate = async (certificationID) => {
     try {
@@ -187,10 +168,16 @@ const DiamondManagerPage = () => {
   };
 
   const refreshTable = () => {
-    getAllDiamond_Manager().then((data) => {
+    getAllDiamond().then((data) => {
       setDiamondData(data);
     });
   };
+
+  useEffect(() => {
+    getAllDiamond()
+      .then((data) => setDiamondData(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -393,7 +380,7 @@ const DiamondManagerPage = () => {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <ImageLoading />
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>
@@ -414,7 +401,7 @@ const DiamondManagerPage = () => {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <ImageLoading />
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>

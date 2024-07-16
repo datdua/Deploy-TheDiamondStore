@@ -7,13 +7,16 @@ import {
   CNavTitle,
   CNavGroup,
   CSidebarToggler,
+  CNavLink,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
+  cilSpeedometer,
   cilPuzzle,
   cilUser,
   cilBank,
+  cilCart,
   cilInbox,
   cilPeople,
   cilTextStrike,
@@ -142,9 +145,9 @@ function SideBarAdmin() {
           </CNavGroup>
         </CSidebarNav>
         <CSidebarHeader onClick={onLogout} className="border-top" style={{ height: "50px" }}>
-          <div className="sidebar-nav-item">
+          <NavLink className="sidebar-nav-item" activeClassName="active">
             <CSidebarToggler style={{ marginRight: "10px"}} /> Đăng xuất
-          </div>
+          </NavLink>
         </CSidebarHeader>
       </CSidebar>
       <div
