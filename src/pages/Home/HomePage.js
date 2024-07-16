@@ -6,7 +6,7 @@ import "./HomePage.css";
 import { toast } from "react-toastify";
 import { getAllProduct } from "../../api/ProductAPI"; // Updated import
 import { Modal } from "@mui/material";
-import ImageLoading from "../../components/LoadingImg/ImageLoading"
+import CircularProgress from '@mui/material/CircularProgress';
 
 const customModalStyles = {
     content: {
@@ -38,11 +38,11 @@ function HomePage() {
                 const filteredProducts = productsData.filter((product) => {
                     // Check if it's a diamond based on structure
                     if (product.caratSize !== undefined && product.cut !== undefined) {
-                        return true; 
+                        return true; // It's a diamond
                     }
                     // Check if it's jewelry based on structure
                     if (product.gender !== undefined && product.grossJewelryPrice !== undefined) {
-                        return true; 
+                        return true; // It's jewelry
                     }
                     return false;
                 });
@@ -55,14 +55,10 @@ function HomePage() {
                     .slice(0, 4);
 
                 setProducts([...diamonds, ...jewelries]);
-
-                setTimeout(() => {
-                    setLoading(false);
-                }, 50); 
-
-                console.log("Filtered Products:", filteredProducts);
-                console.log("Diamonds:", diamonds); 
-                console.log("Jewelries:", jewelries); 
+                setLoading(false);
+                console.log("Filtered Products:", filteredProducts); // Log the filtered products array
+                console.log("Diamonds:", diamonds); // Log filtered diamonds array
+                console.log("Jewelries:", jewelries); // Log filtered jewelries array
             } catch (error) {
                 console.error("Error fetching products:", error);
                 setError("Failed to fetch products");
@@ -131,7 +127,7 @@ function HomePage() {
                             </div>
                             <div className="row mt-50-reverse">
                                 {loading ? (
-                                    <ImageLoading />
+                                    <CircularProgress color="success" />
                                 ) : error ? (
                                     <div>Error: {error}</div>
                                 ) : products.length === 0 ? (
@@ -157,8 +153,8 @@ function HomePage() {
                                                         </li>
                                                     </ul>
                                                     <div className="tm-product-badges">
-                                                        <span className="tm-product-badges-new">Mới</span>
-                                                        <span className="tm-product-badges-sale">Giảm giá</span>
+                                                        <span className="tm-product-badges-new">New</span>
+                                                        <span className="tm-product-badges-sale">Sale</span>
                                                     </div>
                                                 </div>
                                                 <div className="tm-product-bottomside">

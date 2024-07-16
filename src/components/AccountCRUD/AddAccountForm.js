@@ -62,9 +62,6 @@ function AddAccountForm() {
                         onChange={handleChange}
                         type="text"
                         required={key !== "phoneNumber"}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
                     />
                 ))}
                 <Button type="submit" variant="contained" color="success">Tạo tài khoản</Button>

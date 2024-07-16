@@ -98,10 +98,10 @@ function GoldPriceManager() {
                 <Table striped bordered hover className="account-table">
                   <thead>
                     <tr>
-                      <th>Mã Trang Sức</th>
-                      <th>Giá Vàng</th>
-                      <th>Lượng</th>
-                      <th>Thao Tác</th>
+                      <th>Mã trang sức</th>
+                      <th>Gold Price</th>
+                      <th>Gold Age</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -162,7 +162,7 @@ function GoldPriceManager() {
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {isUpdating ? "Cập Nhật Giá Vàng" : "Thêm Giá Vàng"}
+            {isUpdating ? "Update Gold Price" : "Add Gold Price"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

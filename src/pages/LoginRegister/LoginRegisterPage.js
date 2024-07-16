@@ -64,8 +64,8 @@ function LoginRegisterPage() {
           navigate("/sale-staff/profile");
         } else {
           navigate("/trangchu");
-          window.location.reload();
           window.scrollTo(0, 0);
+          window.location.reload();        
         }
       } else {
         console.error("Đăng nhập thất bại:", response);
@@ -87,7 +87,6 @@ function LoginRegisterPage() {
       return;
     }
 
-    // Check if required fields are filled
     if (!registerName || !registerEmail || !registerPassword) {
       toast.error("Vui lòng điền đầy đủ thông tin đăng ký.");
       return;
@@ -155,7 +154,7 @@ function LoginRegisterPage() {
       <div id="wrapper" className="wrapper">
         <div
           className="tm-breadcrumb-area tm-padding-section bg-grey"
-          style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-dang-nhap.png?alt=media&token=8005f781-7956-444b-92c9-fe5c20a5df31)` }}
+          style={{ backgroundImage: `url(assets/images/banner-header.png)` }}
         >
           <div className="container">
             <div className="tm-breadcrumb">

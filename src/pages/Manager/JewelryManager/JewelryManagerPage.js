@@ -16,12 +16,11 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
-import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
+import CircularProgress from '@mui/material/CircularProgress';
 import "../ProductManager.css";
 
-const JewelryManagerPage = () => {
+function JewelryManagerPage() {
   const [jewelryData, setJewelryData] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading status
   const [showModal, setShowModal] = useState(false);
   const [selectedJewelry, setSelectedJewelry] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -36,28 +35,8 @@ const JewelryManagerPage = () => {
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
-
   // Slice the array to get only the items for the current page
   const currentPageData = jewelryData.slice(startIndex, endIndex);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllJewelry();
-        setJewelryData(data);
-
-        // Set loading to false after a delay
-        setTimeout(() => {
-          setLoading(false);
-        }, 50); 
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleClose = () => {
     setShowModal(false);
@@ -99,7 +78,7 @@ const JewelryManagerPage = () => {
     } catch (error) {
       console.error("Error fetching warranty image:", error);
     }
-  };
+  }
 
   const handleCloseWarrantityModal = () => {
     setShowWarrantityModal(false);
@@ -150,6 +129,7 @@ const JewelryManagerPage = () => {
     setIndeterminate(newSelected.length > 0 && newSelected.length < jewelryData.length);
   };
 
+
   const handleDeleteJewelry = async () => {
     if (window.confirm("Bạn có chắc muốn XÓA các trang sức này?")) {
       try {
@@ -168,6 +148,12 @@ const JewelryManagerPage = () => {
       setJewelryData(data);
     });
   };
+
+  useEffect(() => {
+    getAllJewelry()
+      .then((data) => setJewelryData(data))
+      .catch((error) => console.error(error));
+  }, []);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -348,7 +334,7 @@ const JewelryManagerPage = () => {
               style={{ width: "100%", height: "100%" }}
             />
           ) : (
-            <ImageLoading />
+            <CircularProgress color="success" />
           )}
         </Modal.Body>
         <Modal.Footer>

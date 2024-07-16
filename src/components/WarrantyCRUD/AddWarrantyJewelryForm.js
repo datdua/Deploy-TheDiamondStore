@@ -3,6 +3,7 @@ import { createWarranty } from "../../api/WarrantyAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 
 function AddWarrantyJewelryForm() {
     const [warranty, setWarranty] = useState({
@@ -57,11 +58,9 @@ function AddWarrantyJewelryForm() {
                 {Object.keys(warranty).map((key) => (
                     <TextField
                         key={key}
-                        id="outlined-basic"
+                        id="outlined-helperText"
                         label={labels[key]}
                         name={key}
-                        value={warranty[key]}
-                        onChange={handleChange}
                         type={key.includes("Date") ? "date" : key.includes("Time") ? "time" : "text"}
                         InputLabelProps={{
                             shrink: true,

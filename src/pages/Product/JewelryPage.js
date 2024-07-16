@@ -3,8 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI";
 import { Pagination } from "@mui/material";
-import ImageLoading from "../../components/LoadingImg/ImageLoading"
-
+import CircularProgress from '@mui/material/CircularProgress';
 Modal.setAppElement("#root");
 
 const customModalStyles = {
@@ -25,7 +24,6 @@ const customModalStyles = {
 
 function JewelryPage() {
   const location = useLocation();
-  const { jewelryId } = useParams();
   const [jewelry, setJewelry] = useState([]);
   const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(true);
@@ -37,27 +35,21 @@ function JewelryPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const resultsPerPage = 9;
-  const genders = ["All", "Male", "Female"];
+  const { jewelryId } = useParams();
+  const genders = ["Tất cả", "Nam", "Nữ"];
 
   const fetchJewelryPage = async (page = 1, filtersToUse = {}) => {
     try {
       setLoading(true);
-      setTimeout(async () => {
-        try {
-          let data;
-          if (Object.keys(filtersToUse).length > 0) {
-            data = await searchJewelry(page, filtersToUse);
-          } else {
-            data = await getPage(page);
-          }
-          setJewelry(data.content);
-          setTotalPages(data.totalPages);
-          setLoading(false);
-        } catch (error) {
-          setError(error.message);
-          setLoading(false);
-        }
-      }, 50); 
+      let data;
+      if (Object.keys(filtersToUse).length > 0) {
+        data = await searchJewelry(page, filtersToUse);
+      } else {
+        data = await getPage(page);
+      }
+      setJewelry(data.content);
+      setTotalPages(data.totalPages);
+      setLoading(false);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -110,14 +102,19 @@ function JewelryPage() {
         delete filtersToUse.maxjewelryEntryPrice;
       }
 
+      if (filtersToUse.gender === "Tất cả") {
+        delete filtersToUse.gender;
+      }
+
       await fetchJewelryPage(1, filtersToUse); 
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
   };
+  
 
-  const handlePageChange = (event, page) => {
+  const handlePageChange = async (event, page) => {
     setCurrentPage(page);
   };
 
@@ -128,10 +125,6 @@ function JewelryPage() {
     };
     checkLoginStatus();
   }, []);
-
-  if (loading) {
-    return <ImageLoading />;
-  }
 
   return (
     <div>
@@ -159,29 +152,15 @@ function JewelryPage() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-9 col-12">
-                  <form className="tm-shop-header" onSubmit={handleSearch}>
-                    <div className="tm-shop-productview">
-                      <span>Bố cục:</span>
-                      <button
-                        data-view="grid"
-                        className="active"
-                        aria-label="Grid View"
-                      >
-                        <i className="ion-android-apps"></i>
-                      </button>
-                      <button data-view="list" aria-label="List View">
-                        <i className="ion-android-menu"></i>
-                      </button>
-                    </div>
+                  <form className="tm-shop-header" onSubmit={handleSearch}>                 
                     <p className="tm-shop-countview">
-                      Hiển thị 1 đến {resultsPerPage} của {jewelry.length}{" "}
-                    </p>
+                      Hiển thị sản phẩm 1 đến {resultsPerPage} trong {jewelry.length} sản phẩm{" "}
+                    </p>                
                   </form>
-
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
-                        <ImageLoading />
+                        <CircularProgress color="success" />
                       ) : error ? (
                         <div>Error: {error}</div>
                       ) : (
@@ -209,26 +188,28 @@ function JewelryPage() {
                                       to={`/product-detail/jewelry/${item.jewelryID}`}
                                     >
                                       <i className="ion-android-cart"></i> Thêm giỏ hàng
-                                    </Link>
+                                      </Link>
                                   </li>
                                   <li>
-                                    <button disabled>
+                                    <button
+                                      onClick={() => openModal(item)}
+                                      aria-label="Product Quickview"
+                                    >
                                       <i className="ion-eye"></i>
                                     </button>
                                   </li>
                                   <li>
-                                    <a href="#" onClick={(e) => e.preventDefault()}>
+                                    <a href="#">
                                       <i className="ion-heart"></i>
                                     </a>
                                   </li>
-
                                 </ul>
                                 <div className="tm-product-badges">
                                   <span className="tm-product-badges-new">
-                                    Mới
+                                    New
                                   </span>
                                   <span className="tm-product-badges-sale">
-                                    Hot
+                                    Sale
                                   </span>
                                 </div>
                               </div>
@@ -278,7 +259,7 @@ function JewelryPage() {
                 <div className="col-lg-3 col-12">
                   <div className="widgets">
                     <div className="single-widget widget-categories">
-                      <h6 className="widget-title">Danh Mục</h6>
+                      <h6 className="widget-title">Danh mục</h6>
                       <ul>
                         <li>
                           <Link to="/trangsuc">Trang Sức</Link>
@@ -290,10 +271,10 @@ function JewelryPage() {
                     </div>
                     <form onSubmit={handleSearch}>
                       <div className="single-widget widget-colorfilter">
-                        <h6 className="widget-title">Lọc Theo Giới Tínhr</h6>
+                        <h6 className="widget-title">Lọc theo giới tính</h6>
                         <select
                           id="colorSearch"
-                          value={filters.gender || "All"}
+                          value={filters.gender || "Tất cả"}
                           onChange={(e) =>
                             setFilters({ ...filters, gender: e.target.value })
                           }
@@ -306,9 +287,9 @@ function JewelryPage() {
                         </select>
                       </div>
                       <div className="single-widget widget-pricefilter">
-                        <h6 className="widget-title">Lọc Theo Giá</h6>
+                        <h6 className="widget-title">Lọc theo giá</h6>
                         <div>
-                          <label>Giá tối thiểu: </label>
+                          <label>Giá tối thiểu:</label>
                           <input
                             type="number"
                             value={filters.minjewelryEntryPrice || ""}
@@ -321,7 +302,7 @@ function JewelryPage() {
                           />
                         </div>
                         <div>
-                          <label>Giá tối đa: </label>
+                          <label>Giá tối đa:</label>
                           <input
                             type="number"
                             value={filters.maxjewelryEntryPrice || ""}
@@ -334,7 +315,7 @@ function JewelryPage() {
                           />
                         </div>
                       </div>
-                      <button style={{marginTop: '10px', color: '#f2ba59'}} type="submit">Lọc</button>
+                      <button type="submit" style={{backgroundColor: '#f2ba59', marginTop:'10px'}} className="btn btn-primary mb-4">Tìm kiếm</button>
                     </form>
                   </div>
                 </div>
