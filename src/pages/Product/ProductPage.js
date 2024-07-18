@@ -119,18 +119,17 @@ function ProductPage() {
                 <div className="col-lg-9 col-12">
                   <form action="#" className="tm-shop-header">
                     <p className="tm-shop-countview">
-                      Hiển thị {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} của {products.length} sản phẩm
+                      Hiển thị sản phẩm {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} trong {products.length} sản phẩm
                     </p>
                   </form>
-
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
                       {loading ? (
                         <ImageLoading />
                       ) : error ? (
-                        <div>Error: {error}</div>
+                        <div>Lỗi: {error}</div>
                       ) : products.length === 0 ? (
-                        <div>No products available</div>
+                        <div>Không có sản phẩm</div>
                       ) : (
                         products.map((item) => (
                           <div className="col-lg-4 col-md-6 col-12" key={item.id}>
@@ -185,7 +184,7 @@ function ProductPage() {
                   {/* Sidebar Widgets */}
                   <div className="widgets">
                     <div className="single-widget widget-categories">
-                      <h6 className="widget-title">Danh Mục</h6>
+                      <h6 className="widget-title">Danh mục</h6>
                       <ul>
                         <li>
                           <Link to="/trangsuc">Trang Sức</Link>
@@ -200,9 +199,7 @@ function ProductPage() {
               </div>
             </div>
           </div>
-        </main>
-        {/* Modal for Product Quickview */}
-        
+        </main>        
       </div>
     </div>
   );

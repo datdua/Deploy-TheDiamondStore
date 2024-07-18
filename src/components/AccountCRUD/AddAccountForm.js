@@ -33,10 +33,15 @@ function AddAccountForm() {
         try {
             const response = await createAccount(account);
             console.log(response);
-            setMessage("Tạo mới tài khoản thành công");
+            setMessage(response.message || "Tạo mới tài khoản thành công");
         } catch (error) {
-            console.error(error);
-            setMessage("Tạo mới tài khoản thất bại");
+            let errorMessage = "Tạo mới tài khoản thất bại";
+            if (error.response && error.response.data && error.response.data.message) {
+                errorMessage = error.response.data.message;
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+            setMessage(errorMessage);
         }
     };
 

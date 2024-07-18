@@ -1,20 +1,17 @@
 import axios from 'axios';
 
-// Function to fetch products with authentication token
+
 export const getAuthToken = () => {
-    return localStorage.getItem('jwt'); // Adjust based on where you store the token
+    return localStorage.getItem('jwt'); 
 };
 
 export async function getAllProduct() {
     try {
-// Logging token for debugging
         const response = await axios.get(
-          "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/guest/all",{
+          "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/products/get-all",{
           },
         );
-        console.log('Response:', response); // Logging entire response object for inspection
-
-        // Check if response.data is an object and contains properties 'jewelry' and 'diamonds'
+        console.log('Response:', response); 
         if (typeof response.data === 'object' && response.data.jewelry && response.data.diamonds) {
             // Combine the two arrays into one
             return [...response.data.jewelry, ...response.data.diamonds];
@@ -26,14 +23,13 @@ export async function getAllProduct() {
         throw error;
     }
 }
-// In ProductAPI.js
+
 export async function getProductPage(page = 1, size = 4) {
   try {
-      // Ensure page is a number
       page = typeof page === 'object' ? 1 : Number(page);
 
       const response = await axios.get(
-        `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/guest/paged?page=${page}&size=${size}`,
+        `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/products/get-paging?page=${page}&size=${size}`,
       );
       
       if (response.status !== 200) {
@@ -49,7 +45,7 @@ export async function getProductPage(page = 1, size = 4) {
 export const searchProductionByName = async (name, page = 1, size = 9) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/production/guest/search/filter/page`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/products/search/get-paging`,
       {
         params: {
           name: name,

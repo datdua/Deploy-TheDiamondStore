@@ -29,7 +29,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/guest/login",
+        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/auth/login",
         {
           email: loginEmail,
           password: loginPassword,
@@ -64,8 +64,8 @@ function LoginRegisterPage() {
           navigate("/sale-staff/profile");
         } else {
           navigate("/trangchu");
-          window.location.reload();
           window.scrollTo(0, 0);
+          window.location.reload();        
         }
       } else {
         console.error("Đăng nhập thất bại:", response);
@@ -87,7 +87,6 @@ function LoginRegisterPage() {
       return;
     }
 
-    // Check if required fields are filled
     if (!registerName || !registerEmail || !registerPassword) {
       toast.error("Vui lòng điền đầy đủ thông tin đăng ký.");
       return;
@@ -95,7 +94,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/guest/register",
+        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
         {
           accountName: registerName,
           email: registerEmail,

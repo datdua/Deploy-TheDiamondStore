@@ -3,7 +3,7 @@ import axios from "axios";
 export const getAllWarranties = async () => {
   try {
     const token = localStorage.getItem("jwt");
-    const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/get-all",
+    const response = await axios.get("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-all",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -17,8 +17,12 @@ export const getAllWarranties = async () => {
 
 export const getWarrantyById = async (warrantyID) => {
   try {
+    const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/${warrantyID}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/warranty-management/warranties/${warrantyID}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return response.data;
   } catch (error) {
@@ -31,7 +35,7 @@ export const createWarranty = async (warranty) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/manager/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/warranty-management/warranties/add",
       warranty,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -48,7 +52,7 @@ export const updateWarranty = async (warrantyID, warranty) => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/manager/update/${warrantyID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/warranty-management/warranties/update/${warrantyID}`,
       warranty,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -65,7 +69,7 @@ export async function deleteWarranty(warrantyIDs) {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/manager/delete`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/warranty-management/warranties/delete`,
       { 
         headers: { Authorization: `Bearer ${token}` },
         data: warrantyIDs 
@@ -81,7 +85,7 @@ export async function deleteWarranty(warrantyIDs) {
 export const getWarrantyByPage = async (page, size) => {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/page?page=${page}&size=${size}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-paging?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -94,7 +98,7 @@ export const getWarrantyDiamondIDIsNull = async () => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/diamondIDIsNull`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-jewelry-warranty`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -110,7 +114,7 @@ export const getWarrantyJewelryIDIsNull = async () => {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/jewelryIDIsNull`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-diamond-warranty`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

@@ -3,7 +3,7 @@ import axios from "axios";
 // Jewelry API functions
 export async function getAllJewelry() {
   const response = await axios.get(
-    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/guest"
+    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/get-all"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch jewelry data");
@@ -11,10 +11,10 @@ export async function getAllJewelry() {
   return response.data;
 }
 
-export async function searchJewelryByName(name , page = 1, size = 9) {
+export async function searchJewelryByName(name) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/guest/search/filter/paged?jewelryName=${name}&page=${page}&size=${size}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/searchByName?name=${name}`
     );
     console.log(response.data); 
     return response.data;
@@ -27,7 +27,7 @@ export async function getWarrantityImage(warrantyID) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranties/get/warrantyImg/${warrantyID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/warranty-management/warranties/warrantyImg/${warrantyID}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -42,7 +42,7 @@ export async function getWarrantityImage(warrantyID) {
 export async function getJewelryById(jewelryId) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/guest/get/${jewelryId}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/${jewelryId}`
     );
     return response.data;
   } catch (error) {
@@ -53,7 +53,7 @@ export async function getJewelryById(jewelryId) {
 export async function getPage(page = 1, size = 9) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/guest/paged/jewelrys?page=${page}&size=${size}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/get-paging?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -65,7 +65,7 @@ export async function createJewelry(jewelry) {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/manager/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/jewelry-management/jewelries/add",
       jewelry,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -81,7 +81,7 @@ export async function updateJewelry(jewelryID, jewelry) {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/manager/update/${jewelryID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/jewelry-management/jewelries/update/${jewelryID}`,
       jewelry,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -97,7 +97,7 @@ export async function deleteJewelry(jewelryIDs) {
   try {
     const token = localStorage.getItem("jwt");
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/manager/delete`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/jewelry-management/jewelries/delete`
       , { 
         headers: { Authorization: `Bearer ${token}` },
         data: jewelryIDs }
@@ -130,7 +130,7 @@ export async function searchJewelry(page = 1, filters = {}) {
     });
 
     const response = await axios.get(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/jewelry/guest/search/filter/paged",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/search/get-paging",
       { params }
     );
 

@@ -110,13 +110,9 @@ function CheckoutPage() {
             toast.error("Xin cung cấp địa chỉ giao hàng và số điện thoại");
             return;
         }
-
         try {
             let pointsToUse = usePoints ? pointsToRedeem : 0;
             let finalTotal = totalCart - discountAmount - (pointsToUse * 10000);
-
-            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, totalAccumulatedPoints, promotionCode);
-
             toast.success("Đặt hàng thành công");
             navigate(`/account/${accountId}`);
         } catch (error) {

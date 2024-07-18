@@ -36,10 +36,15 @@ function AddCertificateForm() {
       };
       const response = await createCertificate(dateTimeCertificate);
       console.log(response);
-      setMessage("Tạo mới Chứng Chỉ thành công");
+      setMessage(response.message || "Tạo mới Chứng Chỉ thành công");
     } catch (error) {
-      console.error(error);
-      setMessage("Tạo mới Chứng Chỉ thất bại");
+      let errorMessage = "Tạo mới Chứng Chỉ thất bại";
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      setMessage(errorMessage);
     }
   };
 
