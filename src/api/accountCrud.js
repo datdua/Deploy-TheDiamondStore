@@ -63,7 +63,7 @@ export async function getAccountByRoleCustomer() {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `hhttps://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/get-by-account-role/ROLE_CUSTOMER`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/get-by-account-role/ROLE_CUSTOMER`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -97,7 +97,25 @@ export async function updateProfile(accountID, accountDetails) {
   const token = getAuthToken();
   try {
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customers/customer/update/${accountID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/update/${accountID}`,
+      accountDetails,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update account");
+  }
+}
+
+export async function updateAccountByAdmin(accountID, accountDetails) {
+  const token = getAuthToken();
+  try {
+    const response = await axios.put(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/account-management/accounts/update/${accountID}`,
       accountDetails,
       {
         headers: {
@@ -115,7 +133,7 @@ export async function updateProfile(accountID, accountDetails) {
 export async function deleteAccounts(accountIDs) {
   try {
     const token = localStorage.getItem("jwt");
-    const response = await axios.delete("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/accounts/delete", {
+    const response = await axios.delete("https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/account-management/accounts/delete", {
       headers : { Authorization: `Bearer ${token}` },
       data: accountIDs,
     });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateAccount } from "../../api/accountCrud";
+import { updateAccountByAdmin } from "../../api/accountCrud";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -38,7 +38,7 @@ function UpdateAccountForm({ account }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updateAccount(account.accountID, updatedAccount);
+      await updateAccountByAdmin(account.accountID, updatedAccount);
       alert("Cập nhật thông tin Tài Khoản thành công");
     } catch (error) {
       alert("Cập nhật thông tin Tài Khoản thất bại");
