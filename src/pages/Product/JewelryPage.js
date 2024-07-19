@@ -25,7 +25,6 @@ const customModalStyles = {
 
 function JewelryPage() {
   const location = useLocation();
-  const { jewelryId } = useParams();
   const [jewelry, setJewelry] = useState([]);
   const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(true);

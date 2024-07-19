@@ -35,6 +35,7 @@ const DiamondPage = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const resultsPerPage = 9;
     const [filters, setFilters] = useState({
         color: 'Tất cả',
         cut: 'Tất cả',

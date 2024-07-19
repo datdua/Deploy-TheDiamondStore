@@ -67,7 +67,7 @@ export async function createDiamond(diamond) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await apiClient.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamonds/create",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamond-management/diamonds/add",
       diamond,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -83,7 +83,7 @@ export async function updateDiamond(diamondID, diamond) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await apiClient.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamonds/update/${diamondID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamond-management/diamonds/update/${diamondID}`,
       diamond,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +99,7 @@ export async function deleteDiamond(diamondIDs) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await apiClient.delete(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamonds/delete",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamond-management/diamonds/delete",
       {
         headers: { Authorization: `Bearer ${token}` },
         data: diamondIDs, // Move `data` inside the same object as headers

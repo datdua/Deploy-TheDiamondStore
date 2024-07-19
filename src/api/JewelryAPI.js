@@ -3,7 +3,7 @@ import axios from "axios";
 // Jewelry API functions
 export async function getAllJewelry() {
   const response = await axios.get(
-    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/get-all"
+    "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelries/get-all"
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch jewelry data");
