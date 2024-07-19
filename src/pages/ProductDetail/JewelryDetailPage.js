@@ -29,7 +29,7 @@ function JewelryDetailPage() {
         setSize(jewelryData.size || ""); 
         setTimeout(() => {
           setLoading(false);
-        }, 50); // Delay of 400ms
+        }, 50); 
       } catch (error) {
         console.error("Error fetching jewelry details:", error);
         setLoading(false);
@@ -49,7 +49,7 @@ function JewelryDetailPage() {
   };
 
   const handleSizeChange = (event) => {
-    const selectedSize = event.target.value || null; // Đảm bảo rằng selectedSize là null nếu không có kích thước nào được chọn
+    const selectedSize = event.target.value || null; 
     setSize(selectedSize);
     console.log("Selected size:", selectedSize);
   };

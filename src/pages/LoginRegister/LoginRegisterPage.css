@@ -7,5 +7,5 @@
   
   .underline-button:disabled {
     text-decoration: underline;
-    color: grey; /* Adjust the color if needed */
+    color: grey; 
   }

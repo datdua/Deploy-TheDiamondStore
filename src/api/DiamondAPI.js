@@ -8,15 +8,12 @@ apiClient.interceptors.response.use(
   response => response,
   error => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Modify the error message
       return Promise.reject(new Error("Bạn không có thẩm quyền thực hiện"));
     }
-    // Return any other error untouched
     return Promise.reject(error);
   }
 );
 
-// Diamond API functions
 export async function getAllDiamond() {
   const response = await axios.get(
     "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/diamonds"
@@ -102,7 +99,7 @@ export async function deleteDiamond(diamondIDs) {
       "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/diamond-management/diamonds/delete",
       {
         headers: { Authorization: `Bearer ${token}` },
-        data: diamondIDs, // Move `data` inside the same object as headers
+        data: diamondIDs, 
       }
     );
     return response.data;
@@ -142,6 +139,7 @@ export async function getWarrantityImage(warrantyID) {
     throw new Error("Failed to fetch diamond warranty image");
   }
 }
+
 
 export async function searchDiamondByName(name) {
   try {

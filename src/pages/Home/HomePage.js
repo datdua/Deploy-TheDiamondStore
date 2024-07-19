@@ -4,7 +4,7 @@ import "fancybox/dist/css/jquery.fancybox.css";
 import HeroSlider from "../../components/HeroSlider/HeroSlider";
 import "./HomePage.css";
 import { toast } from "react-toastify";
-import { getAllProduct } from "../../api/ProductAPI"; // Updated import
+import { getAllProduct } from "../../api/ProductAPI"; 
 import { Modal } from "@mui/material";
 import ImageLoading from "../../components/LoadingImg/ImageLoading"
 
@@ -36,11 +36,11 @@ function HomePage() {
             try {
                 const productsData = await getAllProduct();
                 const filteredProducts = productsData.filter((product) => {
-                    // Check if it's a diamond based on structure
+
                     if (product.caratSize !== undefined && product.cut !== undefined) {
                         return true; 
                     }
-                    // Check if it's jewelry based on structure
+                    
                     if (product.gender !== undefined && product.grossJewelryPrice !== undefined) {
                         return true; 
                     }
@@ -72,14 +72,14 @@ function HomePage() {
 
         fetchData();
     }, []);
+    
 
-    // Function to open the modal
     const openModal = (item) => {
         setSelectedItem(item);
         setIsOpen(true);
     };
 
-    // Function to close the modal
+
     const closeModal = () => {
         setIsOpen(false);
         setSelectedItem(null);

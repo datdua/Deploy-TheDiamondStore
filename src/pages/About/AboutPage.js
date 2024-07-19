@@ -7,7 +7,6 @@ function AboutPage() {
   return (
     <div>
       <div id="wrapper" className="wrapper">
-        {/* Breadcrumb Area */}
         <div
           className="tm-breadcrumb-area tm-padding-section bg-grey"
           style={{
@@ -26,14 +25,10 @@ function AboutPage() {
             </div>
           </div>
         </div>
-        {/* //Breadcrumb Area */}
-
-        {/* Page content */}
         <main className="page-content">
           <div className="tm-section tm-feature-area bg-grey">
             <div className="container">
               <div className="row mt-30-reverse">
-                {/*Single Feature*/}
                 <div className="col-lg-4 mt-30">
                   <div className="tm-feature">
                     <span className="tm-feature-icon">
@@ -48,9 +43,6 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Single Feature */}
-
                 <div className="col-lg-4 mt-30">
                   <div className="tm-feature">
                     <span className="tm-feature-icon">
@@ -67,11 +59,6 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/*// Single Feature*/}
-
-                {/* Single Feature*/}
-
                 <div className="col-lg-4 mt-30">
                   <div className="tm-feature">
                     <span className="tm-feature-icon">
@@ -89,16 +76,9 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/*// Single Feature*/}
               </div>
             </div>
           </div>
-
-          {/* //Feature Area */}
-
-          {/* About Area */}
-
           <div className="tm-about-area tm-padding-section bg-white">
             <div className="container">
               <div className="row align-items-center">
@@ -143,10 +123,6 @@ function AboutPage() {
               </div>
             </div>
           </div>
-
-          {/* //About Area */}
-
-          {/* Team Members */}
           <div className="tm-team-members tm-padding-section bg-grey">
             <div className="container">
               <div className="row justify-content-center">
@@ -161,7 +137,6 @@ function AboutPage() {
                 </div>
               </div>
               <div className="row tm-member-slider">
-                {/* Single Team Member */}
                 <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                   <div className="tm-member">
                     <div className="tm-member-topside">
@@ -208,10 +183,6 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* //Single Team Members */}
-
-                {/* Single Team Members */}
                 <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                   <div className="tm-member">
                     <div className="tm-member-topside">
@@ -251,11 +222,6 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* //Single Team Members */}
-
-                {/* Single Team Members */}
-
                 <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                   <div className="tm-member">
                     <div className="tm-member-topside">
@@ -295,10 +261,6 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* //Single Team Members */}
-
-                {/* Single Team Members */}
                 <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                   <div className="tm-member">
                     <div className="tm-member-topside">
@@ -338,16 +300,10 @@ function AboutPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* //Single Team Members */}
               </div>
             </div>
           </div>
-
-          {/* //Team Members */}
         </main>
-
-        {/* //Page Content */}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ function AddWarrantyJewelryForm() {
         jewelryID: "Mã trang sức",
         expirationDate: "Ngày hết hạn",
         expirationTime: "Giờ hết hạn",
-        warrantyImage: "Hình ảnh giấy bảo hành",
+        warrantyImage: "Giấy bảo hành",
     };
 
     const handleChange = (event) => {

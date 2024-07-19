@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Header.css";
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { searchProductionByName } from "../../api/ProductAPI";
 import { AuthContext } from "../Auth/AuthContext";
 import { toast } from "react-toastify";
@@ -11,13 +9,14 @@ import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import ShoppingCartSharpIcon from '@mui/icons-material/ShoppingCartSharp';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import LoginSharpIcon from '@mui/icons-material/LoginSharp';
+import "./Header.css";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function Header() {
   const { isLoggedIn, accountName, onLogout } = useContext(AuthContext);
   const [isAccountDropdownOpen, setAccountDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const accountId = localStorage.getItem('accountID');
 
   const toggleDropdown = () => {
     setAccountDropdownOpen(!isAccountDropdownOpen);
@@ -46,11 +45,10 @@ function Header() {
   const handleSearch = async () => {
     try {
       const productResults = await searchProductionByName(searchTerm);
-      if (productResults.length === 0) {
-        toast.error("Không tìm thấy sản phẩm nào");
+      if (searchTerm.trim() === '') {
+        navigate('/sanpham');
       } else {
-        // Navigate to the search results page
-        navigate('/sanpham', { state: { results: productResults } });
+        navigate('/sanpham', { state: { searchTerm } });
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra khi tìm kiếm sản phẩm");
@@ -85,7 +83,7 @@ function Header() {
                       </Button>
                     </div>
                   ) : (
-                    <Button onClick={() => navigate('/dangnhap')} className="tm-login-button d-flex justify-content-center align-items-center" style={{marginLeft:"11rem"}}>
+                    <Button onClick={() => navigate('/dangnhap')} className="tm-login-button d-flex justify-content-center align-items-center" style={{ marginLeft: "11rem" }}>
                       <LoginSharpIcon /> Đăng nhập/Đăng ký
                     </Button>
                   )}
@@ -120,7 +118,7 @@ function Header() {
                   {isLoggedIn ? (
                     <li><Link onClick={handleCartClick}><i className="ion-bag"></i><span>0</span></Link></li>
                   ) : (
-                    <li><i className="ion-bag" style={{ opacity: 0.5 }} title="Please log in to access the cart"></i><span>0</span></li>
+                    <li><i className="ion-bag" style={{ opacity: 0.5 }} title="Vui lòng đăng nhập để xem giỏ hàng"></i><span>0</span></li>
                   )}
                 </ul>
               </div>

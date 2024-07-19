@@ -31,7 +31,7 @@ export async function getAccountByID(accountID) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/accounts/contact-information/${accountID}`,{
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/accumulate-points/${accountID}`,{
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -129,7 +129,6 @@ export async function updateAccountByAdmin(accountID, accountDetails) {
   }
 }
 
-
 export async function deleteAccounts(accountIDs) {
   try {
     const token = localStorage.getItem("jwt");
@@ -147,6 +146,7 @@ export async function deleteAccounts(accountIDs) {
 
 export async function createAccount(account) {
   try {
+    const token = localStorage.getItem('jwt');
     const response = await axios.post(
       "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/accounts/add",
       account
@@ -208,12 +208,12 @@ export const getCustomerPoints = async (accountId) => {
 
 export const resetPassword = async (email) => {
   try {
-    const response = await axios.post(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/forget-password?email=${email}`,
+    const response = await axios.post(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/auth/forget-password?email=${email}`,
     );
     return response.data;
   } catch (error) {
     console.error('Error resetting password:', error);
-    throw error; // Throw the error for higher level handling
+    throw error; 
   }
 };
 
@@ -221,10 +221,10 @@ export const resetPassword = async (email) => {
 
 export const setPassword = async (email, newPassword) => {
   try {
-    const response = await axios.put(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/set-password?email=${encodeURIComponent(email)}`, {}, {
+    const response = await axios.put(`https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/auth/set-password?email=${encodeURIComponent(email)}`, {}, {
       headers: {
         'Content-Type': 'application/json',
-        'newPassword': newPassword, // Add newPassword to the headers
+        'newPassword': newPassword, 
       },
     });
     return response.data;
@@ -246,7 +246,7 @@ export const countCustomer = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching customer count:', error);
-    throw error; // Throw the error for higher level handling
+    throw error; 
   }
 };
 
@@ -257,16 +257,15 @@ export const countRevenue = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching revenue count:', error);
-    throw error; // Throw the error for higher level handling
+    throw error; 
   }
 };
 
 export const regenerateOTP = async (email) => {
   try {
-    // Make GET request to the API endpoint with email as a query parameter
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/regenerate-otp`,
-      null, // Pass null as the data parameter for PUT request
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/auth/regenerate-otp`,
+      null, 
       {
         params: {
           email: email
@@ -275,13 +274,13 @@ export const regenerateOTP = async (email) => {
     );
 
     if (response.status === 200) {
-      return response.data; // Return response data if successful
+      return response.data; 
     } else {
-      throw new Error('Failed to regenerate OTP'); // Throw error if request fails
+      throw new Error('Failed to regenerate OTP'); 
     }
   } catch (error) {
     console.error('Error regenerating OTP:', error.message);
-    throw error; // Re-throw error to handle it in the calling code
+    throw error; 
   }
 };
 

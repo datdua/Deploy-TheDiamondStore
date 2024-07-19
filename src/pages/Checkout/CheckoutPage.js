@@ -13,8 +13,8 @@ function CheckoutPage() {
     const [totalCart, setTotalCart] = useState(0);
     const [deliveryAddress, setDeliveryAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [pointsToRedeem, setPointsToRedeem] = useState(0); // Value to be redeemed
-    const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState(0); // Dynamic value
+    const [pointsToRedeem, setPointsToRedeem] = useState(0); 
+    const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState(0); 
     const [promotionCode, setPromotionCode] = useState("");
     const [promotionDescription, setPromotionDescription] = useState("");
     const [discountAmount, setDiscountAmount] = useState(0);
@@ -22,6 +22,7 @@ function CheckoutPage() {
     const [termsChecked, setTermsChecked] = useState(false);
     const { accountId } = useParams();
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -95,7 +96,7 @@ function CheckoutPage() {
             const promotion = await getPromotion(promotionCode);
             if (promotion) {
                 setPromotionDescription(promotion.description);
-                const discount = totalCart * promotion.discountAmount; // Calculate discount based on totalCart * discountAmount
+                const discount = totalCart * promotion.discountAmount; 
                 setDiscountAmount(discount);
             } else {
                 toast.error("Mã giảm giá không hợp lệ");
@@ -110,9 +111,10 @@ function CheckoutPage() {
             toast.error("Xin cung cấp địa chỉ giao hàng và số điện thoại");
             return;
         }
+
         try {
-            let pointsToUse = usePoints ? pointsToRedeem : 0;
-            let finalTotal = totalCart - discountAmount - (pointsToUse * 10000);
+            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, usePoints ? totalAccumulatedPoints : 0 , promotionCode);
+
             toast.success("Đặt hàng thành công");
             navigate(`/account/${accountId}`);
         } catch (error) {
@@ -123,6 +125,7 @@ function CheckoutPage() {
     const handleUsePoints = () => {
         if (pointsToRedeem <= totalAccumulatedPoints) {
             setUsePoints(true);
+            setPointsToRedeem(totalAccumulatedPoints); 
         } else {
             toast.error("Số điểm tích lũy không đủ để sử dụng.");
         }
@@ -214,7 +217,7 @@ function CheckoutPage() {
                                                         </tr>
                                                         {usePoints && (
                                                             <tr className="tm-checkout-points-discount">
-                                                                <td>Giảm giá từ điểm</td>
+                                                                <td>Giảm giá từ điểm tích luỹ</td>
                                                                 <td>- {pointsDiscount.toLocaleString()} VND</td>
                                                             </tr>
                                                         )}

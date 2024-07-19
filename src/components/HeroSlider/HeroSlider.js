@@ -47,19 +47,6 @@ const HeroSlider = () => {
                                 color: 'white'
                             }}
                         >
-                            {/* <div className="container">
-                                <div className="row align-items-center">
-                                    <div className="col-lg-7 col-md-8 col-12">
-                                        <div className="tm-heroslider-contentwrapper">
-                                            <div className="tm-heroslider-content">
-                                                <h1 className="tm-heroslider-title">{slide.title}</h1>
-                                                <p className="tm-heroslider-description">{slide.description}</p>
-                                                <a href={slide.link} className="tm-button">Shop Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
                         </div>
                     </a>
                 ))}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "react-modal";
-import ImageLoading from "../../components/LoadingImg/ImageLoading"
-import { getAllProduct, getProductPage } from "../../api/ProductAPI"; // Ensure this API call is correct
+import ImageLoading from "../../components/LoadingImg/ImageLoading";
+import { getProductPage, searchProductionByName } from "../../api/ProductAPI";
 import { Pagination } from "@mui/material";
 
 Modal.setAppElement("#root");
@@ -25,6 +25,7 @@ const customModalStyles = {
 
 function ProductPage() {
   const location = useLocation();
+  const searchTerm = location.state?.searchTerm || '';
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,45 +34,70 @@ function ProductPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 4;
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
-    const fetchProductPage = async () => {
+    const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await new Promise((resolve, reject) => {
-          setTimeout(async () => {
-            try {
-              const data = await getProductPage(currentPage, itemsPerPage);
-              resolve(data);
-            } catch (error) {
-              reject(error);
-            }
-          }, 400);
-        });
+        setIsSearching(searchTerm.trim() !== '');
+        let data;
 
-        console.log('API Response:', response); 
+        if (searchTerm.trim() === '') {
+          // Fetch all products if no search term
+          data = await getProductPage(currentPage, itemsPerPage);
+          console.log("Fetched data:", data); // Debug log
 
-        if (!response || (!response.diamonds && !response.jewelry)) {
-          throw new Error("Invalid API response: Missing or invalid data");
+          if (data) {
+            const combinedProducts = [
+              ...(data.diamonds || []),
+              ...(data.jewelry || []),
+            ].map((item) => ({
+              id: item.jewelryID || item.diamondID,
+              name: item.jewelryName || item.diamondName,
+              imageUrl: item.jewelryImage || item.diamondImage,
+              price: item.jewelryEntryPrice || item.diamondEntryPrice,
+              type: item.jewelryID ? "jewelry" : "diamond",
+            }));
+
+            setProducts(combinedProducts);
+            setTotalItems(data.diamondsTotalElements + data.jewelryTotalElements);
+            setTotalPages(Math.ceil((data.diamondsTotalElements + data.jewelryTotalElements) / itemsPerPage));
+          }
+        } else {
+          // Fetch products based on search term
+          data = await searchProductionByName(searchTerm, currentPage, itemsPerPage);
+          console.log("Search results:", data); // Debug log
+
+          if (data) {
+            const searchResults = [
+              ...(data.jewelry || []).map((item) => ({
+                id: item.jewelryID,
+                name: item.jewelryName,
+                imageUrl: item.jewelryImage,
+                price: item.jewelryEntryPrice,
+                type: "jewelry",
+              })),
+              ...(data.diamonds || []).map((item) => ({
+                id: item.diamondID,
+                name: item.diamondName,
+                imageUrl: item.diamondImage,
+                price: item.diamondEntryPrice,
+                type: "diamond",
+              }))
+            ];
+            setSearchResults(searchResults);
+            setTotalItems(data.jewelryTotalElements + data.diamondsTotalElements);
+            setTotalPages(Math.max(data.jewelryTotalPages, data.diamondsTotalPages));
+          } else {
+            setSearchResults([]);
+            setTotalItems(0);
+            setTotalPages(1);
+          }
         }
 
-        const combinedProducts = [
-          ...response.diamonds,
-          ...response.jewelry,
-        ].map((item) => ({
-          id: item.jewelryID || item.diamondID,
-          name: item.jewelryName || item.diamondName,
-          imageUrl: item.jewelryImage || item.diamondImage,
-          price: item.jewelryEntryPrice || item.diamondEntryPrice,
-          type: item.jewelryID ? "jewelry" : "diamond",
-        }));
-        setProducts(combinedProducts);
-        setTotalPages(
-          Math.ceil(
-            (response.diamondsTotalElements + response.jewelryTotalElements) /
-            itemsPerPage
-          )
-        );
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -80,8 +106,8 @@ function ProductPage() {
       }
     };
 
-    fetchProductPage();
-  }, [currentPage]);
+    fetchProducts();
+  }, [currentPage, searchTerm]);
 
   function openModal(item) {
     setSelectedItem(item);
@@ -94,9 +120,9 @@ function ProductPage() {
   }
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);  // Cập nhật biến trạng thái currentPage
+    setCurrentPage(value);
   };
-
+  const displayedProducts = isSearching ? searchResults : products;
 
   return (
     <div>
@@ -119,7 +145,7 @@ function ProductPage() {
                 <div className="col-lg-9 col-12">
                   <form action="#" className="tm-shop-header">
                     <p className="tm-shop-countview">
-                      Hiển thị sản phẩm {((currentPage - 1) * itemsPerPage * 2) + 1} đến {((currentPage * 2) * (itemsPerPage))} trong {products.length} sản phẩm
+                      Hiển thị sản phẩm {((currentPage - 1) * itemsPerPage*2) + 1} đến {Math.min(currentPage  * itemsPerPage * 2, totalItems)} trong {totalItems} sản phẩm
                     </p>
                   </form>
                   <div className="tm-shop-products">
@@ -128,10 +154,10 @@ function ProductPage() {
                         <ImageLoading />
                       ) : error ? (
                         <div>Lỗi: {error}</div>
-                      ) : products.length === 0 ? (
+                      ) : displayedProducts.length === 0 ? (
                         <div>Không có sản phẩm</div>
                       ) : (
-                        products.map((item) => (
+                        displayedProducts.map((item) => (
                           <div className="col-lg-4 col-md-6 col-12" key={item.id}>
                             <div className="tm-product">
                               <div className="tm-product-topside">
@@ -140,7 +166,7 @@ function ProductPage() {
                                 </div>
                                 <ul className="tm-product-actions">
                                   <li><button onClick={() => openModal(item)} aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
-                                  <li><a><i className="ion-heart" style={{color:'white'}}></i></a></li>
+                                  <li><a><i className="ion-heart" style={{ color: 'white' }}></i></a></li>
                                 </ul>
                                 <div className="tm-product-badges">
                                   <span className="tm-product-badges-new">Mới</span>
@@ -175,13 +201,15 @@ function ProductPage() {
                     </div>
                     {/* Pagination */}
                     <div className="tm-pagination mt-50">
-                      <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+                      <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                      />
                     </div>
                   </div>
                 </div>
-
                 <div className="col-lg-3 col-12">
-                  {/* Sidebar Widgets */}
                   <div className="widgets">
                     <div className="single-widget widget-categories">
                       <h6 className="widget-title">Danh mục</h6>
@@ -199,7 +227,7 @@ function ProductPage() {
               </div>
             </div>
           </div>
-        </main>        
+        </main>
       </div>
     </div>
   );

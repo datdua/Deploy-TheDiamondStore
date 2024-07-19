@@ -1,26 +1,24 @@
 import { Button } from '@mui/material';
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect } from 'react'; 
 import { setPassword } from '../../api/accountCrud';
-import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import { toast } from 'react-toastify';
-import queryString from 'query-string'; // Ensure you have query-string installed or use URLSearchParams
-
+import queryString from 'query-string'; 
 function ResetPasswordForm() {
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const location = useLocation(); // Use useLocation to access the query parameters
+  const location = useLocation(); 
 
   useEffect(() => {
-    // Parse the query parameters from the URL
-    const queryParams = queryString.parse(location.search); // If you don't have query-string, use new URLSearchParams(location.search)
+    const queryParams = queryString.parse(location.search); 
     const emailParam = queryParams.email;
     if (emailParam) {
       setEmail(emailParam);
     }
-  }, [location.search]); // This effect runs whenever the search part of the URL changes
+  }, [location.search]); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,12 +32,11 @@ function ResetPasswordForm() {
       await setPassword(email, newPassword);
       setMessage('Mật khẩu đã được thay đổi');
       toast.success('Mật khẩu đã được đổi thành công')
-      
+      navigate('/dangnhap')
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     }
   };
-
   return (
     <div className="container" style={{ marginTop: "40px", maxWidth: "50%" }}>
       <div className="row">

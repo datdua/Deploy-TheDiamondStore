@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "react-modal";
-import { getAllJewelry, getPage, searchJewelry } from "../../api/JewelryAPI";
+import { getPage, searchJewelry } from "../../api/JewelryAPI";
 import { Pagination } from "@mui/material";
-import ImageLoading from "../../components/LoadingImg/ImageLoading"
+import ImageLoading from "../../components/LoadingImg/ImageLoading";
 
 Modal.setAppElement("#root");
 
@@ -35,8 +35,10 @@ function JewelryPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [gender, setGender] = useState("Tất cả");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
   const resultsPerPage = 9;
-  const { jewelryId } = useParams();
   const genders = ["Tất cả", "Nam", "Nữ"];
 
   const fetchJewelryPage = async (page = 1, filtersToUse = {}) => {
@@ -98,21 +100,17 @@ function JewelryPage() {
     setCurrentPage(1);
     setLoading(true);
     try {
-      let filtersToUse = { ...filters };
-      if (filtersToUse.minjewelryEntryPrice !== undefined && filtersToUse.minjewelryEntryPrice !== '') {
-        filtersToUse.minjewelryEntryPrice = parseInt(filtersToUse.minjewelryEntryPrice);
-      } else {
-        delete filtersToUse.minjewelryEntryPrice;
+      const newFilters = {};
+      if (gender !== "Tất cả") {
+        newFilters.gender = gender;
       }
-      if (filtersToUse.maxjewelryEntryPrice !== undefined && filtersToUse.maxjewelryEntryPrice !== '') {
-        filtersToUse.maxjewelryEntryPrice = parseInt(filtersToUse.maxjewelryEntryPrice);
-      } else {
-        delete filtersToUse.maxjewelryEntryPrice;
+      if (minPrice) {
+        newFilters.minjewelryEntryPrice = parseInt(minPrice, 10);
       }
-      if (filtersToUse.gender === "Tất cả") {
-        delete filtersToUse.gender;
+      if (maxPrice) {
+        newFilters.maxjewelryEntryPrice = parseInt(maxPrice, 10);
       }
-      await fetchJewelryPage(1, filtersToUse); 
+      setFilters(newFilters);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -281,10 +279,8 @@ function JewelryPage() {
                         <h6 className="widget-title">Lọc theo giới tính</h6>
                         <select
                           id="colorSearch"
-                          value={filters.gender || "Tất cả"}
-                          onChange={(e) =>
-                            setFilters({ ...filters, gender: e.target.value })
-                          }
+                          value={gender}
+                          onChange={(e) => setGender(e.target.value)}
                         >
                           {genders.map((gender) => (
                             <option key={gender} value={gender}>
@@ -299,30 +295,20 @@ function JewelryPage() {
                           <label>Giá tối thiểu: </label>
                           <input
                             type="number"
-                            value={filters.minjewelryEntryPrice || ""}
-                            onChange={(e) =>
-                              setFilters({
-                                ...filters,
-                                minjewelryEntryPrice: e.target.value,
-                              })
-                            }
+                            value={minPrice}
+                            onChange={(e) => setMinPrice(e.target.value)}
                           />
                         </div>
                         <div>
                           <label>Giá tối đa:</label>
                           <input
                             type="number"
-                            value={filters.maxjewelryEntryPrice || ""}
-                            onChange={(e) =>
-                              setFilters({
-                                ...filters,
-                                maxjewelryEntryPrice: e.target.value,
-                              })
-                            }
+                            value={maxPrice}
+                            onChange={(e) => setMaxPrice(e.target.value)}
                           />
                         </div>
                       </div>
-                      <button type="submit" style={{backgroundColor: '#f2ba59', marginTop:'10px'}} className="btn btn-primary mb-4">Tìm kiếm</button>
+                      <button type="submit" style={{ backgroundColor: '#f2ba59', marginTop: '10px' }} className="btn btn-primary mb-4">Tìm kiếm</button>
                     </form>
                   </div>
                 </div>
@@ -331,22 +317,6 @@ function JewelryPage() {
           </div>
         </main>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customModalStyles}
-        contentLabel="Product Quickview"
-      >
-        {selectedItem && (
-          <div>
-            <h2>{selectedItem.jewelryName}</h2>
-            <img src={selectedItem.jewelryImage} alt={selectedItem.jewelryName} />
-            <p>{selectedItem.jewelryDescription}</p>
-            <p>Price: {selectedItem.jewelryEntryPrice.toLocaleString()} VND</p>
-            <button onClick={closeModal}>Close</button>
-          </div>
-        )}
-      </Modal>
     </div>
   );
 }

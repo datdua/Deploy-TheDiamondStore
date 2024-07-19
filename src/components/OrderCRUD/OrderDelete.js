@@ -1,28 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { deleteOrder } from "../../api/OrderAPI";
+import { deleteOrderByManager } from "../../api/OrderAPI";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Snackbar, Alert } from "@mui/material";
 
 function DeleteOrderForm({ orderID, onDelete }) {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
   const handleDelete = async () => {
     if (window.confirm("Bạn có chắc muốn XÓA đơn hàng này ?")) {
       try {
-        await deleteOrder(orderID);
+        await deleteOrderByManager(orderID);
         onDelete(orderID);
-        alert("Xóa thành công");
+        setSnackbarMessage("Xóa thành công, vui lòng tải lại!");
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
       } catch (error) {
-        alert("Xóa thất bại");
+        setSnackbarMessage("Đơn hàng đã thanh toán, không thể xóa!");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
       }
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
-    <Tooltip describeChild title="Xóa" arrow placement="top">
-      <Button variant="link" onClick={handleDelete} style={{ color: "red" }}>
-        <DeleteIcon />
-      </Button>
-    </Tooltip>
+    <>
+      <Tooltip describeChild title="Xóa" arrow placement="top">
+        <Button variant="link" onClick={handleDelete} style={{ color: "red" }}>
+          <DeleteIcon />
+        </Button>
+      </Tooltip>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
+
 export default DeleteOrderForm;

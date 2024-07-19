@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { updateDiamond } from "../../api/DiamondAPI.js"; // Adjust this import to your file structure
+import { updateDiamond } from "../../api/DiamondAPI.js";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 function UpdateDiamondForm({ diamond }) {
   const [updatedDiamond, setUpdatedDiamond] = useState(diamond);
 
-  const caratSizeOptions = [3.6, 3.9, 4.1, 4.5];
   const colorOptions = ["F", "E", "J", "D"];
   const clarityOptions = ["VS1", "VS2", "VVS1", "VVS2"];
+  const shapeOptions = ["Round", "Pear", "Radiant"];
 
   const handleChange = (event) => {
     setUpdatedDiamond({
@@ -27,138 +33,133 @@ function UpdateDiamondForm({ diamond }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Mã trang sức</Form.Label>
-        <Form.Control
-          type="text"
-          name="warrantyID"
-          value={updatedDiamond.warrantyID}
+    <div>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
+        <TextField
+          id="diamondID"
+          label="Mã kim cương"
+          variant="outlined"
+          name="diamondID"
+          value={updatedDiamond.diamondID}
           onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Mã chứng chỉ</Form.Label>
-        <Form.Control
           type="text"
-          name="certificationID"
-          value={updatedDiamond.certificationID}
-          onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Tên kim cương</Form.Label>
-        <Form.Control
-          type="text"
+        <TextField
+          id="diamondName"
+          label="Tên kim cương"
+          variant="outlined"
           name="diamondName"
           value={updatedDiamond.diamondName}
           onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Giá nhập kim cương</Form.Label>
-        <Form.Control
           type="text"
-          name="diamondEntryPrice"
-          value={updatedDiamond.diamondEntryPrice}
-          onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Hình ảnh kim cương</Form.Label>
-        <Form.Control
-          type="text"
+        <TextField
+          id="diamondImage"
+          label="Hình ảnh kim cương"
+          variant="outlined"
           name="diamondImage"
           value={updatedDiamond.diamondImage}
           onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Trọng lượng</Form.Label>
-        <Form.Control
           type="text"
+        />
+        <TextField
+          id="weight"
+          label="Trọng lượng"
+          variant="outlined"
           name="weight"
           value={updatedDiamond.weight}
           onChange={handleChange}
+          type="text"
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Kích cỡ</Form.Label>
-        <Form.Control
-          as="select"
+        <TextField
+          id="caratSize"
+          label="Kích thước"
+          variant="outlined"
           name="caratSize"
           value={updatedDiamond.caratSize}
           onChange={handleChange}
-        >
-          {caratSizeOptions.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Màu</Form.Label>
-        <Form.Control
-          as="select"
-          name="color"
-          value={updatedDiamond.color}
-          onChange={handleChange}
-        >
-          {colorOptions.map((color) => (
-            <option key={color} value={color}>
-              {color}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Vết cắt</Form.Label>
-        <Form.Control
           type="text"
+        />
+        <FormControl fullWidth>
+          <InputLabel id="color-select-label">Màu</InputLabel>
+          <Select
+            labelId="color-select-label"
+            id="color-select"
+            value={updatedDiamond.color}
+            label="Màu"
+            name="color"
+            onChange={handleChange}
+          >
+            {colorOptions.map((color) => (
+              <MenuItem key={color} value={color}>{color}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          id="cut"
+          label="Vết cắt"
+          variant="outlined"
           name="cut"
           value={updatedDiamond.cut}
           onChange={handleChange}
-          readOnly
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Độ tinh khiết</Form.Label>
-        <Form.Control
-          as="select"
-          name="clarity"
-          value={updatedDiamond.clarity}
-          onChange={handleChange}
-        >
-          {clarityOptions.map((clarity) => (
-            <option key={clarity} value={clarity}>
-              {clarity}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Hình dạng</Form.Label>
-        <Form.Control
           type="text"
-          name="shape"
-          value={updatedDiamond.shape}
-          onChange={handleChange}
+          InputProps={{
+            readOnly: true,
+          }}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Xuất xứ</Form.Label>
-        <Form.Control
-          type="text"
+        <FormControl fullWidth>
+          <InputLabel id="clarity-select-label">Độ tinh khiết</InputLabel>
+          <Select
+            labelId="clarity-select-label"
+            id="clarity-select"
+            value={updatedDiamond.clarity}
+            label="Độ tinh khiết"
+            name="clarity"
+            onChange={handleChange}
+          >
+            {clarityOptions.map((clarity) => (
+              <MenuItem key={clarity} value={clarity}>{clarity}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="shape-select-label">Hình dạng</InputLabel>
+          <Select
+            labelId="shape-select-label"
+            id="shape-select"
+            value={updatedDiamond.shape}
+            label="Hình dạng"
+            name="shape"
+            onChange={handleChange}
+          >
+            {shapeOptions.map((shape) => (
+              <MenuItem key={shape} value={shape}>{shape}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          id="origin"
+          label="Xuất xứ"
+          variant="outlined"
           name="origin"
           value={updatedDiamond.origin}
           onChange={handleChange}
+          type="text"
+          InputProps={{
+            readOnly: true,
+          }}
         />
-      </Form.Group>
-      <Button variant="primary" type="submit" style={{ marginTop: '10px' }}>
-        Cập nhật
-      </Button>
-    </Form>
+        <Button type="submit" variant="contained" color="success">Cập nhật</Button>
+      </Box>
+    </div>
   );
 }
 

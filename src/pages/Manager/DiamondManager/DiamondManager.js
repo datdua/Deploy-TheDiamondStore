@@ -23,6 +23,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Tooltip, Pagination, Checkbox, FormControlLabel } from "@mui/material";
 import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
 import "../ProductManager.css";
+import { Snackbar, Alert } from "@mui/material";
 
 const DiamondManagerPage = () => {
   const [diamondData, setDiamondData] = useState([]);
@@ -40,9 +41,14 @@ const DiamondManagerPage = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Add this line
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
+
+  const handleCloseSnackbar = () => { // Add this function
+    setOpenSnackbar(false);
+  };
 
   // Slice the array to get only the items for the current page
   const currentPageData = diamondData.slice(startIndex, endIndex);
@@ -174,9 +180,9 @@ const DiamondManagerPage = () => {
         await deleteDiamond(selected);
         setDiamondData(diamondData.filter((diamond) => !selected.includes(diamond.diamondID)));
         setSelected([]);
-        alert("Xóa thành công");
+        setOpenSnackbar(true); 
       } catch (error) {
-        alert("Xóa thất bại");
+        setOpenSnackbar(true); 
       }
     }
   };
@@ -436,6 +442,17 @@ const DiamondManagerPage = () => {
           />
         </Modal.Body>
       </Modal>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success">
+          {selected.length > 0 ? "Xóa thất bại!" : "Xóa thành công!"}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

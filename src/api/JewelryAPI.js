@@ -42,7 +42,7 @@ export async function getWarrantityImage(warrantyID) {
 export async function getJewelryById(jewelryId) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/${jewelryId}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelries/${jewelryId}`
     );
     return response.data;
   } catch (error) {
@@ -53,7 +53,7 @@ export async function getJewelryById(jewelryId) {
 export async function getPage(page = 1, size = 9) {
   try {
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/get-paging?page=${page}&size=${size}`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelries/get-paging?page=${page}&size=${size}`
     );
     return response.data;
   } catch (error) {
@@ -108,7 +108,6 @@ export async function deleteJewelry(jewelryIDs) {
   }
 }
 
-// Cart API functions
 export const addToCart = async (accountId, jewelryId, quantity, size) => {
   try {
     const response = await axios.post(
@@ -122,15 +121,14 @@ export const addToCart = async (accountId, jewelryId, quantity, size) => {
 
 export async function searchJewelry(page = 1, filters = {}) {
   try {
-    // Construct the query parameters including filters and pagination
     const params = new URLSearchParams({
-      ...filters, // Spread the filters object to include its properties as individual parameters
+      ...filters, 
       page, 
       size: 9, 
     });
 
     const response = await axios.get(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/search/get-paging",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelries/search/get-paging",
       { params }
     );
 

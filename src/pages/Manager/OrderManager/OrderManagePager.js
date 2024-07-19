@@ -8,7 +8,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { deleteOrder, getAllOrder } from "../../../api/OrderAPI";
+import { deleteOrderByManager, getAllOrder } from "../../../api/OrderAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import UpdateOrderForm from "../../../components/OrderCRUD/OrderUpdate";
@@ -48,7 +48,7 @@ function OrderManagerPage() {
 
   const handleDelete = async (orderID) => {
     try {
-      await deleteOrder(orderID);
+      await deleteOrderByManager(orderID);
       setOrderData(orderData.filter((order) => order.orderID !== orderID));
     } catch (error) {
       console.error("Error deleting order:", error);
@@ -130,7 +130,6 @@ function OrderManagerPage() {
                         <td>
                           <img
                             src={order.certificateImage}
-                            alt="Certificate"
                             style={{ width: "50px", height: "50px", cursor: "pointer" }}
                             onClick={() => handleShowImage(order.certificateImage)}
                           />
@@ -138,7 +137,6 @@ function OrderManagerPage() {
                         <td>
                           <img
                             src={order.warrantyImage}
-                            alt="Warranty"
                             style={{ width: "50px", height: "50px", cursor: "pointer" }}
                             onClick={() => handleShowImage(order.warrantyImage)}
                           />
@@ -158,10 +156,6 @@ function OrderManagerPage() {
                               <EditIcon />
                             </Button>
                           </Tooltip>
-                          <DeleteOrderForm
-                            orderID={order.orderID}
-                            onDelete={handleDelete}
-                          />
                         </td>
                       </tr>
                     ))}
@@ -199,8 +193,8 @@ function OrderManagerPage() {
         <Modal.Body className="text-center">
           <img
             src={selectedImage}
-            alt="Popup"
-            style={{ width: "100%", height: "500px" }}
+            alt="Hình ảnh bị lỗi. Vui lòng kiểu tra lại địa chỉ hình ảnh"
+            style={{ width: "100%" }}
           />
         </Modal.Body>
       </Modal>

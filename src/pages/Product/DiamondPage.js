@@ -26,7 +26,7 @@ const customModalStyles = {
     },
 };
 
-const DiamondPage = () => {
+function DiamondPage() {
     const [diamonds, setDiamonds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -52,12 +52,13 @@ const DiamondPage = () => {
     const location = useLocation();
     const [searchResults, setSearchResults] = useState([]);
     const [filterApplied, setFilterApplied] = useState(false);
+    const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+
     const colors = ['Tất cả', 'E', 'J', 'F', 'D'];
     const cuts = ['Tất cả', 'Excellent'];
     const clarities = ['Tất cả', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
     const shapes = ['Tất cả', 'Radiant', 'Around', 'Pear'];
     const origins = ['Tất cả', 'GIA'];
-
 
     useEffect(() => {
         fetchDiamonds(currentPage);
@@ -75,6 +76,9 @@ const DiamondPage = () => {
 
     const fetchDiamonds = async (page) => {
         setLoading(true);
+        setShowLoadingSpinner(false);
+        const timer = setTimeout(() => setShowLoadingSpinner(true), 2000);
+
         try {
             if (filterApplied) {
                 const filtersToUse = {};
@@ -89,29 +93,30 @@ const DiamondPage = () => {
                 const { content, totalPages } = await searchDiamond(filtersToUse, page, resultsPerPage);
                 setDiamonds(content);
                 setTotalPages(totalPages);
-
             } else {
                 const data = await getPage(page, resultsPerPage);
-                setTimeout(() => {
-                    setDiamonds(data.content);
-                    setTotalPages(data.totalPages);
-                    setLoading(false);
-                    window.scrollTo(0, 0);
-                }, 50); 
+                setDiamonds(data.content);
+                setTotalPages(data.totalPages);
             }
         } catch (error) {
             setError(error.message);
+        } finally {
+            clearTimeout(timer);
             setLoading(false);
+            setShowLoadingSpinner(false);
+            window.scrollTo(0, 0);
         }
     };
 
     const handleSearch = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setShowLoadingSpinner(false);
+        const timer = setTimeout(() => setShowLoadingSpinner(true), 2000);
+
         try {
             const filtersToUse = {};
 
-            // Include only non-empty and non-'Tất cả' filters
             Object.entries(filters).forEach(([key, value]) => {
                 if (value !== '' && value !== 'Tất cả') {
                     filtersToUse[key] = value;
@@ -121,18 +126,19 @@ const DiamondPage = () => {
             const { content, totalPages } = await searchDiamond(filtersToUse, 1, resultsPerPage);
             setDiamonds(content);
             setTotalPages(totalPages);
-
-            setLoading(false);
-            window.scrollTo(0, 0);
-            closeModal();
-            setFilterApplied(true); // Filters are now applied
+            setFilterApplied(true); 
         } catch (error) {
             setError(error.message);
+        } finally {
+            clearTimeout(timer);
             setLoading(false);
+            setShowLoadingSpinner(false);
+            window.scrollTo(0, 0);
+            closeModal();
         }
     };
 
-    const handlePageChange = async (page) => {
+    const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
 
@@ -146,9 +152,6 @@ const DiamondPage = () => {
         setSelectedItem(null);
     }
 
-    if (loading) {
-        return <ImageLoading />;
-    }
     return (
         <div>
             <div id="wrapper" className="wrapper">
@@ -277,7 +280,7 @@ const DiamondPage = () => {
                                                                     <div className="col-md-2 mb-4">
                                                                         <div className="card">
                                                                             <div className="card-header">
-                                                                              <h6><span className="fa fa-filter mr-3"></span>Nguồn gốc</h6>
+                                                                                <h6><span className="fa fa-filter mr-3"></span>Nguồn gốc</h6>
                                                                             </div>
                                                                             <div className="card-body">
                                                                                 <select
@@ -457,7 +460,6 @@ const DiamondPage = () => {
                                                                         <span className="tm-product-price">{item.diamondEntryPrice ? item.diamondEntryPrice.toLocaleString() : 'N/A'} VND</span>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         ))
                                                     )}
@@ -467,11 +469,11 @@ const DiamondPage = () => {
                                                 <Pagination
                                                     count={totalPages}
                                                     page={currentPage}
-                                                    onChange={(event, page) => handlePageChange(page)}
+                                                    onChange={handlePageChange}
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3">
+                                        <div className="col-lg-3 col-12">
                                             <div className="widgets">
                                                 <div className="single-widget widget-categories">
                                                     <h6 className="widget-title">Danh mục</h6>

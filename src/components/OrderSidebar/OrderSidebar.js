@@ -2,7 +2,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import './OrderSidebar.css';
 
 function OrderSidebar({ order, show, onHide }) {
-  console.log("OrderSidebar props:", order, show, onHide);
+  console.log("OrderSidebar props:", order, show);
 
   return (
     <Offcanvas show={show} onHide={onHide}>
@@ -12,7 +12,6 @@ function OrderSidebar({ order, show, onHide }) {
       <Offcanvas.Body>
         {order && order.length > 0 ? (
           <>
-            {/* Account Information */}
             <div className="order-section">
               <h5>Thông tin tài khoản</h5>
               <p><span className="detail-title">Tên Tài Khoản:</span> <span className="detail-info">{order[0].order.account?.accountName}</span></p>
@@ -21,8 +20,6 @@ function OrderSidebar({ order, show, onHide }) {
               <p><span className="detail-title">Địa chỉ:</span> <span className="detail-info">{order[0].order.account?.addressAccount}</span></p>
             </div>
             <hr />
-
-            {/* Order Information */}
             <div className="order-section">
               <h5>Thông tin đơn hàng</h5>
               <p><span className="detail-title">ID Đơn hàng:</span> <span className="detail-info">{order[0].order.orderID}</span></p>
@@ -32,12 +29,9 @@ function OrderSidebar({ order, show, onHide }) {
               <p><span className="detail-title">Địa chỉ giao hàng:</span> <span className="detail-info">{order[0].order.deliveryAddress}</span></p>
             </div>
             <hr />
-
-            {/* Order Items */}
             <h5 style={{ fontWeight: "bold" }}>Thông tin sản phẩm</h5>
             {order.map((orderItem) => (
               <div key={orderItem.orderDetailID} className="order-section">
-                {/* Product Information */}
                 <div>
                   <p><span className="detail-title">Tên kim cương:</span> <span className="detail-info">{orderItem.diamondName}</span></p>
                   {orderItem.jewelryName && <p><span className="detail-title">Tên trang sức:</span> <span className="detail-info">{orderItem.jewelryName}</span></p>}
@@ -46,8 +40,6 @@ function OrderSidebar({ order, show, onHide }) {
                   <p><span className="detail-title">Tổng giá:</span> <span className="detail-info">{orderItem.totalPrice.toLocaleString()}</span></p>
                 </div>
                 <hr />
-
-                {/* Images */}
                 <div className="order-section">
                   <h5>Hình ảnh</h5>
                   {orderItem.diamondImage ? (
@@ -62,8 +54,6 @@ function OrderSidebar({ order, show, onHide }) {
                   )}
                 </div>
                 <hr />
-
-                {/* Total Amount Information */}
                 <div className="order-section">
                   <h5>Thông tin tổng </h5>
                   <p><span className="detail-title">Giá chưa phí:</span> <span className="detail-info">{orderItem.grossCartPrice.toLocaleString()}</span></p>

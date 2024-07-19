@@ -46,7 +46,7 @@ export const updateGoldPrice = async (goldPriceID, goldPrice) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/gold-prices/gold-price-management/gold-prices/update/${goldPriceID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/gold-price-management/gold-prices/update/${goldPriceID}`,
       goldPrice,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -62,7 +62,7 @@ export const deleteGoldPrice = async (goldPriceIDs) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/gold-prices/gold-price-management/gold-prices/delete`
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/gold-price-management/gold-prices/delete`
       , { 
         headers: { Authorization: `Bearer ${token}` },
         data: goldPriceIDs }

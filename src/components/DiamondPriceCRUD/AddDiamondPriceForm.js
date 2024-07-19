@@ -23,7 +23,6 @@ function AddDiamondPriceForm() {
   };
 
   const options = {
-    caratSize: [3.6, 3.9, 4.1, 4.5],
     color: ["F", "E", "J", "D"],
     clarity: ["VS1", "VS2", "VVS1", "VVS2"],
   };

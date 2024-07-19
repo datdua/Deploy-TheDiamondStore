@@ -129,18 +129,16 @@ function CartPage() {
                                                 </td>
                                                 <td>
                                                     <div className="tm-sizebox">
-                                                        <select
-                                                            value={item.sizeJewelry}
+                                                        <input
+                                                            type="number"
+                                                            min="6"
+                                                            max="20"
+                                                            value={item.sizeJewelry || ""}
                                                             onChange={(e) => handleUpdateCartItem(item.cartID, item.quantity, parseInt(e.target.value, 10), item.diamondID, item.jewelryID)}
                                                             className="w-12 text-center"
+                                                            style={{ textAlign: 'center' }}
                                                             disabled={!isEditing || !!item.diamondID}
-                                                        >
-                                                            {Array.from({ length: 15 }, (_, i) => i + 6).map((size) => (
-                                                                <option key={size} value={size}>
-                                                                    {size}
-                                                                </option>
-                                                            ))}
-                                                        </select>
+                                                        />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -156,7 +154,6 @@ function CartPage() {
                                     </tbody>
                                 </table>
                             </div>
-                            {/* Cart Bottom Area */}
                             <div className="tm-cart-bottomarea">
                                 <div className="row">
                                     <div className="col-lg-8 col-md-6">

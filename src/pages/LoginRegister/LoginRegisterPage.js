@@ -94,7 +94,7 @@ function LoginRegisterPage() {
 
     try {
       const response = await axios.post(
-        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/accounts/register",
+        "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/auth/register",
         {
           accountName: registerName,
           email: registerEmail,
@@ -306,9 +306,9 @@ function LoginRegisterPage() {
                           {registrationSuccessful && (
                             <button
                             className="btn w-100 btn-link my-2 text-black underline-button"
-                            onClick={handleRegenerateButtonClick} // Handle regeneration on button click
-                            disabled={countdown > 0} // Disable while countdown is running
-                            style={{ flexShrink: 0, fontWeight:'bold' }} // Remove inline textDecoration
+                            onClick={handleRegenerateButtonClick} 
+                            disabled={countdown > 0} 
+                            style={{ flexShrink: 0, fontWeight:'bold' }} 
                           >
                             {countdown > 0 ? `Chưa nhận được OTP ? Vui lòng chờ ${countdown}s` : 'Gửi lại mã OTP'}
                           </button>

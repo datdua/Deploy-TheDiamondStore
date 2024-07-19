@@ -27,25 +27,11 @@ function Footer() {
         }
     };
     return (
-        /* Footer */
-
         <div className="tm-footer">
-
-            {/* Instagram Photos */}
-
             <ul id="instafeed" className="tm-instaphotos"></ul>
-
-            {/* //Instagram Photos */}
-
-            {/* Footer Top Area */}
-
-
             <div className="tm-footer-toparea tm-padding-section tm-footer-bottomarea">
                 <div className="container">
                     <div className="widgets widgets-footer row">
-
-                        {/* Single Widget */}
-
                         <div className="col-lg-4 col-md-7 col-12">
                             <div className="single-widget widget-info">
                                 <a className="widget-info-logo" href="/trangchu"><img src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-logo%2Flogo.png?alt=media&token=64cf8af5-a8ac-42be-9983-88c3935af287"
@@ -73,11 +59,6 @@ function Footer() {
                                 </ul>
                             </div>
                         </div>
-
-                        {/* //Single Widget */}
-
-                        {/* Single Widget */}
-
                         <div className="col-lg-4 col-md-7 col-12">
                             <div className="single-widget widget-quicklinks">
                                 <h6 className="widget-title">Tài Khoản Của Tôi</h6>
@@ -94,19 +75,10 @@ function Footer() {
                                 )}
                             </div>
                         </div>
-
-                        {/* Single Widget */}
-                        {/* Single Widget */}
-
                     </div>
                 </div>
             </div>
-
-            {/* //Footer Top Area */}
-
         </div>
-
-        /* Footer */
     )
 }
 export default Footer

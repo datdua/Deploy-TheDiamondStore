@@ -25,8 +25,6 @@ function MyAccountPage() {
     point: 0  // Include points in state
   });
   const { accountId } = useParams();
-
-  // State for managing the sidebar visibility and selected order
   const [showSidebar, setShowSidebar] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -52,7 +50,7 @@ function MyAccountPage() {
         email: accountData.account.email,
         phoneNumber: accountData.account.phoneNumber,
         role: accountData.account.role,
-        point: accountData.point  // Update points in state
+        point: accountData.point  
       });
     } catch (error) {
       console.error('Failed to fetch account details:', error);
@@ -126,9 +124,8 @@ function MyAccountPage() {
   const handleDeleteOrder = async (orderID) => {
     try {
       await deleteOrder(orderID);
-      // Update local orders state
       setOrders(orders.filter(order => order.orderID !== orderID));
-      toast.success('Xoá đ+ơn hàng thành công');
+      toast.success('Xoá đơn hàng thành công');
     } catch (error) {
       console.error('Failed to delete order:', error);
     }
@@ -153,7 +150,6 @@ function MyAccountPage() {
             </div>
           </div>
         </div>
-
         <main className="page-content">
           <div className="tm-section tm-my-account-area bg-white tm-padding-section">
             <div className="container">
