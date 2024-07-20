@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createWarranty } from "../../api/WarrantyAPI.js";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,7 +8,7 @@ function AddWarrantyJewelryForm() {
     const [warranty, setWarranty] = useState({
         warrantyID: "",
         jewelryID: "",
-        expirationDate: "",
+        startDate: "",
         expirationTime: "",
         warrantyImage: "",
     });
@@ -18,6 +18,7 @@ function AddWarrantyJewelryForm() {
     const labels = {
         warrantyID: "Mã giấy bảo hành",
         jewelryID: "Mã trang sức",
+        startDate: "Ngày bắt đầu",
         expirationDate: "Ngày hết hạn",
         expirationTime: "Giờ hết hạn",
         warrantyImage: "Giấy bảo hành",
@@ -26,6 +27,14 @@ function AddWarrantyJewelryForm() {
     const handleChange = (event) => {
         setWarranty({ ...warranty, [event.target.name]: event.target.value });
     };
+
+    useEffect(() => {
+        if (warranty.startDate) {
+            const startDate = new Date(warranty.startDate);
+            const expirationDate = new Date(startDate.setFullYear(startDate.getFullYear() + 10)).toISOString().split('T')[0];
+            setWarranty((prev) => ({ ...prev, expirationDate }));
+        }
+    }, [warranty.startDate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

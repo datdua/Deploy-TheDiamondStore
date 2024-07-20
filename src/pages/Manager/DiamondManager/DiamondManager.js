@@ -10,8 +10,8 @@ import {
 } from "react-bootstrap";
 import {
   getAllDiamond_Manager,
-  getCertificateImage,
-  getWarrantityImage,
+  getCertificateImageByManager,
+  getWarrantityImageByManager,
   deleteDiamond
 } from "../../../api/DiamondAPI.js";
 import AddDiamondForm from "../../../components/DiamondCRUD/AddDiamondForm.js";
@@ -24,6 +24,7 @@ import { Tooltip, Pagination, Checkbox, FormControlLabel } from "@mui/material";
 import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
 import "../ProductManager.css";
 import { Snackbar, Alert } from "@mui/material";
+import { toast } from "react-toastify";
 
 const DiamondManagerPage = () => {
   const [diamondData, setDiamondData] = useState([]);
@@ -41,16 +42,20 @@ const DiamondManagerPage = () => {
   const [selectedImage, setSelectedImage] = useState("");
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false); // Add this line
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
 
-  const handleCloseSnackbar = () => { // Add this function
+  const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
-  // Slice the array to get only the items for the current page
+  const showAlert = () => {
+    toast.warning("Chức năng này chỉ dành cho quản lý")
+  }
+
   const currentPageData = diamondData.slice(startIndex, endIndex);
 
   useEffect(() => {
@@ -58,11 +63,9 @@ const DiamondManagerPage = () => {
       try {
         const data = await getAllDiamond_Manager();
         setDiamondData(data);
-
-        // Set loading to false after a delay
         setTimeout(() => {
           setLoading(false);
-        }, 50); 
+        }, 50);
       } catch (error) {
         console.error(error);
         setLoading(false);
@@ -82,15 +85,23 @@ const DiamondManagerPage = () => {
   };
 
   const handleShowAdd = () => {
-    setSelectedDiamond(null);
-    setIsUpdating(false);
-    setShowModal(true);
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedDiamond(null);
+      setIsUpdating(false);
+      setShowModal(true);
+    }
   };
 
   const handleShowUpdate = (item) => {
-    setSelectedDiamond(item);
-    setIsUpdating(true);
-    setShowModal(true);
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedDiamond(item);
+      setIsUpdating(true);
+      setShowModal(true);
+    }
   };
 
   const handleShowImage = (imageSrc) => {
@@ -105,7 +116,7 @@ const DiamondManagerPage = () => {
 
   const handleShowCertificate = async (certificationID) => {
     try {
-      const imageUrl = await getCertificateImage(certificationID);
+      const imageUrl = await getCertificateImageByManager(certificationID);
       console.log("Certificate Image URL:", imageUrl);
       setCertificateImage(imageUrl);
       setShowCertificateModal(true);
@@ -165,7 +176,7 @@ const DiamondManagerPage = () => {
 
   const handleShowWarrantity = async (warrantyID) => {
     try {
-      const imageUrl = await getWarrantityImage(warrantyID);
+      const imageUrl = await getWarrantityImageByManager(warrantyID);
       console.log("Warrantity Image URL:", imageUrl);
       setWarrantyImg(imageUrl);
       setShowWarrantityModal(true);
@@ -175,14 +186,18 @@ const DiamondManagerPage = () => {
   };
 
   const handleDeleteDiamonds = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA các kim cương này?")) {
-      try {
-        await deleteDiamond(selected);
-        setDiamondData(diamondData.filter((diamond) => !selected.includes(diamond.diamondID)));
-        setSelected([]);
-        setOpenSnackbar(true); 
-      } catch (error) {
-        setOpenSnackbar(true); 
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      if (window.confirm("Bạn có chắc muốn XÓA các kim cương này?")) {
+        try {
+          await deleteDiamond(selected);
+          setDiamondData(diamondData.filter((diamond) => !selected.includes(diamond.diamondID)));
+          setSelected([]);
+          setOpenSnackbar(true);
+        } catch (error) {
+          setOpenSnackbar(true);
+        }
       }
     }
   };
@@ -290,7 +305,7 @@ const DiamondManagerPage = () => {
                                 handleShowWarrantity(diamond.warrantyID)
                               }
                             >
-                              {diamond.warrantyID ? diamond.warrantyID : "N/A"}
+                              {diamond.warrantyID ? diamond.warrantyID : "Chưa có giấy bảo hành"}
                             </a>
                           </td>
                           <td>
@@ -300,7 +315,7 @@ const DiamondManagerPage = () => {
                                 handleShowCertificate(diamond.certificationID)
                               }
                             >
-                              {diamond.certificationID ? diamond.certificationID : "N/A"}
+                              {diamond.certificationID ? diamond.certificationID : "Chưa có chứng chỉ"}
                             </a>
                           </td>
                           <td>{diamond.diamondName}</td>
@@ -308,13 +323,13 @@ const DiamondManagerPage = () => {
                             {diamond.diamondEntryPrice
                               ? diamond.diamondEntryPrice.toLocaleString() +
                               " VNĐ"
-                              : "N/A"}
+                              : "Chưa có giá nhập"}
                           </td>
                           <td>
                             {diamond.grossDiamondPrice
                               ? diamond.grossDiamondPrice.toLocaleString() +
                               " VNĐ"
-                              : "N/A"}
+                              : "Chưa có giá bán"}
                           </td>
                           <td>
                             <img

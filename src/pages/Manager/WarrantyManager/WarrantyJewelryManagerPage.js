@@ -18,8 +18,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddWarrantyJewelryForm from "../../../components/WarrantyCRUD/AddWarrantyJewelryForm";
 import UpdateWarrantyJewelryForm from "../../../components/WarrantyCRUD/UpdateWarrantyJewelryForm";
-import DeleteWarrantyForm from "../../../components/WarrantyCRUD/DeleteWarrantyForm";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import { toast } from "react-toastify";
 import "../ProductManager.css";
 
 function WarrantyManagerPage() {
@@ -33,6 +33,7 @@ function WarrantyManagerPage() {
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const userRole = localStorage.getItem("role");
   const size = 8;
 
   const startIndex = (currentPage - 1) * size;
@@ -44,16 +45,18 @@ function WarrantyManagerPage() {
     setIsUpdating(false);
   };
 
-  const handleShowUpdate = (warranty) => {
-    setSelectedWarranty(warranty);
-    setIsUpdating(true);
-    setShowModal(true);
-  };
+  const showAlert = () => {
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+  }
 
-  const handleDelete = async (warrantyID) => {
-    setWarrantyData(
-      warrantyData.filter((warranty) => warranty.warrantyID !== warrantyID)
-    );
+  const handleShowUpdate = (warranty) => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedWarranty(warranty);
+      setIsUpdating(true);
+      setShowModal(true);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -121,14 +124,18 @@ function WarrantyManagerPage() {
   };
 
   const handleDeleteWarranty = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
-      try {
-        await deleteWarranty(selected);
-        setWarrantyData(warrantyData.filter((warranty) => !selected.includes(warranty.warrantyID)));
-        setSelected([]);
-        alert("Xóa thành công");
-      } catch (error) {
-        alert("Xóa thất bại");
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
+        try {
+          await deleteWarranty(selected);
+          setWarrantyData(warrantyData.filter((warranty) => !selected.includes(warranty.warrantyID)));
+          setSelected([]);
+          alert("Xóa thành công");
+        } catch (error) {
+          alert("Xóa thất bại");
+        }
       }
     }
   };
@@ -163,7 +170,13 @@ function WarrantyManagerPage() {
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    if (userRole !== "ROLE_MANAGER") {
+                      showAlert();
+                    } else {
+                      setShowModal(true);
+                    }
+                  }}
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Giấy Bảo Hành
                 </Button>

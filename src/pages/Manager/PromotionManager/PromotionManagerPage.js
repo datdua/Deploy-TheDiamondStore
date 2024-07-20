@@ -15,8 +15,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddPromotionForm from "../../../components/PromotionCRUD/AddPromotionForm";
 import UpdatePromotionForm from "../../../components/PromotionCRUD/UpdatePromotionForm";
-import DeletePromotionForm from "../../../components/PromotionCRUD/DeletePromotionForm";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import { toast } from "react-toastify";
 import "../ProductManager.css";
 
 function PromotionManagerPage() {
@@ -28,6 +28,7 @@ function PromotionManagerPage() {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -38,16 +39,18 @@ function PromotionManagerPage() {
     setIsUpdating(false);
   };
 
+  const showAlert = () => {
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+  }
+
   const handleShowUpdate = (promotion) => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     setSelectedPromotion(promotion);
     setIsUpdating(true);
     setShowModal(true);
-  };
-
-  const handleDelete = async (promotionID) => {
-    setPromotionData(
-      promotionData.filter((promotion) => promotion.promotionID !== promotionID)
-    );
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -105,6 +108,9 @@ function PromotionManagerPage() {
   };
 
   const handleDeletePromotion = async () => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     if (window.confirm("Bạn có chắc muốn XÓA các giá kim cương này?")) {
       try {
         await deletePromotion(selected);
@@ -114,6 +120,7 @@ function PromotionManagerPage() {
       } catch (error) {
         alert("Xóa thất bại");
       }
+    }
     }
   };
 
@@ -147,7 +154,13 @@ function PromotionManagerPage() {
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    if (userRole !== "ROLE_MANAGER") {
+                      showAlert();
+                    } else {
+                      setShowModal(true);
+                    }
+                  }}
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Mã Khuyến Mãi
                 </Button>

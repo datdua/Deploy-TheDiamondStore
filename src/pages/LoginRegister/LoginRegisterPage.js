@@ -58,14 +58,17 @@ function LoginRegisterPage() {
 
         if (decodedToken.role === "ROLE_ADMIN") {
           navigate("/admin/profile");
+          window.location.reload();
         } else if (decodedToken.role === "ROLE_MANAGER") {
           navigate("/manager/profile");
+          window.location.reload();
         } else if (decodedToken.role === "ROLE_SALE-STAFF") {
           navigate("/sale-staff/profile");
+          window.location.reload();
         } else {
           navigate("/trangchu");
           window.scrollTo(0, 0);
-          window.location.reload();        
+          window.location.reload();
         }
       } else {
         console.error("Đăng nhập thất bại:", response);
@@ -305,13 +308,13 @@ function LoginRegisterPage() {
                           </button>
                           {registrationSuccessful && (
                             <button
-                            className="btn w-100 btn-link my-2 text-black underline-button"
-                            onClick={handleRegenerateButtonClick} 
-                            disabled={countdown > 0} 
-                            style={{ flexShrink: 0, fontWeight:'bold' }} 
-                          >
-                            {countdown > 0 ? `Chưa nhận được OTP ? Vui lòng chờ ${countdown}s` : 'Gửi lại mã OTP'}
-                          </button>
+                              className="btn w-100 btn-link my-2 text-black underline-button"
+                              onClick={handleRegenerateButtonClick}
+                              disabled={countdown > 0}
+                              style={{ flexShrink: 0, fontWeight: 'bold' }}
+                            >
+                              {countdown > 0 ? `Chưa nhận được OTP ? Vui lòng chờ ${countdown}s` : 'Gửi lại mã OTP'}
+                            </button>
                           )}
                         </div>
                       </div>

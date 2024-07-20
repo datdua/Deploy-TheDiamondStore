@@ -8,12 +8,12 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { deleteOrderByManager, getAllOrder } from "../../../api/OrderAPI";
+import { getAllOrder } from "../../../api/OrderAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import UpdateOrderForm from "../../../components/OrderCRUD/OrderUpdate";
-import DeleteOrderForm from "../../../components/OrderCRUD/OrderDelete";
 import { Pagination, Tooltip } from "@mui/material";
+import { toast } from "react-toastify";
 import "../ProductManager.css";
 
 function OrderManagerPage() {
@@ -24,12 +24,18 @@ function OrderManagerPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const userRole = localStorage.getItem("role");
   const size = 8;
 
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
   const currentPageData = orderData.slice(startIndex, endIndex);
 
+
+  const showAlert = () => {
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+  }
+  
   const handleClose = () => {
     setShowModal(false);
     setIsUpdating(false);
@@ -41,17 +47,12 @@ function OrderManagerPage() {
   };
 
   const handleShowUpdate = (order) => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     setSelectedOrder(order);
     setIsUpdating(true);
     setShowModal(true);
-  };
-
-  const handleDelete = async (orderID) => {
-    try {
-      await deleteOrderByManager(orderID);
-      setOrderData(orderData.filter((order) => order.orderID !== orderID));
-    } catch (error) {
-      console.error("Error deleting order:", error);
     }
   };
 
@@ -182,7 +183,7 @@ function OrderManagerPage() {
           {isUpdating ? (
             <UpdateOrderForm order={selectedOrder} onClose={handleClose} />
           ) : (
-            <div>Add Order Form Here</div> // Placeholder for Add Order Form if needed
+            <div>Add Order Form Here</div>
           )}
         </Modal.Body>
       </Modal>

@@ -32,7 +32,7 @@ function SideBarAdmin() {
                     <CSidebarBrand> THE DIAMOND STORE </CSidebarBrand>
                 </CSidebarHeader>
                 <CSidebarNav>
-                    <CNavTitle style={{ marginTop: "0", fontSize: "15px" }}>MENU</CNavTitle>
+                    <CNavTitle style={{ marginTop: "0", fontSize: "15px" }}>SALE-STAFF</CNavTitle>
 
                     <NavLink
                         to="/sale-staff/profile"

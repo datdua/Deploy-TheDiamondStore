@@ -5,26 +5,26 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-function AddDiamondPriceForm() {
+function AddDiamondForm() {
   const [diamondPrice, setDiamondPrice] = useState({
-    diamondEntryPrice: "",
     clarity: "",
     color: "",
     caratSize: "",
+    diamondEntryPrice: ""
   });
 
   const [message, setMessage] = useState("");
 
   const labels = {
-    diamondEntryPrice: "Giá Kim Cương",
-    clarity: "Độ trong",
+    clarity: "Độ tinh khiết",
     color: "Màu sắc",
-    caratSize: "Kích thước",
+    caratSize: "Kích thước carat",
+    diamondEntryPrice: "Giá nhập"
   };
 
   const options = {
     color: ["F", "E", "J", "D"],
-    clarity: ["VS1", "VS2", "VVS1", "VVS2"],
+    clarity: ["VS1", "VS2", "VVS1", "VVS2"]
   };
 
   const handleChange = (event) => {
@@ -36,12 +36,10 @@ function AddDiamondPriceForm() {
     try {
       const response = await createDiamondPrice(diamondPrice);
       console.log(response);
-      setMessage(response.message || "Tạo mới giá Kim Cương thành công");
+      setMessage(response.message || "Tạo mới giá kim cương thành công");
     } catch (error) {
-      let errorMessage = "Tạo mới giá Kim Cương thất bại";
-      if (error.response && error.response.data && error.response.data.message) {
-        errorMessage = error.response.data.message;
-      } else if (error.message) {
+      let errorMessage = "Tạo mới giá kim cương thất bại";
+      if (error.message) {
         errorMessage = error.message;
       }
       setMessage(errorMessage);
@@ -52,9 +50,7 @@ function AddDiamondPriceForm() {
     <div>
       <Box
         component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
+        sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
@@ -70,6 +66,7 @@ function AddDiamondPriceForm() {
               onChange={handleChange}
               name={key}
               variant="outlined"
+              InputLabelProps={{ shrink: true, }}
             >
               {options[key].map((option) => (
                 <MenuItem key={option} value={option}>
@@ -86,15 +83,14 @@ function AddDiamondPriceForm() {
               name={key}
               value={diamondPrice[key]}
               onChange={handleChange}
-              type="text"
             />
           )
         ))}
-        <Button type="submit" variant="contained" color="success">Thêm giá</Button>
+        <Button type="submit" variant="contained" color="success">Hoàn thành</Button>
         {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
       </Box>
     </div>
   );
 }
 
-export default AddDiamondPriceForm;
+export default AddDiamondForm;

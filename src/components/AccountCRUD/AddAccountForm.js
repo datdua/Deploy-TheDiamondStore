@@ -3,7 +3,7 @@ import { createAccount } from "../../api/accountCrud"; // Adjust the import path
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
 
 function AddAccountForm() {
     const [account, setAccount] = useState({
@@ -11,6 +11,7 @@ function AddAccountForm() {
         email: "",
         password: "",
         phoneNumber: "",
+        addressAccount: "",
         role: "",
     });
 
@@ -21,7 +22,12 @@ function AddAccountForm() {
         email: "Email",
         password: "Mật khẩu",
         phoneNumber: "Số điện thoại",
+        addressAccount: "Địa chỉ",
         role: "Vai trò",
+    };
+
+    const options = {
+        role: ["ROLE_MANAGER", "ROLE_CUSTOMER", "ROLE_SALE-STAFF"],
     };
 
     const handleChange = (event) => {
@@ -57,6 +63,27 @@ function AddAccountForm() {
                 onSubmit={handleSubmit}
             >
                 {Object.keys(account).map((key) => (
+                    options[key] ? (
+                        <TextField
+                            key={key}
+                            id={`select-${key}`}
+                            select
+                            label={labels[key]}
+                            value={account[key]}
+                            onChange={handleChange}
+                            name={key}
+                            variant="outlined"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        >
+                            {options[key].map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    ) :
                     <TextField
                         key={key}
                         id="outlined-basic"

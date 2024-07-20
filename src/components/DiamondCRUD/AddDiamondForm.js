@@ -55,13 +55,17 @@ function AddDiamondForm() {
       console.log(response);
       setMessage(response.message || "Tạo mới Kim Cương thành công");
     } catch (error) {
-      let errorMessage = "Tạo mới Kim Cương thất bại";
-      if (error.response && error.response.data && error.response.data.message) {
-        errorMessage = error.response.data.message;
-      } else if (error.message) {
-        errorMessage = error.message;
+      if (error.response && error.response.status === 400) {
+        setMessage(error.response.data ? error.response.data.message : 'Bad request');
+      } else {
+        let errorMessage = "Tạo mới Kim Cương thất bại";
+        if (error.response && error.response.data && error.response.data.message) {
+          errorMessage = error.response.data.message;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        setMessage(errorMessage);
       }
-      setMessage(errorMessage);
     }
   };
 

@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "./AccountManager.css";
+import { toast } from "react-toastify";
 
 
 function CustomerManager() {
@@ -28,6 +29,7 @@ function CustomerManager() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectAll, setSelectAll] = useState(false);
     const [indeterminate, setIndeterminate] = useState(false);
+    const userRole = localStorage.getItem("role");
     const size = 8;
     const startIndex = (currentPage - 1) * size;
     const endIndex = startIndex + size;
@@ -39,6 +41,10 @@ function CustomerManager() {
         });
     }, []);
 
+    const showAlert = () => {
+        toast.warning("Chức năng này chỉ dành cho quản lý")
+    }
+
     const handleClose = () => {
         setShowModal(false);
         setIsUpdating(false);
@@ -49,15 +55,23 @@ function CustomerManager() {
     };
 
     const handleShowAdd = () => {
-        setSelectedAccount(null);
-        setIsUpdating(false);
-        setShowModal(true);
+        if (userRole !== "ROLE_ADMIN") {
+            showAlert();
+        } else {
+            setSelectedAccount(null);
+            setIsUpdating(false);
+            setShowModal(true);
+        }
     };
 
     const handleShowUpdate = (account) => {
-        setSelectedAccount(account);
-        setIsUpdating(true);
-        setShowModal(true);
+        if (userRole !== "ROLE_ADMIN") {
+            showAlert();
+        } else {
+            setSelectedAccount(account);
+            setIsUpdating(true);
+            setShowModal(true);
+        }
     };
 
     const handleClick = (event, id) => {
@@ -105,14 +119,18 @@ function CustomerManager() {
     };
 
     const handleDeleteAccounts = async () => {
-        if (window.confirm("Bạn có chắc muốn XÓA các tài khoản này?")) {
-            try {
-                await deleteAccounts(selected);
-                setAccounts(accounts.filter((account) => !selected.includes(account.accountID)));
-                setSelected([]);
-                alert("Xóa thành công");
-            } catch (error) {
-                alert("Xóa thất bại");
+        if (userRole !== "ROLE_ADMIN") {
+            showAlert();
+        } else {
+            if (window.confirm("Bạn có chắc muốn XÓA các tài khoản này?")) {
+                try {
+                    await deleteAccounts(selected);
+                    setAccounts(accounts.filter((account) => !selected.includes(account.accountID)));
+                    setSelected([]);
+                    alert("Xóa thành công");
+                } catch (error) {
+                    alert("Xóa thất bại");
+                }
             }
         }
     };

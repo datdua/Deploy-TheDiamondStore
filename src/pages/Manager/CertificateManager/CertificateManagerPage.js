@@ -20,6 +20,7 @@ import AddCertificateForm from "../../../components/CertificateCRUD/AddCertifica
 import UpdateCertificateForm from "../../../components/CertificateCRUD/UpdateCertificateForm";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
 import "../ProductManager.css";
+import { toast } from "react-toastify";
 
 function CertificateManagerPage() {
   const [certificateData, setCertificateData] = useState([]);
@@ -32,6 +33,7 @@ function CertificateManagerPage() {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -42,20 +44,19 @@ function CertificateManagerPage() {
     setIsUpdating(false);
   };
 
+  const showAlert = () => {
+    toast.warning("Chức năng này chỉ dành cho quản lý")
+  }
+
   const handleShowUpdate = (certificate) => {
-    setSelectedCertificate(certificate);
-    setIsUpdating(true);
-    setShowModal(true);
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedCertificate(certificate);
+      setIsUpdating(true);
+      setShowModal(true);
+    }
   };
-
-  const handleDelete = async (certificateID) => {
-    setCertificateData(
-      certificateData.filter(
-        (certificate) => certificate.certificateID !== certificateID
-      )
-    );
-  };
-
 
   const handleCheckboxChange = (event, id) => {
     const selectedIndex = selected.indexOf(id);
@@ -106,14 +107,18 @@ function CertificateManagerPage() {
   };
 
   const handleDeleteCertificate = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
-      try {
-        await deleteCertificate(selected);
-        setCertificateData(certificateData.filter((certificate) => !selected.includes(certificate.certificateID)));
-        setSelected([]);
-        alert("Xóa thành công");
-      } catch (error) {
-        alert("Xóa thất bại");
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      if (window.confirm("Bạn có chắc muốn XÓA các chứng chỉ này?")) {
+        try {
+          await deleteCertificate(selected);
+          setCertificateData(certificateData.filter((certificate) => !selected.includes(certificate.certificateID)));
+          setSelected([]);
+          alert("Xóa thành công");
+        } catch (error) {
+          alert("Xóa thất bại");
+        }
       }
     }
   };
@@ -164,13 +169,28 @@ function CertificateManagerPage() {
                 <Button
                   variant="link"
                   style={{ textDecoration: "none" }}
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    if (userRole !== "ROLE_MANAGER") {
+                      showAlert();
+                    } else {
+                      setShowModal(true);
+                    }
+                  }}
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Chứng Chỉ
                 </Button>
-                {selected.length > 0 && (
-                  <Tooltip describeChild title="Xóa các chứng chỉ đã chọn" arrow placement="top">
-                    <Button variant="link" onClick={handleDeleteCertificate} style={{ color: "red" }}>
+                {selected.length > 0 && userRole !== "ROLE_MANAGER" && (
+                  <Tooltip
+                    describeChild
+                    title="Xóa các chứng chỉ đã chọn"
+                    arrow
+                    placement="top"
+                  >
+                    <Button
+                      variant="link"
+                      onClick={handleDeleteCertificate}
+                      style={{ color: "red" }}
+                    >
                       <DeleteIcon />
                     </Button>
                   </Tooltip>
@@ -204,18 +224,29 @@ function CertificateManagerPage() {
                   </thead>
                   <tbody>
                     {currentPageData.map((certificate) => {
-                      const isItemSelected = isSelected(certificate.certificateID);
+                      const isItemSelected = isSelected(
+                        certificate.certificateID
+                      );
 
                       return (
                         <tr
                           key={certificate.certificateID}
-                          style={{ cursor: 'pointer' }}
+                          style={{ cursor: "pointer" }}
                         >
-                          <td onClick={(event) => handleClick(event, certificate.certificateID)}>
+                          <td
+                            onClick={(event) =>
+                              handleClick(event, certificate.certificateID)
+                            }
+                          >
                             <Checkbox
                               color="primary"
                               checked={isItemSelected}
-                              onChange={(event) => handleCheckboxChange(event, certificate.certificateID)}
+                              onChange={(event) =>
+                                handleCheckboxChange(
+                                  event,
+                                  certificate.certificateID
+                                )
+                              }
                             />
                           </td>
                           <td>{certificate.certificateID}</td>
@@ -230,7 +261,9 @@ function CertificateManagerPage() {
                                 cursor: "pointer",
                               }}
                               onClick={() =>
-                                handleShowImage(certificate.certificateImage)
+                                handleShowImage(
+                                  certificate.certificateImage
+                                )
                               }
                             />
                           </td>
@@ -244,7 +277,10 @@ function CertificateManagerPage() {
                             >
                               <Button
                                 variant="link"
-                                onClick={() => handleShowUpdate(certificate)}
+                                onClick={() =>
+                                  handleShowUpdate(certificate)
+                                }
+                                disabled={userRole === "ROLE_MANAGER"}
                               >
                                 <EditIcon />
                               </Button>

@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { getOrdersHaveTransactionNo } from "../../../api/OrderAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import EditIcon from "@mui/icons-material/Edit";
 import UpdateOrderForm from "../../../components/OrderCRUD/OrderUpdate";
 import { Pagination, Tooltip } from "@mui/material";
 import "../ProductManager.css";
@@ -32,12 +31,6 @@ function TransactionManagerPage() {
   const handleClose = () => {
     setShowModal(false);
     setIsUpdating(false);
-  };
-
-  const handleShowUpdate = (order) => {
-    setSelectedOrder(order);
-    setIsUpdating(true);
-    setShowModal(true);
   };
 
 
@@ -205,7 +198,7 @@ function TransactionManagerPage() {
           <img
             src={selectedImage}
             alt="Hình ảnh bị lỗi. Vui lòng kiểu tra lại địa chỉ hình ảnh"
-            style={{ width: "100%"}}
+            style={{ width: "100%" }}
           />
         </Modal.Body>
       </Modal>

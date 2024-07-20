@@ -17,6 +17,8 @@ import AddGoldPriceForm from "../../../components/GoldPriceCRUD/AddGoldPriceForm
 import UpdateGoldPriceForm from "../../../components/GoldPriceCRUD/UpdateGoldPriceForm.js";
 import DeleteGoldPriceForm from "../../../components/GoldPriceCRUD/DeleteGoldPriceForm.js";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import { Snackbar } from "@mui/material";
+import { toast } from "react-toastify";
 import "../ProductManager.css";
 
 function GoldPriceManager() {
@@ -28,6 +30,8 @@ function GoldPriceManager() {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -38,26 +42,32 @@ function GoldPriceManager() {
     setIsUpdating(false);
   };
 
+  const showAlert = () => {
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+  }
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
   const handleShowAdd = () => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     setSelectedGoldPrice(null);
     setIsUpdating(false);
     setShowModal(true);
+    }
   };
 
   const handleShowUpdate = (item) => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     setSelectedGoldPrice(item);
     setIsUpdating(true);
     setShowModal(true);
-  };
-
-  const handleDelete = (goldpriceID) => {
-    setGoldPriceData(
-      goldPriceData.filter((goldPrice) => goldPrice.goldpriceID !== goldpriceID)
-    );
+    }
   };
 
   const refreshTable = () => {
@@ -111,6 +121,9 @@ function GoldPriceManager() {
   };
 
   const handleDeleteGoldPrice = async () => {
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
     if (window.confirm("Bạn có chắc muốn XÓA các giá vàng này?")) {
       try {
         await deleteGoldPrice(selected);
@@ -120,6 +133,7 @@ function GoldPriceManager() {
       } catch (error) {
         alert("Xóa thất bại");
       }
+    }
     }
   };
 

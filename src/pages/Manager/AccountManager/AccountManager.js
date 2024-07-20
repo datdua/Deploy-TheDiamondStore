@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import { toast } from "react-toastify";
 import "./AccountManager.css";
 
 
@@ -28,6 +29,7 @@ function AccountManager() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
@@ -44,26 +46,37 @@ function AccountManager() {
     setIsUpdating(false);
   };
 
+  const showAlert = () => {
+    toast.warning("Chức năng này chỉ dành cho quản lý")
+  }
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
   const handleShowAdd = () => {
+    if(userRole !== "ROLE_ADMIN") {
+      showAlert();
+    }else {
     setSelectedAccount(null);
     setIsUpdating(false);
     setShowModal(true);
+    }
   };
 
   const handleShowUpdate = (account) => {
+    if(userRole !== "ROLE_ADMIN") {
+      showAlert();
+    }else {
     setSelectedAccount(account);
     setIsUpdating(true);
     setShowModal(true);
+    }
   };
 
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
-
     if (selectedIndex === -1) {
       newSelected = [...selected, id];
     } else if (selectedIndex === 0) {
@@ -105,6 +118,9 @@ function AccountManager() {
   };
 
   const handleDeleteAccounts = async () => {
+    if(userRole !== "ROLE_ADMIN") {
+      showAlert();
+    }else {
     if (window.confirm("Bạn có chắc muốn XÓA các tài khoản này?")) {
       try {
         await deleteAccounts(selected);
@@ -115,6 +131,7 @@ function AccountManager() {
         alert("Xóa thất bại");
       }
     }
+  }
   };
 
   const refreshTable = () => {

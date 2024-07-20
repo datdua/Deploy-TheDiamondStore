@@ -117,8 +117,8 @@ export async function getCertificateImage(certificationID) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log("API Response:", response.data); // Debug line
-    return response.data.certificateImage; // Correctly extract the certificateImage URL
+    console.log("API Response:", response.data);
+    return response.data.certificateImage; 
   } catch (error) {
     throw new Error("Failed to fetch diamond certificate image");
   }
@@ -133,13 +133,45 @@ export async function getWarrantityImage(warrantyID) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    console.log("API Response:", response.data); 
+    return response.data.warrantyImage; 
+  } catch (error) {
+    throw new Error("Failed to fetch diamond warranty image");
+  }
+}
+
+
+export async function getCertificateImageByManager(certificationID) {
+  try {
+    const token = localStorage.getItem('jwt');
+    const response = await axios.get(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/certificates/get-certificate-image/${certificationID}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("API Response:", response.data);
+    return response.data.certificateImage;
+  } catch (error) {
+    throw new Error("Failed to fetch diamond certificate image");
+  }
+}
+
+export async function getWarrantityImageByManager(warrantyID) {
+  try {
+    const token = localStorage.getItem('jwt');
+    const response = await axios.get(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-warranty-image/${warrantyID}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     console.log("API Response:", response.data); // Debug line
     return response.data.warrantyImage; // Correctly extract the warrantityImage URL
   } catch (error) {
     throw new Error("Failed to fetch diamond warranty image");
   }
 }
-
 
 export async function searchDiamondByName(name) {
   try {

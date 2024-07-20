@@ -16,12 +16,13 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Pagination, Tooltip, Checkbox, FormControlLabel } from "@mui/material";
+import { toast } from "react-toastify";
 import ImageLoading from "../../../components/LoadingImg/ImageLoading.js"
 import "../ProductManager.css";
 
 const JewelryManagerPage = () => {
   const [jewelryData, setJewelryData] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedJewelry, setSelectedJewelry] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -33,11 +34,11 @@ const JewelryManagerPage = () => {
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const userRole = localStorage.getItem("role");
   const size = 8;
   const startIndex = (currentPage - 1) * size;
   const endIndex = startIndex + size;
 
-  // Slice the array to get only the items for the current page
   const currentPageData = jewelryData.slice(startIndex, endIndex);
 
   useEffect(() => {
@@ -46,10 +47,9 @@ const JewelryManagerPage = () => {
         const data = await getAllJewelry();
         setJewelryData(data);
 
-        // Set loading to false after a delay
         setTimeout(() => {
           setLoading(false);
-        }, 50); 
+        }, 50);
       } catch (error) {
         console.error(error);
         setLoading(false);
@@ -64,20 +64,32 @@ const JewelryManagerPage = () => {
     setIsUpdating(false);
   };
 
+  const showAlert = () => {
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+  }
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
   const handleShowAdd = () => {
-    setSelectedJewelry(null);
-    setIsUpdating(false);
-    setShowModal(true);
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedJewelry(null);
+      setIsUpdating(false);
+      setShowModal(true);
+    }
   };
 
   const handleShowUpdate = (item) => {
-    setSelectedJewelry(item);
-    setIsUpdating(true);
-    setShowModal(true);
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      setSelectedJewelry(item);
+      setIsUpdating(true);
+      setShowModal(true);
+    }
   };
 
   const handleShowImage = (imageSrc) => {
@@ -151,14 +163,18 @@ const JewelryManagerPage = () => {
   };
 
   const handleDeleteJewelry = async () => {
-    if (window.confirm("Bạn có chắc muốn XÓA các trang sức này?")) {
-      try {
-        await deleteJewelry(selected);
-        setJewelryData(jewelryData.filter((jewelry) => !selected.includes(jewelry.jewelryID)));
-        setSelected([]);
-        alert("Xóa thành công");
-      } catch (error) {
-        alert("Xóa thất bại");
+    if (userRole !== "ROLE_MANAGER") {
+      showAlert();
+    } else {
+      if (window.confirm("Bạn có chắc muốn XÓA các trang sức này?")) {
+        try {
+          await deleteJewelry(selected);
+          setJewelryData(jewelryData.filter((jewelry) => !selected.includes(jewelry.jewelryID)));
+          setSelected([]);
+          alert("Xóa thành công");
+        } catch (error) {
+          alert("Xóa thất bại");
+        }
       }
     }
   };

@@ -143,13 +143,15 @@ export async function deleteAccounts(accountIDs) {
 }
 
 
-
 export async function createAccount(account) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/accounts/add",
-      account
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/admin/account-management/accounts/add",
+      account,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return response.data;
   } catch (error) {
