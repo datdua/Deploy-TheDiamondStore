@@ -72,20 +72,20 @@ function ProductPage() {
           console.log("Search results:", data); // Debug log
 
           if (data) {
-            const searchResults = [
-              ...(data.jewelry || []).map((item) => ({
-                id: item.jewelryID,
-                name: item.jewelryName,
-                imageUrl: item.jewelryImage,
-                price: item.jewelryEntryPrice,
-                type: "jewelry",
-              })),
+            const searchResults = [         
               ...(data.diamonds || []).map((item) => ({
                 id: item.diamondID,
                 name: item.diamondName,
                 imageUrl: item.diamondImage,
                 price: item.diamondEntryPrice,
                 type: "diamond",
+              })),
+              ...(data.jewelry || []).map((item) => ({
+                id: item.jewelryID,
+                name: item.jewelryName,
+                imageUrl: item.jewelryImage,
+                price: item.jewelryEntryPrice,
+                type: "jewelry",
               }))
             ];
             setSearchResults(searchResults);

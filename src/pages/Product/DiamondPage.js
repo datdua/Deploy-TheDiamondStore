@@ -56,8 +56,8 @@ function DiamondPage() {
 
     const colors = ['Tất cả', 'E', 'J', 'F', 'D'];
     const cuts = ['Tất cả', 'Excellent'];
-    const clarities = ['Tất cả', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'I1', 'I2', 'I3'];
-    const shapes = ['Tất cả', 'Radiant', 'Around', 'Pear'];
+    const clarities = ['Tất cả', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1  ', 'SI2', 'I1', 'I2', 'I3'];
+    const shapes = ['Tất cả', 'Radiant', 'Round', 'Pear'];
     const origins = ['Tất cả', 'GIA'];
 
     useEffect(() => {
@@ -440,7 +440,7 @@ function DiamondPage() {
                                                                         <ul className="tm-product-actions">
                                                                             {showNotification && <p>Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.</p>}
                                                                             <li><Link to={`/product-detail/diamond/${item.diamondID}`}><i className="ion-android-cart"></i> Thêm giỏ hàng</Link></li>
-                                                                            <li><button onClick={() => openModal(item)} aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
+                                                                            <li><button  aria-label="Product Quickview"><i className="ion-eye"></i></button></li>
                                                                             <li><a href="#"><i className="ion-heart"></i></a></li>
                                                                         </ul>
                                                                         <div className="tm-product-badges">

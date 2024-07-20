@@ -92,7 +92,6 @@ function JewelryDetailPage() {
           sizeJewelry
         );
         console.log("Add to Cart response:", response);
-
         toast.success("Thêm vào giỏ hàng thành công!");
         navigate("/cart/" + accountID);
       } catch (error) {
@@ -116,7 +115,7 @@ function JewelryDetailPage() {
         <div id="wrapper" className="wrapper">
           <div
             className="tm-breadcrumb-area tm-padding-section bg-grey"
-            style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-ban...51bb1e)` }}
+            style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/img-banner%2Fimg-banner-nhan2.png?alt=media&token=5dba9bcc-dfe4-466e-be5a-d9a7c9f1c0b3)` }}
           >
             <div className="container">
               <div className="tm-breadcrumb">
