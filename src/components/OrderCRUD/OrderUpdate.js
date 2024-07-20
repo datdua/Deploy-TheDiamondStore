@@ -10,8 +10,6 @@ function UpdateOrderForm({ order }) {
     deliveryTime: order.deliveryDate.split(" ")[1].slice(0, 5),
     deliveryAddress: order.deliveryAddress,
     phoneNumber: order.phoneNumber,
-    warrantyImage: order.warrantyImage,
-    certificateImage: order.certificateImage,
   });
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -83,24 +81,6 @@ function UpdateOrderForm({ order }) {
           type="text"
           name="deliveryAddress"
           value={updatedOrder.deliveryAddress}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Giấy bảo hành</Form.Label>
-        <Form.Control
-          type="text"
-          name="warrantyImage"
-          value={updatedOrder.warrantyImage}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Giấy chứng nhận</Form.Label>
-        <Form.Control
-          type="text"
-          name="certificateImage"
-          value={updatedOrder.certificateImage}
           onChange={handleChange}
         />
       </Form.Group>
