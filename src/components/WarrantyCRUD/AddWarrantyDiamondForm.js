@@ -31,7 +31,7 @@ function AddWarrantyDiamondForm() {
   useEffect(() => {
     if (warranty.startDate) {
       const startDate = new Date(warranty.startDate);
-      const expirationDate = new Date(startDate.setFullYear(startDate.getFullYear() + 10)).toISOString().split('T')[0];
+      const expirationDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1)).toISOString().split('T')[0];
       setWarranty((prev) => ({ ...prev, expirationDate }));
     }
   }, [warranty.startDate]);
