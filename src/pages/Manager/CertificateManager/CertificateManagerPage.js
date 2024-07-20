@@ -179,20 +179,13 @@ function CertificateManagerPage() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Chứng Chỉ
                 </Button>
-                  <Tooltip
-                    describeChild
-                    title="Xóa các chứng chỉ đã chọn"
-                    arrow
-                    placement="top"
-                  >
-                    <Button
-                      variant="link"
-                      onClick={handleDeleteCertificate}
-                      style={{ color: "red" }}
-                    >
+                {selected.length > 0 && (
+                  <Tooltip describeChild title="Xóa các chứng chỉ đã chọn" arrow placement="top">
+                    <Button variant="link" onClick={handleDeleteCertificate} style={{ color: "red" }}>
                       <DeleteIcon />
                     </Button>
                   </Tooltip>
+                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
