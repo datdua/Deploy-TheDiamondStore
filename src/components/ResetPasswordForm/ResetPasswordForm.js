@@ -32,7 +32,6 @@ function ResetPasswordForm() {
       await setPassword(email, newPassword);
       setMessage('Mật khẩu đã được thay đổi');
       toast.success('Mật khẩu đã được đổi thành công')
-      navigate('/dangnhap')
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     }
