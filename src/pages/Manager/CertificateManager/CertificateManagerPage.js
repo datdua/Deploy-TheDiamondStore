@@ -179,7 +179,6 @@ function CertificateManagerPage() {
                 >
                   <AddIcon style={{ margin: "0 5px 5px 0" }} /> Thêm Chứng Chỉ
                 </Button>
-                {selected.length > 0 && userRole !== "ROLE_MANAGER" && (
                   <Tooltip
                     describeChild
                     title="Xóa các chứng chỉ đã chọn"
@@ -194,7 +193,6 @@ function CertificateManagerPage() {
                       <DeleteIcon />
                     </Button>
                   </Tooltip>
-                )}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -280,7 +278,6 @@ function CertificateManagerPage() {
                                 onClick={() =>
                                   handleShowUpdate(certificate)
                                 }
-                                disabled={userRole === "ROLE_MANAGER"}
                               >
                                 <EditIcon />
                               </Button>

@@ -286,20 +286,20 @@ const JewelryManagerPage = () => {
                                 handleShowWarrantity(jewelry.warrantyID)
                               }
                             >
-                              {jewelry.warrantyID ? jewelry.warrantyID : "N/A"}
+                              {jewelry.warrantyID ? jewelry.warrantyID : "Chưa có bảo hành"}
                             </a>
                           </td>
                           <td>
                             {jewelry.jewelryEntryPrice
                               ? jewelry.jewelryEntryPrice.toLocaleString() +
                               " VNĐ"
-                              : "N/A"}
+                              : "Chưa có giá nhập"}
                           </td>
                           <td>
                             {jewelry.grossJewelryPrice
                               ? jewelry.grossJewelryPrice.toLocaleString() +
                               " VNĐ"
-                              : "N/A"}
+                              : "Chưa có giá bán"}
                           </td>
                           <td>
                             <Tooltip

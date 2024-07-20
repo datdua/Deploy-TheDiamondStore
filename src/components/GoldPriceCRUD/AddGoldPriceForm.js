@@ -21,7 +21,7 @@ function AddGoldPriceForm() {
   };
 
   const options = {
-    goldAge: [22, 18, 14, 10],
+    goldAge: [24, 18, 14, 10],
   };
 
   const handleChange = (event) => {

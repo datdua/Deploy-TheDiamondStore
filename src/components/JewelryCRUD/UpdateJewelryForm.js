@@ -41,15 +41,6 @@ function UpdateJewelryForm({ jewelry }) {
         </Form.Control>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Giá nhập</Form.Label>
-        <Form.Control
-          type="text"
-          name="jewelryEntryPrice"
-          value={updatedJewelry.jewelryEntryPrice}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
         <Form.Label>Giấy trang sức</Form.Label>
         <Form.Control
           type="text"

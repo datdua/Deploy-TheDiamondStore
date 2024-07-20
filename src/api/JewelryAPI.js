@@ -27,7 +27,7 @@ export async function getWarrantityImage(warrantyID) {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.get(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/warranty-management/warranties/warrantyImg/${warrantyID}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/warranty-management/warranties/get-warranty-image/${warrantyID}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

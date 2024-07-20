@@ -30,7 +30,7 @@ export const createGoldPrice = async (goldPrice) => {
   try {
     const token = localStorage.getItem('jwt');
     const response = await axios.post(
-      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/managers/gold-price-management/gold-prices/add",
+      "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/gold-price-management/gold-prices/add",
       goldPrice,
       {
         headers: { Authorization: `Bearer ${token}` },
