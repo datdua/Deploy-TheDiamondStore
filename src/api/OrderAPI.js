@@ -174,7 +174,7 @@ export async function updateOrder(orderId, updatedOrder) {
   try {
     const token = getAuthToken();
     const response = await axios.put(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/order-management/orders/update/${orderId}`,
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/order-management/orders/update/${orderId}`,
       updatedOrder,
       {
         headers: { Authorization: `Bearer ${token}` },
