@@ -33,9 +33,9 @@ function OrderManagerPage() {
 
 
   const showAlert = () => {
-    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý!")
+    toast.warning("Rất tiếc, chức năng này chỉ dành cho quản lý và nhân viên bán hàng!")
   }
-  
+
   const handleClose = () => {
     setShowModal(false);
     setIsUpdating(false);
@@ -47,12 +47,12 @@ function OrderManagerPage() {
   };
 
   const handleShowUpdate = (order) => {
-    if (userRole !== "ROLE_MANAGER") {
+    if (userRole !== "ROLE_SALE-STAFF" && userRole !== "ROLE_MANAGER") {
       showAlert();
     } else {
-    setSelectedOrder(order);
-    setIsUpdating(true);
-    setShowModal(true);
+      setSelectedOrder(order);
+      setIsUpdating(true);
+      setShowModal(true);
     }
   };
 
