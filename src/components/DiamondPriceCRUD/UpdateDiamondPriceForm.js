@@ -13,9 +13,9 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
 
   const labels = {
     diamondEntryPrice: "Giá Kim Cương",
-    clarity: "Độ tinh khiết",
+    clarity: "Độ trong",
     color: "Màu sắc",
-    caratSize: "Trọng lượng",
+    caratSize: "Kích thước",
   };
 
   const handleChange = (event) => {
@@ -89,21 +89,15 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="caratSize-select-label">{labels.caratSize}</InputLabel>
-          <Select
-            labelId="caratSize-select-label"
-            id="caratSize-select"
-            value={updatedDiamondPrice.caratSize}
-            label={labels.caratSize}
-            name="caratSize"
-            onChange={handleChange}
-          >
-            {[3.6, 3.9, 4.1, 4.5].map((size) => (
-              <MenuItem key={size} value={size}>{size}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <TextField
+          id="outlined-basic"
+          label={labels.caratSize}
+          variant="outlined"
+          name="caratSize"
+          value={updatedDiamondPrice.caratSize}
+          onChange={handleChange}
+          type="text"
+        />
         <Button type="submit" variant="contained" color="success">Cập nhật</Button>
       </Box>
     </div>
