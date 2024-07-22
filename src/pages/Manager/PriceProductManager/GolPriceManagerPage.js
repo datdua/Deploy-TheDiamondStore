@@ -195,7 +195,7 @@ function GoldPriceManager() {
                         />
                       </th>
                       <th>Mã Giá Vàng</th>
-                      <th>Mã Trang Cức</th>
+                      <th>Mã Trang Sức</th>
                       <th>Giá Vàng</th>
                       <th>Lượng</th>
                       <th>Thao Tác</th>
