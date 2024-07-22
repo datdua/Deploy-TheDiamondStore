@@ -175,7 +175,7 @@ function MyAccountPage() {
                           <thead>
                             <tr>
                               <th className="tm-myaccount-orders-col-id">ID</th>
-                              <th className="tm-myaccount-orders-col-date">NGÀY</th>
+                              <th className="tm-myaccount-orders-col-date">NGÀY GIAO HÀNG</th>
                               <th className="tm-myaccount-orders-col-status">TRẠNG THÁI</th>
                               <th className="tm-myaccount-orders-col-total">TỔNG</th>
                               <th className="tm-myaccount-orders-col-view">XEM</th>

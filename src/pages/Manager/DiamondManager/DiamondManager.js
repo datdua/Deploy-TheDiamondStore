@@ -275,7 +275,7 @@ const DiamondManagerPage = () => {
                       <th>Kích cỡ</th>
                       <th>Màu Sắc</th>
                       <th>Vết Cắt</th>
-                      <th>Độ Trong</th>
+                      <th>Độ tinh khiết</th>
                       <th>Hình Dạng</th>
                       <th>Xuất Xứ</th>
                       <th>Thao Tác</th>

@@ -34,7 +34,7 @@ function CalculatorForm() {
           />
         </Form.Group>
         <Form.Group style={{marginTop: '10px'}} controlId="caratSize">
-          <Form.Label>Kích cỡ</Form.Label>
+          <Form.Label>Trọng lượng</Form.Label>
           <Form.Control
             type="number"
             value={caratSize}

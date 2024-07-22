@@ -55,7 +55,7 @@ function OrderSidebar({ order, show, onHide }) {
                 <hr />
                 <div className="order-section">
                   <h5>Thông tin tổng </h5>
-                  <p><span className="detail-title">Giá chưa phí:</span> <span className="detail-info">{orderItem.grossCartPrice.toLocaleString()}</span></p>
+                  <p><span className="detail-title">Giá đã bao gồm phí:</span> <span className="detail-info">{orderItem.grossCartPrice.toLocaleString()}</span></p>
                 </div>
                 <hr />
                 <div className="order-section">

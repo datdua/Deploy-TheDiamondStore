@@ -13,7 +13,7 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
 
   const labels = {
     diamondEntryPrice: "Giá Kim Cương",
-    clarity: "Độ trong",
+    clarity: "Độ tinh khiết",
     color: "Màu sắc",
     caratSize: "Trọng lượng",
   };
