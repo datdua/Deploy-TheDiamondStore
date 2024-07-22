@@ -10,7 +10,7 @@ function CalculatorForm() {
 
   const handleCalculate = () => {
     const priceUSD = relativePrice * 100 * caratSize;
-    const priceVND = priceUSD * 23000; // Giả sử 1 USD = 23000 VND
+    const priceVND = priceUSD * 25335;
     setDiamondPriceUSD(priceUSD);
     setDiamondPriceVND(priceVND);
   };

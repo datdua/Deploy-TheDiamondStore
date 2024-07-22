@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 
 function UpdateDiamondPriceForm({ diamondPrice }) {
   const [updatedDiamondPrice, setUpdateDiamondPrice] = useState(diamondPrice);
+  const [message, setMessage] = useState("");
 
   const labels = {
     diamondEntryPrice: "Giá Kim Cương",
@@ -28,14 +29,15 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updateDiamondPrice(
-        diamondPrice.diamondPriceID,
-        updatedDiamondPrice
-      );
-      alert("Cập nhật thông tin Giá Kim Cương thành công");
+      const response = await updateDiamondPrice(diamondPrice.diamondPriceID, updatedDiamondPrice);
+      console.log(response);
+      setMessage(response.message || "Cập nhật giá kim cương thành công");
     } catch (error) {
-      console.error(error);
-      alert("Cập nhật thông tin Giá Kim Cương thất bại");
+      let errorMessage = "Cập nhật giá kim cương thất bại";
+      if (error.message) {
+        errorMessage = error.message;
+      }
+      setMessage(errorMessage);
     }
   };
 
@@ -99,6 +101,7 @@ function UpdateDiamondPriceForm({ diamondPrice }) {
           type="text"
         />
         <Button type="submit" variant="contained" color="success">Cập nhật</Button>
+        {message && <p style={{ color: '#F2BA59', fontWeight: 'bold' }}>{message}</p>}
       </Box>
     </div>
   );
