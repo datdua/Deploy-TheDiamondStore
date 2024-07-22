@@ -223,7 +223,7 @@ function DiamondPriceManager() {
                             {diamondPrice.diamondEntryPrice
                               ? diamondPrice.diamondEntryPrice.toLocaleString() +
                               " VNĐ"
-                              : "N/A"}
+                              : "Chưa có giá!"}
                           </td>
                           <td>{diamondPrice.weight ? diamondPrice.weight : "N/A"}</td>
                           <td>{diamondPrice.clarity}</td>
