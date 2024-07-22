@@ -301,7 +301,7 @@ function WarrantyManagerPage() {
 
       <Modal show={showImageModal} onHide={handleCloseImageModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Warranty Image</Modal.Title>
+          <Modal.Title>Giấy Bảo Hành</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
           <img
