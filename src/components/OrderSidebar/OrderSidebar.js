@@ -40,7 +40,7 @@ function OrderSidebar({ order, show, onHide }) {
                   <p><span className="detail-title">Số lượng:</span> <span className="detail-info">{orderItem.quantity}</span></p>
                   {orderItem.sizeJewelry && <p><span className="detail-title">Kích thước trang sức:</span> <span className="detail-info">{orderItem.sizeJewelry}</span></p>}
                   <p><span className="detail-title">Giá:</span> <span className="detail-info">{orderItem.price.toLocaleString()}</span></p>
-                  <p><span className="detail-title">Tổng giá:</span> <span className="detail-info">{orderItem.totalPrice.toLocaleString()}</span></p>
+                  <p><span className="detail-title">Giá đã bao gồm phí</span> <span className="detail-info">{orderItem.totalPrice.toLocaleString()}</span></p>
                 </div>
                 <hr />
                 <div className="order-section">
@@ -54,8 +54,7 @@ function OrderSidebar({ order, show, onHide }) {
                 </div>
                 <hr />
                 <div className="order-section">
-                  <h5>Thông tin tổng </h5>
-                  <p><span className="detail-title">Giá đã bao gồm phí:</span> <span className="detail-info">{orderItem.grossCartPrice.toLocaleString()}</span></p>
+                  <p><span className="detail-title">Tổng giá giỏ hàng:</span> <span className="detail-info">{orderItem.grossCartPrice.toLocaleString()}</span></p>
                 </div>
                 <hr />
                 <div className="order-section">

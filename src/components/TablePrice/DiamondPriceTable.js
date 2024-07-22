@@ -67,9 +67,9 @@ const DiamondPriceTable = () => {
                     <Table aria-label="diamond prices table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" className="headerPriceCell">{caratSize}</TableCell>
+                                <TableCell align="center" className="headerPriceCell">{caratSize} mm</TableCell>
                                 {clarityLevels.map(clarity => (
-                                    <TableCell key={clarity} align="center" className="headerPriceCell">{clarity} mm</TableCell>
+                                    <TableCell key={clarity} align="center" className="headerPriceCell">{clarity}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
