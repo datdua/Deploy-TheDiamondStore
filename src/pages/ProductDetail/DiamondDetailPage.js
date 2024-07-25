@@ -8,6 +8,7 @@ import { getDiamondById } from "../../api/DiamondAPI";
 import { getAccountIDByEmail } from "../../api/accountCrud";
 import Button from "react-bootstrap/esm/Button";
 import ImageLoading from "../../components/LoadingImg/ImageLoading"
+import Badge from 'react-bootstrap/Badge';
 
 function DiamondDetailPage() {
   const navigate = useNavigate();
@@ -28,14 +29,14 @@ function DiamondDetailPage() {
             } catch (error) {
               reject(error);
             }
-          }, 50); 
+          }, 50);
         });
 
         setDiamond(diamondData);
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching diamond details:", error);
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchDiamond();
@@ -106,53 +107,63 @@ function DiamondDetailPage() {
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-10 col-12">
                             <div className="tm-prodetails-images">
-                              <div className="tm-prodetails-largeimages">
-                                <div className="tm-prodetails-largeimage">
                                   <img src={diamond.diamondImage} alt="product image" />
-                                </div>
-                              </div>
                             </div>
                           </div>
                           <div className="col-lg-6 col-md-6 col-12">
                             <h1 className="tm-prodetails-title" style={{ fontSize: '25px' }}>{diamond.diamondName}</h1>
                             <div className="tm-prodetails-contents" style={{ fontSize: 'larger' }}>
-                              <span className="tm-prodetails-price">{diamond.diamondEntryPrice.toLocaleString()} VND</span>
+                              <div style={{ display: 'flex' }}>
+                                <span style={{ fontSize: '24px' }} className="tm-prodetails-price">{diamond.diamondEntryPrice.toLocaleString()} VND</span>
+                                <Badge style={{ fontSize: '17px' }} pill bg="success">
+                                  Còn hàng
+                                </Badge>
+                                <Badge style={{ fontSize: '17px' }} pill bg="danger">
+                                  Hết hàng
+                                </Badge>
+                              </div>
+                              <span className="tm-prodetails-singleinfo">Sản phẩm còn lại: 10</span>
+                              <hr/>
                               <div className="tm-prodetails-infos" >
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }} >
+                              <div className="tm-prodetails-singleinfo" style={{marginTop: '20px' }}>
+                                  <b>Mã Sản Phẩm: </b>
+                                  {diamond.diamondID}
+                                </div>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}} >
                                   <b>Kích Thước: </b>
                                   {diamond.caratSize}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Trọng Lượng: </b>
                                   {diamond.weight}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Màu: </b>
                                   {diamond.color}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Độ Tinh Khiết: </b>
                                   {diamond.clarity}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Vết Cắt: </b>
                                   {diamond.cut}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Hình Dạng: </b>
                                   {diamond.shape}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
                                   <b>Nguồn Gốc: </b>
                                   {diamond.origin}
                                 </div>
                               </div>
-                              <div className="tm-prodetails-quantitycart" style={{ marginBottom: '20px', marginTop: '20px' }}>
+                              <div className="tm-prodetails-quantitycart" style={{marginTop: '10px'}}>
                                 <div className="input-group">
                                   <button className="decrease-button" onClick={decreaseQuantity}>-</button>
-                                  <input type="text" value={quantity} readOnly style={{ maxWidth: "50px", textAlign: "center" }} />
+                                  <input type="text" value={quantity} readOnly style={{maxWidth: "50px", textAlign: "center"}} />
                                   <button className="increase-button" onClick={increaseQuantity}>+</button>
-                                  <Button onClick={() => handleAddToCart(diamond)} style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px' }}>Thêm vào giỏ hàng</Button>
+                                  <Button onClick={() => handleAddToCart(diamond)} style={{background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px'}}>Thêm vào giỏ hàng</Button>
                                 </div>
                               </div>
                             </div>

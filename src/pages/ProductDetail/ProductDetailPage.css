@@ -3,16 +3,35 @@
     display: flex;
     align-items: center
 }
+
 .input-group {
     display: flex;
     margin-left: 10px;
     align-items: center;
-    
+
 }
 
-.increase-button .decrease-button{
+.increase-button .decrease-button {
     border: 2px groove #a81042;
     border-radius: 50%;
     padding: 5px;
-    
+
+}
+
+.tm-prodetails-images img {
+    width: 600px;
+    height: 337px;
+    object-fit: cover;
+}
+
+.badge {
+    margin-left: 15px;
+}
+
+hr{
+    position: relative;
+    border: none;
+    height: 5px;
+    background: black;
+    margin-bottom: 50px;
 }

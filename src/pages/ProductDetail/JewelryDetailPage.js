@@ -9,7 +9,7 @@ import SizeInstructionModal from "../../components/SizeInstructionModal/SizeInst
 import { getAccountIDByEmail } from "../../api/accountCrud";
 import Button from "react-bootstrap/esm/Button";
 import ImageLoading from "../../components/LoadingImg/ImageLoading"
-
+import Badge from 'react-bootstrap/Badge';
 
 function JewelryDetailPage() {
   const navigate = useNavigate();
@@ -19,17 +19,17 @@ function JewelryDetailPage() {
   const [sizeJewelry, setSize] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [modalShow, setModalShow] = useState(false); 
+  const [modalShow, setModalShow] = useState(false);
   useEffect(() => {
     const fetchJewelry = async () => {
       try {
         setLoading(true);
         const jewelryData = await getJewelryById(jewelryId);
         setJewelry(jewelryData);
-        setSize(jewelryData.size || ""); 
+        setSize(jewelryData.size || "");
         setTimeout(() => {
           setLoading(false);
-        }, 50); 
+        }, 50);
       } catch (error) {
         console.error("Error fetching jewelry details:", error);
         setLoading(false);
@@ -49,7 +49,7 @@ function JewelryDetailPage() {
   };
 
   const handleSizeChange = (event) => {
-    const selectedSize = event.target.value || null; 
+    const selectedSize = event.target.value || null;
     setSize(selectedSize);
     console.log("Selected size:", selectedSize);
   };
@@ -134,7 +134,7 @@ function JewelryDetailPage() {
           </div>
           <main className="page-content">
             {jewelry && (
-              <div className="tm-product-details-area tm-section tm-padding-section bg-white" style={{ paddingBottom: '0', paddingTop: '2.5rem' }}>
+              <div className="tm-product-details-area tm-section tm-padding-section bg-white">
                 <div className="container">
                   <div className="row">
                     <div className="col-lg-9 col-12">
@@ -142,15 +142,7 @@ function JewelryDetailPage() {
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-10 col-12">
                             <div className="tm-prodetails-images">
-                              <div className="tm-prodetails-largeimages">
-                                <div className="tm-prodetails-largeimage">
-                                  <img
-                                    src={jewelry.jewelryImage}
-                                    alt="jewelry"
-                                    style={{ height: '80%', width: '80%' }}
-                                  />
-                                </div>
-                              </div>
+                              <img src={jewelry.jewelryImage} alt="jewelry"/>
                             </div>
                           </div>
                           <div className="col-lg-6 col-md-6 col-12">
@@ -158,15 +150,23 @@ function JewelryDetailPage() {
                               <h2 className="tm-prodetails-title" style={{ fontSize: '25px' }}>
                                 {jewelry.jewelryName}
                               </h2>
-                              <span className="tm-prodetails-price" >
-                                <b>Giá: </b>{jewelry.jewelryEntryPrice.toLocaleString()} VND
-                              </span>
+                              <div style={{ display: 'flex' }}>
+                                <span style={{ fontSize: '22px' }} className="tm-prodetails-price">{jewelry.jewelryEntryPrice.toLocaleString()} VND</span>
+                                <Badge style={{ fontSize: '17px' }} pill bg="success">
+                                  Còn hàng
+                                </Badge>
+                                <Badge style={{ fontSize: '17px' }} pill bg="danger">
+                                  Hết hàng
+                                </Badge>
+                              </div>
+                              <span className="tm-prodetails-singleinfo">Sản phẩm còn lại: 10</span>
+                              <hr/>
                               <div className="tm-prodetails-infos">
-                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                  <b>Product ID: </b>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px' }}>
+                                  <b>Mã Sản Phẩm: </b>
                                   {jewelry.jewelryID}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px' }}>
                                   <b>Chọn Kích Cỡ: </b>
                                   <select
                                     value={sizeJewelry}
