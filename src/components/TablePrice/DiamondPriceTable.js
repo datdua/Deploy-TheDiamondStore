@@ -29,6 +29,13 @@ const DiamondPriceTable = () => {
             const prices = {};
             for (let size of caratSizes) {
                 const data = await getDiamondPriceByCaratSize(parseFloat(size));
+                prices[size] = {};
+                for (let color in data) {
+                    prices[size][color] = {};
+                    for (let clarity in data[color]) {
+                        prices[size][color][clarity] = data[color][clarity];
+                    }
+                }
             }
             setDiamondPrices(prices);
         };
@@ -37,18 +44,6 @@ const DiamondPriceTable = () => {
             fetchPrices();
         }
     }, [caratSizes]);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 50); 
-
-        return () => clearTimeout(timer); 
-    }, [diamondPrices, caratSizes, clarityLevels, colours]);
-
-    if (loading || Object.keys(diamondPrices).length === 0 || caratSizes.length === 0 || clarityLevels.length === 0 || colours.length === 0) {
-        return <ImageLoading />;
-    }
 
     return (
         <div className="tablePriceWrapper">
@@ -79,7 +74,7 @@ const DiamondPriceTable = () => {
                                     {clarityLevels.map(clarity => (
                                         <TableCell key={clarity} align="center" className="bodyPriceCell">
                                             {diamondPrices[caratSize] && diamondPrices[caratSize][color] && diamondPrices[caratSize][color][clarity]
-                                                ? diamondPrices[caratSize][color][clarity].toLocaleString()
+                                                ? Number(diamondPrices[caratSize][color][clarity]).toLocaleString()
                                                 : '-'}
                                         </TableCell>
                                     ))}

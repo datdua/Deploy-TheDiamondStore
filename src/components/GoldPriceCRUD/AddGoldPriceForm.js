@@ -17,7 +17,7 @@ function AddGoldPriceForm() {
   const labels = {
     jewelryID: "Mã trang sức",
     goldPrice: "Giá vàng",
-    goldAge: "Tuổi vàng",
+    goldAge: "Lượng",
   };
 
   const options = {

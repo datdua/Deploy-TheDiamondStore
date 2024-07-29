@@ -294,9 +294,9 @@ const DiamondManagerPage = () => {
                       <th>Vết Cắt</th>
                       <th>Độ tinh khiết</th>
                       <th>Hình Dạng</th>
-                      <th>Xuất Xứ</th>
                       <th>Số Lượng</th>
                       <th>Trạng Thái</th>
+                      <th>Xuất Xứ</th> 
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
