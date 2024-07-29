@@ -59,7 +59,7 @@ function JewelryPage() {
           setError(error.message);
           setLoading(false);
         }
-      }, 50); 
+      }, 50);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -159,10 +159,10 @@ function JewelryPage() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-9 col-12">
-                  <form className="tm-shop-header" onSubmit={handleSearch}>                 
+                  <form className="tm-shop-header" onSubmit={handleSearch}>
                     <p className="tm-shop-countview">
                       Hiển thị sản phẩm 1 đến {resultsPerPage} trong {jewelry.length} sản phẩm{" "}
-                    </p>                
+                    </p>
                   </form>
                   <div className="tm-shop-products">
                     <div className="row mt-30-reverse">
@@ -226,26 +226,24 @@ function JewelryPage() {
                                     {item.jewelryName}
                                   </Link>
                                 </h6>
-                                <div className="tm-ratingbox">
-                                  <span className="is-active">
-                                    <i className="ion-android-star-outline"></i>
-                                  </span>
-                                  <span className="is-active">
-                                    <i className="ion-android-star-outline"></i>
-                                  </span>
-                                  <span className="is-active">
-                                    <i className="ion-android-star-outline"></i>
-                                  </span>
-                                  <span className="is-active">
-                                    <i className="ion-android-star-outline"></i>
-                                  </span>
-                                  <span>
-                                    <i className="ion-android-star-outline"></i>
-                                  </span>
+                                <div className="tm-rating">
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span className="is-active"><i className="ion-android-star-outline"></i></span>
+                                  <span><i className="ion-android-star-outline"></i></span>
                                 </div>
-                                <span className="tm-product-price">
-                                  {item.jewelryEntryPrice.toLocaleString()} VND
-                                </span>
+                                <div className="tm-product-price-quantity-row" style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center',
+
+                                }}>
+                                  <span className="tm-product-price">
+                                    {item.jewelryEntryPrice ? item.jewelryEntryPrice.toLocaleString() : 'N/A'} VND
+                                  </span>
+                                  <span className="tm-product-quantity">Số lượng: {item.quantity}</span>
+                                </div>
                               </div>
                             </div>
                           </div>

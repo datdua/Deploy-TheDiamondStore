@@ -1,4 +1,3 @@
-// ImageLoading.js
 import React, { memo, useState } from "react";
 import clsx from "clsx";
 import styled from "styled-components";
@@ -30,18 +29,15 @@ const Wrapper = styled.div`
 `;
 
 function ImageLoading({ smallSrc, largeSrc }) {
-  // State for showing image
   const [isSmallImageLoaded, loadSmallImage] = useState(false);
   const [isLargeImageLoaded, loadLargeImage] = useState(false);
 
-  // Combine classname for showing
   const smallImageClass = clsx(
     "image__loading",
     isSmallImageLoaded && "image__loaded"
   );
   const largeImageClass = clsx(isLargeImageLoaded && "image__loaded");
 
-  // Define handle
   const handleSmallImageLoad = () => loadSmallImage(true);
   const handleLargeImageLoad = () => loadLargeImage(true);
 

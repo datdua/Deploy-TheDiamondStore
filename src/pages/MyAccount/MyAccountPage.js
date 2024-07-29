@@ -22,7 +22,7 @@ function MyAccountPage() {
     email: "",
     phoneNumber: "",
     role: "",
-    point: 0  // Include points in state
+    point: 0  
   });
   const { accountId } = useParams();
   const [showSidebar, setShowSidebar] = useState(false);
@@ -103,7 +103,7 @@ function MyAccountPage() {
     };
 
     return (
-      orderStatus !== "Đã thanh toán" && (
+      orderStatus === "Đang xử lý" && (
         <button onClick={handlePayment} className="tm-button tm-button-small" style={{backgroundColor:'#005aaa'}}>
           <AccountBalanceIcon/>
         </button>
@@ -254,7 +254,7 @@ function MyAccountPage() {
                             <input
                               type="number"
                               id="point"
-                              value={accountDetails.point} // Display points here 
+                              value={accountDetails.point} 
                               disabled
                             />
                           </div>

@@ -7,6 +7,7 @@ import {
     Col,
     Card,
     Table,
+    Badge,
 } from "react-bootstrap";
 import { getAccountByRoleCustomer, deleteAccounts } from "../../../api/accountCrud.js";
 import AddAccountForm from "../../../components/AccountCRUD/AddAccountForm.js";
@@ -52,6 +53,22 @@ function CustomerManager() {
 
     const handleChangePage = (event, newPage) => {
         setCurrentPage(newPage);
+    };
+
+    const handleStatus = (Status) => {
+        if (Status === "Đã kích hoạt") {
+            return (
+                <h6 style={{ marginTop: '10px' }}>
+                    <Badge pill bg="success">Đã kích hoạt</Badge>
+                </h6>
+            );
+        } else if (Status === "Chưa kích hoạt") {
+            return (
+                <h6 style={{ marginTop: '10px' }}>
+                    <Badge pill bg="danger" text="dark">Chưa kích hoạt</Badge>
+                </h6>
+            );
+        }
     };
 
     const handleShowAdd = () => {
@@ -176,12 +193,12 @@ function CustomerManager() {
                         </Card.Header>
                         <Card.Body>
                             <div className="table-responsive">
-                                <Table striped bordered hover className="account-table">
+                                <Table hover className="account-table">
                                     <thead>
                                         <tr>
                                             <th>
                                                 <FormControlLabel
-                                                    className="checkbox-align" // Thêm class để áp dụng CSS
+                                                    className="checkbox-align" 
                                                     control={
                                                         <Checkbox
                                                             color="primary"
@@ -226,7 +243,7 @@ function CustomerManager() {
                                                     <td>{account.phoneNumber}</td>
                                                     <td>{account.addressAccount}</td>
                                                     <td className={account.active ? "active-status" : "inactive-status"}>
-                                                        {account.active ? "Đã kích hoạt" : "Chưa kích hoạt"}
+                                                        {handleStatus(account.active ? "Đã kích hoạt" : "Chưa kích hoạt")}
                                                     </td>
                                                     <td>{account.role}</td>
                                                     <td>

@@ -47,16 +47,16 @@ function SideBarAdmin() {
                         <CIcon className="nav-icon" icon={cilUser} /> Thông tin cá nhân
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="/manager/transaction-manager"
                         className="sidebar-nav-item"
                         activeClassName="active"
                     >
-                        <CIcon className="nav-icon" icon={cilBank} /> Quản lý giao dịch
-                    </NavLink>
+                        <CIcon className="nav-icon" icon={cilBank} /> Quản lý đơn hàng
+                    </NavLink> */}
 
                     <NavLink
-                        to="/manager/order-manager"
+                        to="/manager/order-detail-manager"
                         className="sidebar-nav-item"
                         activeClassName="active"
                     >

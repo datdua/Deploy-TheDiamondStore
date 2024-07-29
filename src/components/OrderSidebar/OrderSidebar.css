@@ -1,50 +1,32 @@
 .order-section {
-    margin-bottom: 20px;
-  }
-  
-  .order-section h5 {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .order-section p {
-    margin: 0;
-    padding: 5px 0;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .detail-title {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .detail-info {
-    font-weight: normal;
-  }
-  
-  hr {
-    border-top: 2px solid #000; /* Bolder line */
-    margin-top: 10px;
-  }
-  
-  .offcanvas-header .offcanvas-title {
-    margin: 0 auto;
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-  
-  
-  .offcanvas-body {
-    padding: 20px;
-  }
-  
-  a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
+  margin-bottom: 20px;
+}
+
+.detail-title {
+  font-weight: bold;
+}
+
+.detail-info {
+  color: #333;
+}
+
+hr {
+  border-top: 2px solid #000;
+  margin-top: 10px;
+}
+
+.diamond-image, .jewelry-image, .certificate-image, .warranty-image {
+  max-width: 250px;
+  max-height: 250px;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-header-custom {
+  font-weight: bold;
+  font-size: 1.5rem; 
+  background-color: #ffffff;
+  border-bottom: 2px solid #f2ba59;
+}

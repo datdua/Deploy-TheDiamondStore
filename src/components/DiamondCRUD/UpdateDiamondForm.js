@@ -157,6 +157,15 @@ function UpdateDiamondForm({ diamond }) {
             readOnly: true,
           }}
         />
+        <TextField
+          id="quantity"
+          label="Số lượng"
+          variant="outlined"
+          name="quantity"
+          value={updatedDiamond.quantity}
+          onChange={handleChange}
+          type="text"
+        />
         <Button type="submit" variant="contained" color="success">Cập nhật</Button>
       </Box>
     </div>

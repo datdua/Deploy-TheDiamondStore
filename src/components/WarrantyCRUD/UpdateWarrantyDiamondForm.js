@@ -5,8 +5,6 @@ import { Form, Button } from "react-bootstrap";
 function UpdateWarrantyForm({ warranty }) {
   const [updatedWarranty, setUpdatedWarranty] = useState({
     diamondID: warranty.diamondID,
-    expirationDate: warranty.expirationDate.split(" ")[0],
-    expirationTime: warranty.expirationDate.split(" ")[1].slice(0, 5),
     warrantyImage: warranty.warrantyImage,
   });
 
@@ -39,24 +37,6 @@ function UpdateWarrantyForm({ warranty }) {
           type="text"
           name="diamondID"
           value={updatedWarranty.diamondID}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Ngày hết hạn</Form.Label>
-        <Form.Control
-          type="date"
-          name="expirationDate"
-          value={updatedWarranty.expirationDate}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Thời gian hết hạn</Form.Label>
-        <Form.Control
-          type="time"
-          name="expirationTime"
-          value={updatedWarranty.expirationTime}
           onChange={handleChange}
         />
       </Form.Group>

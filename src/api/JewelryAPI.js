@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Jewelry API functions
 export async function getAllJewelry() {
   const response = await axios.get(
     "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelries/get-all"
@@ -16,7 +15,7 @@ export async function searchJewelryByName(name) {
     const response = await axios.get(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/guest/jewelry-management/jewelries/searchByName?name=${name}`
     );
-    console.log(response.data); 
+    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error("Failed to search jewelry by name");
@@ -32,8 +31,8 @@ export async function getWarrantityImage(warrantyID) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log("API Response:", response.data); // Debug line
-    return response.data.warrantyImage; // Correctly extract the warrantityImage URL
+    console.log("API Response:", response.data);
+    return response.data.warrantyImage;
   } catch (error) {
     throw new Error("Failed to fetch diamond warranty image");
   }
@@ -98,9 +97,10 @@ export async function deleteJewelry(jewelryIDs) {
     const token = localStorage.getItem("jwt");
     const response = await axios.delete(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/jewelry-management/jewelries/delete`
-      , { 
+      , {
         headers: { Authorization: `Bearer ${token}` },
-        data: jewelryIDs }
+        data: jewelryIDs
+      }
     );
     return response.data;
   } catch (error) {
@@ -122,9 +122,9 @@ export const addToCart = async (accountId, jewelryId, quantity, size) => {
 export async function searchJewelry(page = 1, filters = {}) {
   try {
     const params = new URLSearchParams({
-      ...filters, 
-      page, 
-      size: 9, 
+      ...filters,
+      page,
+      size: 9,
     });
 
     const response = await axios.get(

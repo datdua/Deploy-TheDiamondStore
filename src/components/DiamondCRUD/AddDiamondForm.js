@@ -17,6 +17,7 @@ function AddDiamondForm() {
     clarity: "",
     shape: "",
     origin: "GIA",
+    quantity: "",
   });
 
 
@@ -33,6 +34,7 @@ function AddDiamondForm() {
     clarity: "Độ tinh khiết",
     shape: "Hình dạng",
     origin: "Xuất xứ",
+    quantity: "Số lượng",
   };
 
 

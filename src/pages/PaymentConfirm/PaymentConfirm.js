@@ -10,8 +10,6 @@ function PaymentConfirm() {
     const token = getAuthToken();
     const queryParams = new URLSearchParams(location.search);
 
-    // Get the values of the query parameters 
-    // ...&vnp_BankCode=NCB&vnp_BankTranNo=VNP14445453...vnp_OrderInfo=Thanh+toan+don+hang%3A18...&vnp_ResponseCode=00&...
     const vnp_BankCode = queryParams.get('vnp_BankCode');
     let vnp_BankTranNo = queryParams.get('vnp_BankTranNo');
     if (vnp_BankTranNo) {
@@ -23,10 +21,8 @@ function PaymentConfirm() {
     }
     const vnp_ResponseCode = queryParams.get('vnp_ResponseCode');
 
-    // Your base API URL
     let apiUrl = "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/payments/vnpay-return";
 
-    // Append the query parameters to the API URL
     apiUrl += `?vnp_BankCode=${encodeURIComponent(vnp_BankCode)}&vnp_OrderInfo=${encodeURIComponent(vnp_OrderInfo)}&vnp_ResponseCode=${encodeURIComponent(vnp_ResponseCode)}&vnp_TransactionNo=${encodeURIComponent(vnp_BankTranNo)}`;
     useEffect(() => {
         const fetchAccount = async () => {
@@ -34,37 +30,34 @@ function PaymentConfirm() {
             const accountId = await getAccountIDByEmail(email);
             setAccountId(accountId);
         };
-    
+
         fetchAccount();
     }, []);
 
     useEffect(() => {
-    if (accountId) {
-        fetch(apiUrl, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle the response data here
-            console.log(data);          
-        })
-        .catch(error => {
-            // Handle the error here
-            console.error('Error:', error);
-        })
-        .finally(() => {
-            // Redirect to the account page
-            navigate(`/account/${accountId}`);
-        });
-    }
-}, [apiUrl, navigate, accountId]);
+        if (accountId) {
+            fetch(apiUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    navigate(`/account/${accountId}`);
+                });
+        }
+    }, [apiUrl, navigate, accountId]);
 
     return null;
 }

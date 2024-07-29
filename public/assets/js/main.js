@@ -331,12 +331,10 @@
             });
         },
 
-        /* Ajax Mailchimp */
         ajaxMailchimp: function () {
             $('#tm-mailchimp-form').ajaxChimp({
                 language: 'en',
                 callback: mailChimpResponse,
-                // ADD YOUR MAILCHIMP URL BELOW HERE!
                 url: 'YOUR_MAILCHIMP_URL_HERE'
             });
 

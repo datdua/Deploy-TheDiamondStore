@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const getAuthToken = () => {
-  return localStorage.getItem("jwt"); 
+  return localStorage.getItem("jwt");
 };
 
 
@@ -67,7 +67,7 @@ export async function fetchOrders(accountID) {
     return response.data;
   } catch (error) {
     console.error("Failed to fetch orders:", error.message);
-    throw error; 
+    throw error;
   }
 }
 
@@ -169,6 +169,32 @@ export async function fetchOrderDetail(orderID) {
   }
 }
 
+export async function fetchOrderDetailManager(orderID) {
+  const token = getAuthToken();
+  try {
+    const response = await axios.get(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/orderDetail-management/orderDetails/get-orderDetail/${orderID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+
+    if (response.status !== 200) {
+      throw new Error("Failed to fetch order details");
+    }
+
+
+    const orderDetails = response.data;
+    console.log("Fetched order details:", orderDetails);
+    return orderDetails;
+  } catch (error) {
+    console.error("Error fetching order details:", error);
+    throw error;
+  }
+}
 
 export async function updateOrder(orderId, updatedOrder) {
   try {
@@ -183,13 +209,13 @@ export async function updateOrder(orderId, updatedOrder) {
 
 
     if (response.status === 200) {
-      return response.data; 
+      return response.data;
     } else {
       throw new Error(`Failed to update order with status ${response.status}`);
     }
   } catch (error) {
     console.error("Error updating order:", error.message);
-    throw error; 
+    throw error;
   }
 }
 
@@ -205,13 +231,13 @@ export const deleteOrder = async (orderId) => {
     });
 
     if (response.status === 200) {
-      return response.data; 
+      return response.data;
     } else {
       throw new Error(`Failed to delete order with status ${response.status}`);
     }
   } catch (error) {
     console.error("Error deleting order:", error.message);
-    throw error; 
+    throw error;
   }
 };
 
@@ -226,13 +252,13 @@ export const deleteOrderByManager = async (orderId) => {
     });
 
     if (response.status === 200) {
-      return response.data; 
+      return response.data;
     } else {
       throw new Error(`Failed to delete order with status ${response.status}`);
     }
   } catch (error) {
     console.error("Error deleting order:", error.message);
-    throw error; 
+    throw error;
   }
 };
 

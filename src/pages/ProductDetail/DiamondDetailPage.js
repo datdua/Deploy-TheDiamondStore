@@ -15,8 +15,11 @@ function DiamondDetailPage() {
   const { diamondId } = useParams();
   const [diamond, setDiamond] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [maxQuantity, setMaxQuantity] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [maxQuantityReached, setMaxQuantityReached] = useState(false);
+
 
   useEffect(() => {
     const fetchDiamond = async () => {
@@ -33,6 +36,7 @@ function DiamondDetailPage() {
         });
 
         setDiamond(diamondData);
+        setMaxQuantity(diamondData.quantity);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching diamond details:", error);
@@ -43,7 +47,15 @@ function DiamondDetailPage() {
   }, [diamondId]);
 
   const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity((prevQuantity) => {
+      if (prevQuantity + 1 > maxQuantity) {
+        toast.error("Đã đến số lượng tối đa");
+        return prevQuantity;
+      }
+      const newQuantity = Math.min(prevQuantity + 1, maxQuantity);
+      setMaxQuantityReached(newQuantity === maxQuantity);
+      return newQuantity;
+    });
   };
 
   const decreaseQuantity = () => {
@@ -107,7 +119,7 @@ function DiamondDetailPage() {
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-10 col-12">
                             <div className="tm-prodetails-images">
-                                  <img src={diamond.diamondImage} alt="product image" />
+                              <img src={diamond.diamondImage} alt="product image" />
                             </div>
                           </div>
                           <div className="col-lg-6 col-md-6 col-12">
@@ -115,55 +127,68 @@ function DiamondDetailPage() {
                             <div className="tm-prodetails-contents" style={{ fontSize: 'larger' }}>
                               <div style={{ display: 'flex' }}>
                                 <span style={{ fontSize: '24px' }} className="tm-prodetails-price">{diamond.diamondEntryPrice.toLocaleString()} VND</span>
-                                <Badge style={{ fontSize: '17px' }} pill bg="success">
-                                  Còn hàng
-                                </Badge>
-                                <Badge style={{ fontSize: '17px' }} pill bg="danger">
-                                  Hết hàng
-                                </Badge>
+                                {diamond.status === "Còn hàng" ? (
+                                  <Badge style={{ fontSize: '17px' }} pill bg="success">
+                                    Còn hàng
+                                  </Badge>
+                                ) : (
+                                  <Badge style={{ fontSize: '17px' }} pill bg="danger">
+                                    Hết hàng
+                                  </Badge>
+                                )}
                               </div>
-                              <span className="tm-prodetails-singleinfo">Sản phẩm còn lại: 10</span>
-                              <hr/>
+                              <span className="tm-prodetails-singleinfo" style={{marginTop:'8px', marginBottom:'8px'}}>Sản phẩm còn lại: {diamond.quantity}</span>
+                              <hr />
                               <div className="tm-prodetails-infos" >
-                              <div className="tm-prodetails-singleinfo" style={{marginTop: '20px' }}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '20px' }}>
                                   <b>Mã Sản Phẩm: </b>
                                   {diamond.diamondID}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}} >
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }} >
                                   <b>Kích Thước: </b>
                                   {diamond.caratSize}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Trọng Lượng: </b>
                                   {diamond.weight}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Màu: </b>
                                   {diamond.color}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Độ Tinh Khiết: </b>
                                   {diamond.clarity}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Vết Cắt: </b>
                                   {diamond.cut}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Hình Dạng: </b>
                                   {diamond.shape}
                                 </div>
-                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px'}}>
+                                <div className="tm-prodetails-singleinfo" style={{ marginTop: '15px' }}>
                                   <b>Nguồn Gốc: </b>
                                   {diamond.origin}
                                 </div>
                               </div>
-                              <div className="tm-prodetails-quantitycart" style={{marginTop: '10px'}}>
+                              <div className="tm-prodetails-quantitycart" style={{ marginTop: '10px' }}>
                                 <div className="input-group">
                                   <button className="decrease-button" onClick={decreaseQuantity}>-</button>
-                                  <input type="text" value={quantity} readOnly style={{maxWidth: "50px", textAlign: "center"}} />
+                                  <input
+                                    type="text"
+                                    value={`${quantity} / ${maxQuantity}`}
+                                    readOnly
+                                    style={{ maxWidth: "70px", textAlign: "center",fontSize:'15px'  }}
+                                  />
                                   <button className="increase-button" onClick={increaseQuantity}>+</button>
-                                  <Button onClick={() => handleAddToCart(diamond)} style={{background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px'}}>Thêm vào giỏ hàng</Button>
+                                  <Button
+                                    onClick={() => handleAddToCart(diamond)}
+                                    style={{ background: "#f2ba59", borderRadius: "5px", textAlign: "center", marginLeft: '30px' }}
+                                  >
+                                    Thêm vào giỏ hàng
+                                  </Button>
                                 </div>
                               </div>
                             </div>

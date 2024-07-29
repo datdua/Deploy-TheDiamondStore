@@ -8,8 +8,6 @@ function AddWarrantyJewelryForm() {
     const [warranty, setWarranty] = useState({
         warrantyID: "",
         jewelryID: "",
-        startDate: "",
-        expirationTime: "",
         warrantyImage: "",
     });
 
@@ -18,9 +16,6 @@ function AddWarrantyJewelryForm() {
     const labels = {
         warrantyID: "Mã giấy bảo hành",
         jewelryID: "Mã trang sức",
-        startDate: "Ngày bắt đầu",
-        expirationDate: "Ngày hết hạn",
-        expirationTime: "Giờ hết hạn",
         warrantyImage: "Giấy bảo hành",
     };
 

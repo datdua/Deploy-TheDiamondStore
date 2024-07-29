@@ -7,6 +7,7 @@ import {
   Table,
   Row,
   Col,
+  Badge,
 } from "react-bootstrap";
 import {
   getAllDiamond_Manager,
@@ -28,7 +29,7 @@ import { toast } from "react-toastify";
 
 const DiamondManagerPage = () => {
   const [diamondData, setDiamondData] = useState([]);
-  const [loading, setLoading] = useState(true); // State to manage loading status
+  const [loading, setLoading] = useState(true); 
   const [showModal, setShowModal] = useState(false);
   const [selectedDiamond, setSelectedDiamond] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -55,6 +56,22 @@ const DiamondManagerPage = () => {
   const showAlert = () => {
     toast.warning("Chức năng này chỉ dành cho quản lý")
   }
+
+  const handleStatus = (Status) => {
+    if (Status === "Còn hàng") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="success">Còn hàng</Badge>
+        </h6>
+      );
+    } else if (Status === "Hết hàng") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="danger" text="dark">Hết hàng</Badge>
+        </h6>
+      );
+    }
+  };
 
   const currentPageData = diamondData.slice(startIndex, endIndex);
 
@@ -248,7 +265,7 @@ const DiamondManagerPage = () => {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <Table striped bordered hover className="account-table">
+                <Table hover className="account-table">
                   <thead>
                     <tr>
                       <th>
@@ -278,6 +295,8 @@ const DiamondManagerPage = () => {
                       <th>Độ tinh khiết</th>
                       <th>Hình Dạng</th>
                       <th>Xuất Xứ</th>
+                      <th>Số Lượng</th>
+                      <th>Trạng Thái</th>
                       <th>Thao Tác</th>
                     </tr>
                   </thead>
@@ -351,6 +370,8 @@ const DiamondManagerPage = () => {
                           <td>{diamond.cut}</td>
                           <td>{diamond.clarity}</td>
                           <td>{diamond.shape}</td>
+                          <td>{diamond.quantity}</td>
+                          <td>{handleStatus(diamond.status)}</td>
                           <td>{diamond.origin}</td>
                           <td>
                             <Tooltip

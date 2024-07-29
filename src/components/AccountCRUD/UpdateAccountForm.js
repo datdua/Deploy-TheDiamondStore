@@ -18,7 +18,6 @@ function UpdateAccountForm({ account }) {
     phoneNumber: "Số Điện Thoại",
     role: "Vai Trò",
     addressAccount: "Địa Chỉ",
-    // Removed 'active' from here since it will be handled separately
   };
 
   const handleChange = (event) => {
@@ -31,7 +30,7 @@ function UpdateAccountForm({ account }) {
   const handleActiveStatusChange = (event) => {
     setUpdateAccount({
       ...updatedAccount,
-      active: event.target.value === "true", // Convert string to boolean
+      active: event.target.value === "true", 
     });
   };
 

@@ -209,9 +209,7 @@ function WarrantyManagerPage() {
                       </th>
                       <th>Mã Bảo Hành</th>
                       <th>Mã Trang Sức</th>
-                      <th>Ngày Hết Hạn</th>
                       <th>Giấy Bảo Hành</th>
-                      <th>Tình Trạng</th>
                       <th>Thao tác</th>
                     </tr>
                   </thead>
@@ -232,7 +230,6 @@ function WarrantyManagerPage() {
                           </td>
                           <td>{warranty.warrantyID}</td>
                           <td>{warranty.jewelryID || "N/A"}</td>
-                          <td>{warranty.expirationDate}</td>
                           <td>
                             <img
                               src={warranty.warrantyImage}
@@ -247,7 +244,6 @@ function WarrantyManagerPage() {
                               }
                             />
                           </td>
-                          <td>{warranty.warrantyStatus}</td>
                           <td>
                             <Tooltip
                               describeChild

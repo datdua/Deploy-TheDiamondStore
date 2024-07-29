@@ -63,9 +63,10 @@ export const deleteGoldPrice = async (goldPriceIDs) => {
     const token = localStorage.getItem('jwt');
     const response = await axios.delete(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/gold-price-management/gold-prices/delete`
-      , { 
+      , {
         headers: { Authorization: `Bearer ${token}` },
-        data: goldPriceIDs }
+        data: goldPriceIDs
+      }
     );
     return response.data;
   } catch (error) {

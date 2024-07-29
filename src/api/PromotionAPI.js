@@ -66,12 +66,29 @@ export const deletePromotion = async (promotionIDs) => {
     const token = localStorage.getItem('jwt');
     await axios.delete(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/promotion-management/promotions/delete`
-      , { 
+      , {
         headers: { Authorization: `Bearer ${token}` },
-        data: promotionIDs }
+        data: promotionIDs
+      }
     );
   } catch (error) {
     console.error("Error deleting promotion:", error);
+    throw error;
+  }
+};
+
+export const getPromotionByCode = async (promotionCode) => {
+  try {
+    const token = localStorage.getItem('jwt');
+    const response = await axios.get(
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/promotion-management/promotions/get-by-promotion-code/${promotionCode}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching promotion by code:", error);
     throw error;
   }
 };

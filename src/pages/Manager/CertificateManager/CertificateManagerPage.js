@@ -7,6 +7,7 @@ import {
   Table,
   Row,
   Col,
+  Badge,
 } from "react-bootstrap";
 import {
   deleteCertificate,
@@ -55,6 +56,22 @@ function CertificateManagerPage() {
       setSelectedCertificate(certificate);
       setIsUpdating(true);
       setShowModal(true);
+    }
+  };
+
+  const handleStatus = (Status) => {
+    if (Status === "Còn Hạn") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="success">Còn hạn</Badge>
+        </h6>
+      );
+    } else if (Status === "Hết Hạn") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="danger" text="dark">Hết hạn</Badge>
+        </h6>
+      );
     }
   };
 
@@ -190,7 +207,7 @@ function CertificateManagerPage() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <Table striped bordered hover className="account-table">
+                <Table hover className="account-table">
                   <thead>
                     <tr>
                       <th>
@@ -258,7 +275,7 @@ function CertificateManagerPage() {
                               }
                             />
                           </td>
-                          <td>{certificate.certificateStatus}</td>
+                          <td>{handleStatus(certificate.certificateStatus)}</td>
                           <td>
                             <Tooltip
                               describeChild

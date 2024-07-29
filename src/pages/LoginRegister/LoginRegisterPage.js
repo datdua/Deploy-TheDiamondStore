@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginRegisterPage.css";
-import { jwtDecode } from 'jwt-decode';// Correct import statement for jwtDecode
+import { jwtDecode } from 'jwt-decode';
 import ForgetPasswordModal from "../../components/ForgetPasswordModal/ForgetPasswordModal";
 import { regenerateOTP } from "../../api/accountCrud";
 
@@ -121,7 +121,6 @@ function LoginRegisterPage() {
         toast.error("Đăng ký thất bại!");
       }
     } catch (error) {
-      // Log more details about the error
       console.error("Lỗi khi đăng ký:", error.response);
       toast.error("Lỗi khi đăng ký!");
     }
@@ -129,7 +128,7 @@ function LoginRegisterPage() {
 
   const handleRegenerateOTP = async () => {
     try {
-      await regenerateOTP(registerEmail); // Call the regenerateOTP function with the registered email
+      await regenerateOTP(registerEmail);
       toast.success('Mã OTP đã được tạo lại');
     } catch (error) {
       toast.error('Mã OTP tạo lại thất bại');
@@ -137,8 +136,8 @@ function LoginRegisterPage() {
   };
 
   const handleRegenerateButtonClick = () => {
-    setCountdown(300); // Reset countdown timer
-    handleRegenerateOTP(); // Start OTP regeneration process immediately
+    setCountdown(300);
+    handleRegenerateOTP();
   };
 
   useEffect(() => {
@@ -149,8 +148,8 @@ function LoginRegisterPage() {
       }, 1000);
     }
 
-    return () => clearTimeout(timer); // Cleanup timer on component unmount or re-render
-  }, [countdown]); // Effect runs when countdown changes
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
   return (
     <div>

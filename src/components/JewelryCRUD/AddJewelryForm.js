@@ -11,6 +11,7 @@ function AddJewelryForm() {
     jewelryName: "",
     gender: "",
     jewelryImage: "",
+    quantity: "",
   });
 
   const [message, setMessage] = useState("");
@@ -20,6 +21,7 @@ function AddJewelryForm() {
     jewelryName: "Tên trang sức",
     gender: "Giới tính",
     jewelryImage: "Hình ảnh trang sức",
+    quantity: "Số lượng",
   };
 
   const options = {

@@ -166,8 +166,8 @@ export async function getWarrantityImageByManager(warrantyID) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log("API Response:", response.data); // Debug line
-    return response.data.warrantyImage; // Correctly extract the warrantityImage URL
+    console.log("API Response:", response.data); 
+    return response.data.warrantyImage; 
   } catch (error) {
     throw new Error("Failed to fetch diamond warranty image");
   }

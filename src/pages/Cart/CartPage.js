@@ -43,11 +43,21 @@ function CartPage() {
     };
 
     const handleUpdateCartItem = async (cartID, newQuantity, newSizeJewelry, diamondID, jewelryID) => {
+        const item = cartItems.find(item => item.cartID === cartID);
+        const maxQuantity = item.jewelry ? item.jewelry.quantity : item.diamond ? item.diamond.quantity : 0;
+
+        if (newQuantity > maxQuantity) {
+            toast.error(`Số lượng tối đa cho sản phẩm này là ${maxQuantity}`);
+            return;
+        }
+
         try {
             await updateCart(cartID, accountId, diamondID, jewelryID, newQuantity, newSizeJewelry);
             setCartItems(prevItems =>
                 prevItems.map(item =>
-                    item.cartID === cartID ? { ...item, quantity: newQuantity, sizeJewelry: newSizeJewelry } : item
+                    item.cartID === cartID
+                        ? { ...item, quantity: newQuantity, sizeJewelry: newSizeJewelry, grossCartPrice: item.price * newQuantity }
+                        : item
                 )
             );
             toast.success("Cập nhật giỏ hàng thành công");
@@ -62,14 +72,14 @@ function CartPage() {
         setIsEditing(!isEditing);
     };
 
-    const recalculateTotalCart = async () => {
-        try {
-            const total = await getTotalCart(accountId);
-            setTotalCart(total);
-        } catch (error) {
-            console.error("Error calculating total cart:", error);
-        }
+    const recalculateTotalCart = () => {
+        const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        setTotalCart(total);
     };
+
+    useEffect(() => {
+        recalculateTotalCart();
+    }, [cartItems]);
 
     return (
         <div>
@@ -94,23 +104,23 @@ function CartPage() {
                                         {cartItems.map((item, index) => (
                                             <tr key={`${item.cartID}-${index}`}>
                                                 <td>
-                                                    {item.diamondID && (
-                                                        <Link to={`/product-detail/diamond/${item.diamondID}`} className="tm-cart-productimage">
-                                                            <img src={item.diamondImage} alt="Diamond" />
+                                                    {item.diamond && (
+                                                        <Link to={`/product-detail/diamond/${item.diamond.diamondID}`} className="tm-cart-productimage">
+                                                            <img src={item.diamond.diamondImage} alt="Diamond" />
                                                         </Link>
                                                     )}
-                                                    {item.jewelryID && (
-                                                        <Link to={`/product-detail/jewelry/${item.jewelryID}`} className="tm-cart-productimage">
-                                                            <img src={item.jewelryImage} alt="Jewelry" />
+                                                    {item.jewelry && (
+                                                        <Link to={`/product-detail/jewelry/${item.jewelry.jewelryID}`} className="tm-cart-productimage">
+                                                            <img src={item.jewelry.jewelryImage} alt="Jewelry" />
                                                         </Link>
                                                     )}
                                                 </td>
                                                 <td>
-                                                    {item.diamondID && (
-                                                        <Link to={`/product-detail/diamond/${item.diamondID}`} className="tm-cart-productname">{item.diamondName}</Link>
+                                                    {item.diamond && (
+                                                        <Link to={`/product-detail/diamond/${item.diamond.diamondID}`} className="tm-cart-productname">{item.diamond.diamondName}</Link>
                                                     )}
-                                                    {item.jewelryID && (
-                                                        <Link to={`/product-detail/jewelry/${item.jewelryID}`} className="tm-cart-productname">{item.jewelryName}</Link>
+                                                    {item.jewelry && (
+                                                        <Link to={`/product-detail/jewelry/${item.jewelry.jewelryID}`} className="tm-cart-productname">{item.jewelry.jewelryName}</Link>
                                                     )}
                                                 </td>
                                                 <td className="tm-cart-price">{item.price ? item.price.toLocaleString() : 'N/A'} VND</td>

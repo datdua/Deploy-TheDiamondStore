@@ -45,7 +45,6 @@ function Footer() {
                             </div>
                         </div>
 
-                        {/* //Single Widget */}
 
                         <div className="col-lg-4 col-md-7 col-12">
                             <div className="single-widget widget-quicklinks">

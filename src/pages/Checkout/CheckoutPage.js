@@ -7,14 +7,15 @@ import { toast } from "react-toastify";
 import { getContactInfo, getCustomerPoints } from "../../api/accountCrud";
 import { Button } from "react-bootstrap";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import CountdownToast from "../../components/CountDownToast";
 
 function CheckoutPage() {
     const [cartItems, setCartItems] = useState([]);
     const [totalCart, setTotalCart] = useState(0);
     const [deliveryAddress, setDeliveryAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [pointsToRedeem, setPointsToRedeem] = useState(0); 
-    const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState(0); 
+    const [pointsToRedeem, setPointsToRedeem] = useState(0);
+    const [totalAccumulatedPoints, setTotalAccumulatedPoints] = useState(0);
     const [promotionCode, setPromotionCode] = useState("");
     const [promotionDescription, setPromotionDescription] = useState("");
     const [discountAmount, setDiscountAmount] = useState(0);
@@ -22,7 +23,6 @@ function CheckoutPage() {
     const [termsChecked, setTermsChecked] = useState(false);
     const { accountId } = useParams();
     const navigate = useNavigate();
-    
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -96,7 +96,7 @@ function CheckoutPage() {
             const promotion = await getPromotion(promotionCode);
             if (promotion) {
                 setPromotionDescription(promotion.description);
-                const discount = totalCart * promotion.discountAmount; 
+                const discount = totalCart * promotion.discountAmount;
                 setDiscountAmount(discount);
             } else {
                 toast.error("Mã giảm giá không hợp lệ");
@@ -113,9 +113,18 @@ function CheckoutPage() {
         }
 
         try {
-            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, usePoints ? totalAccumulatedPoints : 0 , promotionCode);
+            const orderData = await createOrder(accountId, deliveryAddress, phoneNumber, usePoints ? totalAccumulatedPoints : 0, promotionCode);
 
-            toast.success("Đặt hàng thành công");
+            toast(<CountdownToast />, {
+                autoClose: 90000,
+                closeButton: false,
+                style: {
+                    backgroundColor: 'white',
+                    color: 'black',
+                    border: '1px solid #ccc'
+                },
+            });
+
             navigate(`/account/${accountId}`);
         } catch (error) {
             toast.error("Đặt hàng thất bại");
@@ -125,7 +134,7 @@ function CheckoutPage() {
     const handleUsePoints = () => {
         if (pointsToRedeem <= totalAccumulatedPoints) {
             setUsePoints(true);
-            setPointsToRedeem(totalAccumulatedPoints); 
+            setPointsToRedeem(totalAccumulatedPoints);
         } else {
             toast.error("Số điểm tích lũy không đủ để sử dụng.");
         }
@@ -180,17 +189,17 @@ function CheckoutPage() {
                                                     </thead>
                                                     <tbody>
                                                         {cartItems.map((item, index) => (
-                                                            <tr key={`${item.diamondID || item.jewelryID}-${index}`}>
+                                                            <tr key={index}>
                                                                 <td>
-                                                                    {item.diamondID && (
-                                                                        <Link to={`#`} className="tm-checkout-productlink">{item.diamondName} * {item.quantity}</Link>
+                                                                    {item?.diamond?.diamondID && (
+                                                                        <span className="tm-checkout-productlink">{item.diamond.diamondName} * {item.diamond.quantity}</span>
                                                                     )}
-                                                                    {item.jewelryID && (
-                                                                        <Link to={`#`} className="tm-checkout-productlink">{item.jewelryName} * {item.quantity}</Link>
+                                                                    {item?.jewelry?.jewelryID && (
+                                                                        <span className="tm-checkout-productlink">{item.jewelry.jewelryName} * {item.jewelry.quantity}</span>
                                                                     )}
                                                                 </td>
                                                                 <td>
-                                                                    {item.grossCartPrice !== null && item.grossCartPrice !== undefined ? item.grossCartPrice.toLocaleString() + ' VND' : ''}
+                                                                    {item?.grossCartPrice ? item.grossCartPrice.toLocaleString() + ' VND' : ''}
                                                                 </td>
                                                             </tr>
                                                         ))}
@@ -228,40 +237,25 @@ function CheckoutPage() {
                                                     </tfoot>
                                                 </table>
                                             </div>
-                                            <div className="tm-checkout-submit">
-                                                <div className="tm-form-inner">
-                                                    <div className="tm-form-field">
-                                                        <Button type="button" onClick={handleUsePoints} style={{ background: "#f2ba59", border: "none", marginRight: '6.8rem', fontWeight: 'bolder' }}>
-                                                            Sử dụng điểm tích luỹ để thanh toán: {totalAccumulatedPoints}
-                                                        </Button>
-                                                        <Button type="button" onClick={handleCancelUsePoints} style={{ background: "gray", border: "none", fontWeight: 'bolder' }}>
-                                                            Huỷ
-                                                        </Button>
-                                                    </div>
-                                                    <p>
-                                                        Tổng giá tiền thanh toán đã bao gồm thuế và phí gia công (chỉ áp dụng cho sản phẩm trang sức)
-                                                    </p>
+                                            <div className="tm-cart-collaterals">
+                                                <p>
+                                                    Tổng giá tiền thanh toán đã bao gồm thuế và phí gia công (chỉ áp dụng cho sản phẩm trang sức)
+                                                </p>
+                                                <div className="checkbox">
+                                                    <FormControlLabel
+                                                        control={<Checkbox checked={termsChecked} onChange={(e) => setTermsChecked(e.target.checked)} />}
+                                                        label="VNPay"
+                                                    />
                                                 </div>
-                                            </div>
-                                            <div className="tm-checkout-paymentmethods">
-                                                <div className="tm-form-inner">
-                                                    <div className="tm-form-field">
-                                                        <FormControlLabel
-                                                            required
-                                                            control={
-                                                                <Checkbox
-                                                                    id="paymentMethod"
-                                                                    checked={termsChecked}
-                                                                    name="paymentMethods"
-                                                                    onChange={(e) => setTermsChecked(e.target.checked)}
-                                                                />
-                                                            }
-                                                            label="VNPay"
-                                                        />
-                                                    </div>
-                                                    <div className="tm-form-field">
-                                                        <button type="submit" className="tm-button tm-button-block" disabled={!termsChecked}>Đặt hàng</button>
-                                                    </div>
+                                                <div className="tm-cart-btns">
+                                                    {usePoints ? (
+                                                        <button type='button' className="tm-button" onClick={handleCancelUsePoints}>Huỷ bỏ sử dụng điểm tích luỹ</button>
+                                                    ) : (
+                                                        <button type="button" className="tm-button" onClick={handleUsePoints}>Sử dụng điểm tích luỹ</button>
+                                                    )}
+                                                    <button className="button-order" type="submit" disabled={!termsChecked}>
+                                                        <span>Đặt hàng</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

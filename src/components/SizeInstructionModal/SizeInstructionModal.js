@@ -7,10 +7,10 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 
 function SizeInstructionModal(props) {
-  const [selectedSize, setSelectedSize] = useState(''); // State for selected size
+  const [selectedSize, setSelectedSize] = useState(''); 
 
   const handleSizeChange = (event) => {
-    setSelectedSize(event.target.value); // Update selected size when dropdown changes
+    setSelectedSize(event.target.value);
   };
 
   return (

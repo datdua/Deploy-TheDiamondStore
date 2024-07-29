@@ -56,7 +56,7 @@ function SideBarAdmin() {
           </NavLink>
 
           <NavLink
-            to="/admin/order-manager"
+            to="/admin/order-detail-manager"
             className="sidebar-nav-item"
             activeClassName="active"
           >

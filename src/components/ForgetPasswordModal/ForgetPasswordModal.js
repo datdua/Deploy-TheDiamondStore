@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { resetPassword, regenerateOTP } from '../../api/accountCrud'; // Import regenerateOTP function
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { resetPassword, regenerateOTP } from '../../api/accountCrud'; 
+import { Link } from 'react-router-dom'; 
 import Close from '@mui/icons-material/Close';
 
 function ForgetPasswordModal({ isOpen, onClose }) {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-     // Countdown timer in seconds
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +15,7 @@ function ForgetPasswordModal({ isOpen, onClose }) {
         try {
             await resetPassword(email);
             toast.success('Email đặt lại mật khẩu đã gửi thành công');
-            onClose(); // Close modal on success
+            onClose(); 
         } catch (error) {
             toast.error('Email đặt lại mật khẩu đã gửi thất bại');
         } finally {

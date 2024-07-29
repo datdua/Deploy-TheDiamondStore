@@ -7,6 +7,7 @@ import {
   Table,
   Row,
   Col,
+  Badge,
 } from "react-bootstrap";
 import { getAllPromotions, deletePromotion } from "../../../api/PromotionAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -50,6 +51,22 @@ function PromotionManagerPage() {
     setSelectedPromotion(promotion);
     setIsUpdating(true);
     setShowModal(true);
+    }
+  };
+
+  const handleStatus = (Status) => {
+    if (Status === "Còn Hạn") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="success">Còn hạn</Badge>
+        </h6>
+      );
+    } else if (Status === "Hết Hạn") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="danger" text="dark">Hết hạn</Badge>
+        </h6>
+      );
     }
   };
 
@@ -175,7 +192,7 @@ function PromotionManagerPage() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <Table striped bordered hover className="account-table">
+                <Table hover className="account-table">
                   <thead>
                     <tr>
                       <th>
@@ -220,7 +237,7 @@ function PromotionManagerPage() {
                           <td>{promotion.startDate}</td>
                           <td>{promotion.endDate}</td>
                           <td>{promotion.discountAmount}</td>
-                          <td>{promotion.promotionStatus}</td>
+                          <td>{handleStatus(promotion.promotionStatus)}</td>
                           <td>{promotion.description}</td>
                           <td>
                             <Tooltip

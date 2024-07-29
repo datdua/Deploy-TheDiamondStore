@@ -8,8 +8,6 @@ function AddWarrantyDiamondForm() {
   const [warranty, setWarranty] = useState({
     warrantyID: "",
     diamondID: "",
-    startDate: "",
-    expirationTime: "",
     warrantyImage: "",
   });
 
@@ -18,9 +16,6 @@ function AddWarrantyDiamondForm() {
   const labels = {
     warrantyID: "Mã giấy bảo hành",
     diamondID: "Mã kim cương",
-    startDate: "Ngày bắt đầu",
-    expirationDate: "Ngày hết hạn",
-    expirationTime: "Giờ hết hạn",
     warrantyImage: "Giấy bảo hành",
   };
 

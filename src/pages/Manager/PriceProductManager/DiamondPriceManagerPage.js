@@ -177,7 +177,7 @@ function DiamondPriceManager() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <Table striped bordered hover className="account-table">
+                <Table hover className="account-table">
                   <thead>
                     <tr>
                       <th>

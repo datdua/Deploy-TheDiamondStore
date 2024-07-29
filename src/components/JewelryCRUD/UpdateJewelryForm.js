@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { updateJewelry } from "../../api/JewelryAPI.js"; // Adjust this import to your file structure
+import { updateJewelry } from "../../api/JewelryAPI.js"; 
 
 function UpdateJewelryForm({ jewelry }) {
   const [updatedJewelry, setUpdatedJewelry] = useState(jewelry);
@@ -46,6 +46,15 @@ function UpdateJewelryForm({ jewelry }) {
           type="text"
           name="jewelryImage"
           value={updatedJewelry.jewelryImage}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Số lượng</Form.Label>
+        <Form.Control
+          type="number"
+          name="quantity"
+          value={updatedJewelry.quantity}
           onChange={handleChange}
         />
       </Form.Group>

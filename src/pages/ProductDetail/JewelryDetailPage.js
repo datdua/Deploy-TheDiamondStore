@@ -16,10 +16,12 @@ function JewelryDetailPage() {
   const { jewelryId } = useParams();
   const [jewelry, setJewelry] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [maxQuantity, setMaxQuantity] = useState(1);
   const [sizeJewelry, setSize] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalShow, setModalShow] = useState(false);
+  const [maxQuantityReached, setMaxQuantityReached] = useState(false);
   useEffect(() => {
     const fetchJewelry = async () => {
       try {
@@ -27,6 +29,7 @@ function JewelryDetailPage() {
         const jewelryData = await getJewelryById(jewelryId);
         setJewelry(jewelryData);
         setSize(jewelryData.size || "");
+        setMaxQuantity(jewelryData.quantity);
         setTimeout(() => {
           setLoading(false);
         }, 50);
@@ -39,7 +42,16 @@ function JewelryDetailPage() {
   }, [jewelryId]);
 
   const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity((prevQuantity) => {
+      if (prevQuantity + 1 > maxQuantity) {
+        toast.error("Đã đến số lượng tối đa");  
+      setMaxQuantityReached(true);
+      return prevQuantity;
+    }
+      const newQuantity = Math.min(prevQuantity + 1, maxQuantity);
+      setMaxQuantityReached(newQuantity === maxQuantity);
+      return newQuantity;
+    });
   };
 
   const decreaseQuantity = () => {
@@ -152,21 +164,24 @@ function JewelryDetailPage() {
                               </h2>
                               <div style={{ display: 'flex' }}>
                                 <span style={{ fontSize: '22px' }} className="tm-prodetails-price">{jewelry.jewelryEntryPrice.toLocaleString()} VND</span>
+                                {jewelry.status === 'Còn hàng' ? ( 
                                 <Badge style={{ fontSize: '17px' }} pill bg="success">
                                   Còn hàng
                                 </Badge>
+                                ) : (
                                 <Badge style={{ fontSize: '17px' }} pill bg="danger">
                                   Hết hàng
                                 </Badge>
+                                )}
                               </div>
-                              <span className="tm-prodetails-singleinfo">Sản phẩm còn lại: 10</span>
+                              <span className="tm-prodetails-singleinfo" style={{marginTop:'8px', marginBottom:'8px'}}>Sản phẩm còn lại: {jewelry.quantity}</span>
                               <hr/>
                               <div className="tm-prodetails-infos">
                                 <div className="tm-prodetails-singleinfo" style={{marginTop: '15px' }}>
                                   <b>Mã Sản Phẩm: </b>
                                   {jewelry.jewelryID}
                                 </div>
-                                <div className="tm-prodetails-singleinfo">
+                                <div className="tm-prodetails-singleinfo" style={{marginTop: '15px' }}>
                                   <b>Giới tính: </b>
                                   {jewelry.gender}
                                 </div>
@@ -175,10 +190,10 @@ function JewelryDetailPage() {
                                   <select
                                     value={sizeJewelry}
                                     onChange={handleSizeChange}
-                                    style={{ maxWidth: "150px" }}
+                                    style={{ maxWidth: "150px", fontSize:'15px' }}
                                   >
                                     {[
-                                      'Chọn kích thước: ', 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                                      'Chọn kích cỡ ', 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
                                       18, 19, 20,
                                     ].map((sizeOption) => (
                                       <option key={sizeOption} value={sizeOption}>
@@ -202,7 +217,12 @@ function JewelryDetailPage() {
                                   >
                                     -
                                   </button>
-                                  <input type="text" value={quantity} readOnly style={{ maxWidth: "50px", textAlign: "center" }} />
+                                  <input
+                                    type="text"
+                                    value={`${quantity} / ${maxQuantity}`}
+                                    readOnly
+                                    style={{ maxWidth: "70px", textAlign: "center", fontSize:'15px' }}
+                                  />
                                   <button
                                     className="increase-button"
                                     onClick={increaseQuantity}
@@ -229,12 +249,7 @@ function JewelryDetailPage() {
             )}
           </main>
           <SizeInstructionModal show={modalShow} onHide={() => setModalShow(false)} />
-          {/* <!--// Page Content --> */}
-          {/* <!-- Footer --> */}
-
-          {/* <!--// Footer --> */}
         </div>
-        {/* <!--// Wrapper --> */}
       </div>
     </>
   );

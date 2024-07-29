@@ -3,7 +3,7 @@
 }
 
 .account-table {
-  font-size: 15px; /* Điều chỉnh kích thước phông chữ */
+  font-size: 15px;
   border: 1px solid #dee2e6;
 }
 
@@ -11,12 +11,16 @@
 .account-table td {
   vertical-align: middle;
   text-align: center;
-  border: 1px solid #dee2e6; /* Đảm bảo rằng các ô có đường viền */
+  border: 1px solid #dee2e6;
 }
 
 .account-table th {
   background-color: #f8f9fa;
   font-weight: bold;
+}
+
+.search-input::placeholder {
+  font-size: 15px;
 }
 
 .account-table td {
@@ -26,7 +30,7 @@
 }
 
 .table-responsive .btn {
-  padding: 0.25rem 0.5rem; /* Điều chỉnh kích thước nút */
+  padding: 0.25rem 0.5rem;
   font-size: 10px;
 }
 

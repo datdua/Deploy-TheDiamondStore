@@ -70,9 +70,9 @@ export async function deleteWarranty(warrantyIDs) {
     const token = localStorage.getItem("jwt");
     const response = await axios.delete(
       `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/manager/warranty-management/warranties/delete`,
-      { 
+      {
         headers: { Authorization: `Bearer ${token}` },
-        data: warrantyIDs 
+        data: warrantyIDs
       },
     );
     return response.data;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { deleteJewelry } from "../../api/JewelryAPI.js"; // Adjust this import to your file structure
+import { deleteJewelry } from "../../api/JewelryAPI.js";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@mui/material";
 

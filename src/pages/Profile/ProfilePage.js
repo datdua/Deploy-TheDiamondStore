@@ -34,7 +34,7 @@ const ProfilePage = () => {
         setTimeout(() => {
           setAccount(accountData);
           setLoading(false);
-        }, 50); // Thời gian chờ 400ms trước khi hiển thị thông tin tài khoản
+        }, 50); 
       } catch (error) {
         setError("Failed to fetch account");
         console.error("Failed to fetch account", error);

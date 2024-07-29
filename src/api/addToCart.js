@@ -64,11 +64,11 @@ export const removeCartItem = async (cartID) => {
   const token = localStorage.getItem('jwt')
   try {
     const response = await axios.delete(
-      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/carts/delete/${cartID}`,{
-        headers: {
-          Authorization: `Bearer ${token}`
-          }
+      `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/carts/delete/${cartID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
+    }
     );
     console.log("Item removed successfully:", response.data.message);
     return response.data;
@@ -89,7 +89,7 @@ export const getTotalCart = async (accountID) => {
         },
       }
     );
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Error fetching total cart value:", error);
     throw new Error("Failed to fetch total cart value: " + error.message);
@@ -99,32 +99,32 @@ export const getTotalCart = async (accountID) => {
 export const updateCart = async (cartId, accountId, diamondId, jewelryId, quantity, sizeJewelry) => {
   const token = localStorage.getItem('jwt')
   try {
-      let url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/carts/update/${cartId}?accountID=${accountId}&quantity=${quantity}`;
-      
-      if (diamondId) {
-          url += `&diamondID=${diamondId}`;
-      } else if (jewelryId) {
-          url += `&jewelryID=${jewelryId}`;
-      }
+    let url = `https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/carts/update/${cartId}?accountID=${accountId}&quantity=${quantity}`;
 
-      if (sizeJewelry !== null) {
-          url += `&sizeJewelry=${sizeJewelry}`;
-      }
+    if (diamondId) {
+      url += `&diamondID=${diamondId}`;
+    } else if (jewelryId) {
+      url += `&jewelryID=${jewelryId}`;
+    }
 
-      const response = await axios.put(url, {} , {
-        headers: {
-          Authorization: `Bearer ${token}`
-          }
-      });
-      
-      const result = response.data;
-      if (response.status === 200 && !result.error) {
-          return result;
-      } else {
-          throw new Error(result.message || `HTTP error! status: ${response.status}`);
+    if (sizeJewelry !== null) {
+      url += `&sizeJewelry=${sizeJewelry}`;
+    }
+
+    const response = await axios.put(url, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
+    });
+
+    const result = response.data;
+    if (response.status === 200 && !result.error) {
+      return result;
+    } else {
+      throw new Error(result.message || `HTTP error! status: ${response.status}`);
+    }
   } catch (error) {
-      console.error('Error updating the cart:', error);
-      throw error;
+    console.error('Error updating the cart:', error);
+    throw error;
   }
 };
