@@ -31,7 +31,7 @@ function ResetPasswordForm() {
     try {
       await setPassword(email, newPassword);
       setMessage('Mật khẩu đã được thay đổi');
-      toast.success('Mật khẩu đã được đổi thành công')
+      toast.success('Mật khẩu đã được đổi thành công, vui lòng quay lại trang đăng nhập')
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     }
