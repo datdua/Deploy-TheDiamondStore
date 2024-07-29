@@ -48,14 +48,6 @@ function SideBarAdmin() {
           </NavLink>
 
           <NavLink
-            to="/admin/transaction-manager"
-            className="sidebar-nav-item"
-            activeClassName="active"
-          >
-            <CIcon className="nav-icon" icon={cilBank} /> Quản lý giao dịch
-          </NavLink>
-
-          <NavLink
             to="/admin/order-detail-manager"
             className="sidebar-nav-item"
             activeClassName="active"
