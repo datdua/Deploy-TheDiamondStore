@@ -45,7 +45,7 @@ function PromotionManagerPage() {
   }
 
   const handleShowUpdate = (promotion) => {
-    if (userRole !== "ROLE_MANAGER") {
+    if (userRole !== "ROLE_SALE-STAFF" || userRole !== "ROLE_ADMIN"){
       showAlert();
     } else {
     setSelectedPromotion(promotion);
