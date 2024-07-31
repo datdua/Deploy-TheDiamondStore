@@ -81,7 +81,7 @@ function JewelryDetailPage() {
 
     if (!sizeJewelry) {
       console.log("Size not selected");
-      toast.error("Vui lòng chọn kích thước trước khi thêm sản phẩm vào giỏ hàng");
+      toast.warning("Vui lòng chọn kích thước trước khi thêm sản phẩm vào giỏ hàng");
       return;
     }
 
@@ -113,7 +113,7 @@ function JewelryDetailPage() {
           const errorMessage = error.message;
           toast.error(errorMessage);
         } else {
-          toast.error("Thêm vào giỏ hàng không thành công");
+          toast.warning("Sản phẩm hiện đang hết hàng hoặc đang tạm ngưng, vui lòng chọn sản phẩm khác! " );
         }
       }
     }
@@ -175,8 +175,8 @@ function JewelryDetailPage() {
                                   Còn hàng
                                 </Badge>
                                 ) : (
-                                <Badge style={{ fontSize: '17px' }} pill bg="danger">
-                                  Hết hàng
+                                <Badge style={{ fontSize: '17px' }} pill bg="warning">
+                                  Hàng tạm ngừng
                                 </Badge>
                                 )}
                               </div>

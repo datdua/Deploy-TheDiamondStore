@@ -74,7 +74,7 @@ function DiamondDetailPage() {
 
   const handleAddToCart = async (item) => {
     if (!isLoggedIn) {
-      toast.error("Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng");
+      toast.warning("Vui lòng đăng nhập trước khi thêm sản phẩm vào giỏ hàng");
     } else {
       try {
         const email = localStorage.getItem("email");
@@ -88,7 +88,7 @@ function DiamondDetailPage() {
           const errorMessage = error.message;
           toast.error(errorMessage);
         } else {
-        toast.error("Thêm vào giỏ hàng không thành công" );
+        toast.warning("Sản phẩm hiện đang hết hàng hoặc đang tạm ngưng, vui lòng chọn sản phẩm khác! " );
       }
     }
   }
@@ -137,8 +137,8 @@ function DiamondDetailPage() {
                                     Còn hàng
                                   </Badge>
                                 ) : (
-                                  <Badge style={{ fontSize: '17px' }} pill bg="danger">
-                                    Hết hàng
+                                  <Badge style={{ fontSize: '17px' }} pill bg="warning">
+                                    Hàng tạm ngừng
                                   </Badge>
                                 )}
                               </div>

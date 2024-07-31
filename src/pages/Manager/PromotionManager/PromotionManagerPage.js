@@ -45,12 +45,12 @@ function PromotionManagerPage() {
   }
 
   const handleShowUpdate = (promotion) => {
-    if (userRole !== "ROLE_MANAGER"){
+    if (userRole !== "ROLE_MANAGER") {
       showAlert();
     } else {
-    setSelectedPromotion(promotion);
-    setIsUpdating(true);
-    setShowModal(true);
+      setSelectedPromotion(promotion);
+      setIsUpdating(true);
+      setShowModal(true);
     }
   };
 
@@ -125,19 +125,19 @@ function PromotionManagerPage() {
   };
 
   const handleDeletePromotion = async () => {
-    if (userRole !== "ROLE_MANAGER"){
+    if (userRole !== "ROLE_MANAGER") {
       showAlert();
     } else {
-    if (window.confirm("Bạn có chắc muốn XÓA các giá kim cương này?")) {
-      try {
-        await deletePromotion(selected);
-        setPromotionData(promotionData.filter((promotion) => !selected.includes(promotion.promotionID)));
-        setSelected([]);
-        alert("Xóa thành công");
-      } catch (error) {
-        alert("Xóa thất bại");
+      if (window.confirm("Bạn có chắc muốn XÓA các giá kim cương này?")) {
+        try {
+          await deletePromotion(selected);
+          setPromotionData(promotionData.filter((promotion) => !selected.includes(promotion.promotionID)));
+          setSelected([]);
+          alert("Xóa thành công");
+        } catch (error) {
+          alert("Xóa thất bại");
+        }
       }
-    }
     }
   };
 
@@ -172,7 +172,7 @@ function PromotionManagerPage() {
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={() => {
-                    if (userRole !== "ROLE_MANAGER"){
+                    if (userRole !== "ROLE_MANAGER") {
                       showAlert();
                     } else {
                       setShowModal(true);
