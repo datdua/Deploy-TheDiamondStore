@@ -64,7 +64,7 @@ function AccountManager() {
   };
 
   const showAlert = () => {
-    toast.warning("Chức năng này chỉ dành cho quản lý")
+    toast.warning("Chức năng này chỉ dành cho Admin")
   }
 
   const handleChangePage = (event, newPage) => {
