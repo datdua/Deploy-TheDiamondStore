@@ -45,7 +45,7 @@ function PromotionManagerPage() {
   }
 
   const handleShowUpdate = (promotion) => {
-    if (userRole !== "ROLE_SALE-STAFF" || userRole !== "ROLE_ADMIN"){
+    if (userRole !== "ROLE_MANAGER"){
       showAlert();
     } else {
     setSelectedPromotion(promotion);
@@ -125,7 +125,7 @@ function PromotionManagerPage() {
   };
 
   const handleDeletePromotion = async () => {
-    if (userRole !== "ROLE_SALE-STAFF" || userRole !== "ROLE_ADMIN"){
+    if (userRole !== "ROLE_MANAGER"){
       showAlert();
     } else {
     if (window.confirm("Bạn có chắc muốn XÓA các giá kim cương này?")) {
@@ -172,7 +172,7 @@ function PromotionManagerPage() {
                   variant="link"
                   style={{ textDecoration: "none" }}
                   onClick={() => {
-                    if (userRole !== "ROLE_SALE-STAFF" || userRole !== "ROLE_ADMIN"){
+                    if (userRole !== "ROLE_MANAGER"){
                       showAlert();
                     } else {
                       setShowModal(true);
