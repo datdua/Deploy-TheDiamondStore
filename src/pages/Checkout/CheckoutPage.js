@@ -192,10 +192,10 @@ function CheckoutPage() {
                                                             <tr key={index}>
                                                                 <td>
                                                                     {item?.diamond?.diamondID && (
-                                                                        <span className="tm-checkout-productlink">{item.diamond.diamondName} * {item.diamond.quantity}</span>
+                                                                        <span className="tm-checkout-productlink">{item.diamond.diamondName} * {item.quantity}</span>
                                                                     )}
                                                                     {item?.jewelry?.jewelryID && (
-                                                                        <span className="tm-checkout-productlink">{item.jewelry.jewelryName} * {item.jewelry.quantity}</span>
+                                                                        <span className="tm-checkout-productlink">{item.jewelry.jewelryName} * {item.quantity}</span>
                                                                     )}
                                                                 </td>
                                                                 <td>

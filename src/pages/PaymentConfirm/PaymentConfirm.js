@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getAuthToken } from '../../api/ProductAPI';
 import { getAccountIDByEmail } from '../../api/accountCrud';
 
@@ -17,13 +17,19 @@ function PaymentConfirm() {
     }
     let vnp_OrderInfo = queryParams.get('vnp_OrderInfo');
     if (vnp_OrderInfo) {
-        vnp_OrderInfo = decodeURIComponent(vnp_OrderInfo).split(':')[1]; // "Thanh+toan+don+hang%3A18" => "Thanh toan don hang:18" //OrderID:18
+        vnp_OrderInfo = decodeURIComponent(vnp_OrderInfo).split(':')[1];
     }
     const vnp_ResponseCode = queryParams.get('vnp_ResponseCode');
 
     let apiUrl = "https://diamondstore.lemonhill-6b585cc3.eastasia.azurecontainerapps.io/api/customer/payments/vnpay-return";
 
-    apiUrl += `?vnp_BankCode=${encodeURIComponent(vnp_BankCode)}&vnp_OrderInfo=${encodeURIComponent(vnp_OrderInfo)}&vnp_ResponseCode=${encodeURIComponent(vnp_ResponseCode)}&vnp_TransactionNo=${encodeURIComponent(vnp_BankTranNo)}`;
+    apiUrl += `?vnp_BankCode=${encodeURIComponent(vnp_BankCode)}&vnp_OrderInfo=${encodeURIComponent(vnp_OrderInfo)}&vnp_ResponseCode=${encodeURIComponent(vnp_ResponseCode)}`;
+    
+    // Only add vnp_TransactionNo to the URL if it has a value
+    if (vnp_BankTranNo) {
+        apiUrl += `&vnp_TransactionNo=${encodeURIComponent(vnp_BankTranNo)}`;
+    }
+
     useEffect(() => {
         const fetchAccount = async () => {
             const email = localStorage.getItem("email");
@@ -57,7 +63,7 @@ function PaymentConfirm() {
                     navigate(`/account/${accountId}`);
                 });
         }
-    }, [apiUrl, navigate, accountId]);
+    }, [apiUrl, navigate, accountId, token]);
 
     return null;
 }

@@ -44,7 +44,7 @@ function CartPage() {
 
     const handleUpdateCartItem = async (cartID, newQuantity, newSizeJewelry, diamondID, jewelryID) => {
         const item = cartItems.find(item => item.cartID === cartID);
-        const maxQuantity = item.jewelry ? item.jewelry.quantity : item.diamond ? item.diamond.quantity : 0;
+        const maxQuantity = item?.jewelry ? item.jewelry.quantity : item?.diamond ? item.diamond.quantity : 0;
 
         if (newQuantity > maxQuantity) {
             toast.error(`Số lượng tối đa cho sản phẩm này là ${maxQuantity}`);
@@ -53,13 +53,8 @@ function CartPage() {
 
         try {
             await updateCart(cartID, accountId, diamondID, jewelryID, newQuantity, newSizeJewelry);
-            setCartItems(prevItems =>
-                prevItems.map(item =>
-                    item.cartID === cartID
-                        ? { ...item, quantity: newQuantity, sizeJewelry: newSizeJewelry, grossCartPrice: item.price * newQuantity }
-                        : item
-                )
-            );
+            const updatedItems = await getAllCartItems(accountId);
+            setCartItems(updatedItems || []);
             toast.success("Cập nhật giỏ hàng thành công");
             recalculateTotalCart();
         } catch (error) {
@@ -73,7 +68,7 @@ function CartPage() {
     };
 
     const recalculateTotalCart = () => {
-        const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        const total = cartItems.reduce((acc, item) => acc + (item.grossCartPrice || 0), 0);
         setTotalCart(total);
     };
 
@@ -130,7 +125,7 @@ function CartPage() {
                                                             type="number"
                                                             min="1"
                                                             value={item.quantity}
-                                                            onChange={(e) => handleUpdateCartItem(item.cartID, parseInt(e.target.value, 10), item.sizeJewelry, item.diamondID, item.jewelryID)}
+                                                            onChange={(e) => handleUpdateCartItem(item.cartID, parseInt(e.target.value, 10), item.sizeJewelry, item.diamond?.diamondID, item.jewelry?.jewelryID)}
                                                             className="w-12 text-center"
                                                             style={{ textAlign: 'center' }}
                                                             disabled={!isEditing}
@@ -144,11 +139,18 @@ function CartPage() {
                                                             min="6"
                                                             max="20"
                                                             value={item.sizeJewelry || ""}
-                                                            onChange={(e) => handleUpdateCartItem(item.cartID, item.quantity, parseInt(e.target.value, 10), item.diamondID, item.jewelryID)}
+                                                            onChange={(e) => {
+                                                                const value = parseInt(e.target.value, 10);
+                                                                if (value >= 6 && value <= 20) {
+                                                                    handleUpdateCartItem(item.cartID, item.quantity, value, item.diamond?.diamondID, item.jewelry?.jewelryID);
+                                                                } else{
+                                                                    toast.error('Kích thước không phù hợp')
+                                                                }
+                                                            }}
                                                             className="w-12 text-center"
                                                             style={{ textAlign: 'center' }}
-                                                            disabled={!isEditing || !!item.diamondID}
-                                                        />
+                                                            disabled={!isEditing || !!item.diamond?.diamondID}
+                                                            />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -198,7 +200,7 @@ function CartPage() {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <Link to={`/checkout/${accountId}`} className="tm-button">Tiến hành tạo đơn hàng</Link>
+                                            <Link to={`/checkout/${accountId}`} className="tm-button">Thanh toán</Link>
                                         </div>
                                     </div>
                                 </div>

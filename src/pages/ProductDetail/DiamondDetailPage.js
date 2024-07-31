@@ -84,10 +84,15 @@ function DiamondDetailPage() {
         navigate(`/cart/${accountID}`);
       } catch (error) {
         console.error("Failed to add item to cart:", error.message);
-        toast.error("Thêm vào giỏ hàng không thành công: " + error.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          const errorMessage = error.message;
+          toast.error(errorMessage);
+        } else {
+        toast.error("Thêm vào giỏ hàng không thành công" );
       }
     }
-  };
+  }
+};
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -180,7 +185,7 @@ function DiamondDetailPage() {
                                     type="text"
                                     value={`${quantity} / ${maxQuantity}`}
                                     readOnly
-                                    style={{ maxWidth: "70px", textAlign: "center",fontSize:'15px'  }}
+                                    style={{ maxWidth: "100px", textAlign: "center",fontSize:'15px'  }}
                                   />
                                   <button className="increase-button" onClick={increaseQuantity}>+</button>
                                   <Button

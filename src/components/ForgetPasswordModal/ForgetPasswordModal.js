@@ -23,8 +23,6 @@ function ForgetPasswordModal({ isOpen, onClose }) {
         }
     };
 
-
-
     return (
         isOpen && (
             <div className="modal top fade show" tabIndex="-1" aria-labelledby="exampleModalLabel"

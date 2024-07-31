@@ -22,6 +22,7 @@ function JewelryDetailPage() {
   const [loading, setLoading] = useState(true);
   const [modalShow, setModalShow] = useState(false);
   const [maxQuantityReached, setMaxQuantityReached] = useState(false);
+
   useEffect(() => {
     const fetchJewelry = async () => {
       try {
@@ -44,10 +45,10 @@ function JewelryDetailPage() {
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => {
       if (prevQuantity + 1 > maxQuantity) {
-        toast.error("Đã đến số lượng tối đa");  
-      setMaxQuantityReached(true);
-      return prevQuantity;
-    }
+        toast.error("Đã đến số lượng tối đa");
+        setMaxQuantityReached(true);
+        return prevQuantity;
+      }
       const newQuantity = Math.min(prevQuantity + 1, maxQuantity);
       setMaxQuantityReached(newQuantity === maxQuantity);
       return newQuantity;
@@ -108,7 +109,12 @@ function JewelryDetailPage() {
         navigate("/cart/" + accountID);
       } catch (error) {
         console.error("Failed to add item to cart:", error.message);
-        toast.error("Thêm vào giỏ hàng không thành công: " + error.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          const errorMessage = error.message;
+          toast.error(errorMessage);
+        } else {
+          toast.error("Thêm vào giỏ hàng không thành công");
+        }
       }
     }
   };
@@ -221,7 +227,7 @@ function JewelryDetailPage() {
                                     type="text"
                                     value={`${quantity} / ${maxQuantity}`}
                                     readOnly
-                                    style={{ maxWidth: "70px", textAlign: "center", fontSize:'15px' }}
+                                    style={{ maxWidth: "100px", textAlign: "center", fontSize:'15px' }}
                                   />
                                   <button
                                     className="increase-button"
@@ -254,4 +260,5 @@ function JewelryDetailPage() {
     </>
   );
 }
+
 export default JewelryDetailPage;
