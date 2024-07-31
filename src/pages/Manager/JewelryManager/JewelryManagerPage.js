@@ -73,6 +73,12 @@ const JewelryManagerPage = () => {
           <Badge pill bg="danger" text="dark">Hết hàng</Badge>
         </h6>
       );
+    } else if (Status === "Tạm ngưng bán") {
+      return (
+        <h6 style={{ marginTop: '10px' }}>
+          <Badge pill bg="warning">Tạm ngưng bán</Badge>
+        </h6>
+      );
     }
   };
 

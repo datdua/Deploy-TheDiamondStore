@@ -261,12 +261,12 @@ function DiamondPriceManager() {
         <Col md={6}>
           <div className="iframe-container">
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/RAPAPORT%2FRAPAPORT-1.png?alt=media&token=29c7a608-be53-45fe-a812-b6d4abfc1105"
+              src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/RAPAPORT%2FRAPAPORT(1)-NEWEST.png?alt=media&token=76cb1815-f687-4d06-a269-fb1242d4964c"
               alt="Diamond Price Report"
               style={{ width: "100%", height: "800px" }}
             />
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/RAPAPORT%2FRAPAPORT-2.png?alt=media&token=13824855-df40-433b-aa32-29aa27eff7d7"
+              src="https://firebasestorage.googleapis.com/v0/b/the-diamond-store-423602.appspot.com/o/RAPAPORT%2FRAPAPORT(2)-NEWEST.png?alt=media&token=cd60909d-5b3e-40e9-a5b9-f53ce2da5956"
               alt="Diamond Price Report"
               style={{ width: "100%", height: "800px" }}
             />
